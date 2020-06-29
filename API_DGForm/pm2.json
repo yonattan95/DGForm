@@ -1,7 +1,9 @@
 {
   "name": "api_dgform",
-  "script": "src/main.ts",
-  "instances": "2",
+  "script": "yarn",
+  "args": "start",
+  "instances": "1",
+  "interpreter": "bash",
   "env": {
     "NODE_ENV": "development"
   },

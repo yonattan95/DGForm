@@ -11,7 +11,7 @@ import { Connection } from 'typeorm';
       // useFactory: () => {
       //   return {
       type: 'postgres',
-      host: 'localhost',
+      host: 'db_postgres_12',
       database: 'db_dgform',
       username: 'admin',
       port: 5432,
