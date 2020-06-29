@@ -31,17 +31,30 @@ services:
       - "5432"
     networks:
       - dg_form_network
-  reverse_proxy:
+  nginx:
     image: nginx:1.19.0
     container_name: proxy_nginx
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - "./DevOps/Nginx:/etc/nginx/conf.d"
+      - "./DevOps/Certbot/conf:/etc/letsencrypt"
+      - "./DevOps/Certbot/www:/var/www/certbot"
     networks:
       - dg_form_network
     depends_on:
       - api
+    #Recarga de nginx cada 6horas
+    command: '/bin/sh -c ''while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'''
+  certbot:
+    image: certbot/certbot
+    container_name: cerbot
+    volumes:
+      - "./DevOps/Certbot/conf:/etc/letsencrypt"
+      - "./DevOps/Certbot/www:/var/www/certbot"
+    # Renovacion de certificados cada 12 horas
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
 volumes:
   postgres_12_vol:
