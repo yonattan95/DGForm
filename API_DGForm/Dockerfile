@@ -1,10 +1,18 @@
-FROM node:lts-stretch
+FROM keymetrics/pm2:12-jessie
 
 WORKDIR /var/www
 
-# Intalacion de las dependencias
-COPY package.json ./
-RUN npm install -g @nestjs/cli -y
-RUN npm install -y
+# Instalacion de herramientas
+RUN apt-get update
+RUN apt-get install -y apt-transport-https
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+RUN apt-get update && apt-get install -y yarn
+RUN yarn --version
 
-CMD [ "npm", "start:dev"]
+# Intalacion de las dependencias del proyecto
+COPY package.json ./
+RUN yarn install
+
+# Ejecucion del api
+CMD [ "pm2-runtime","start","pm2.json"]
