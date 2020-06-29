@@ -10,6 +10,7 @@ import { FormService } from './form.service';
 import {
   ResponseAPI,
   SuccessResponse,
+  FailResponse,
 } from '../common/dto/response.dto';
 import { FormResponse, FormRequest } from './data/dto/form.dto';
 import { Request } from 'express';
@@ -30,9 +31,14 @@ export class FormController {
     return new SuccessResponse(list);
   }
   @Get(':id')
-  async getFormById(@Param('id') id: number): Promise<ResponseAPI<Form>> {
+  async getFormById(
+    @Param('id') id: number,
+  ): Promise<ResponseAPI<Form>> {
     const form = await this.formService.getFormById(id);
-    return new SuccessResponse(form);
+
+    return form
+      ? new SuccessResponse(form)
+      : new FailResponse('El formulario no existe.');
   }
   @Post()
   async newForm(@Body() body: Form): Promise<ResponseAPI<Form>> {
