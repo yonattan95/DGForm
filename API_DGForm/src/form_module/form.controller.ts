@@ -45,4 +45,9 @@ export class FormController {
     await this.formService.saveForm(body);
     return new SuccessResponse(body);
   }
+
+  @Get()
+  getDemo(): string {
+    return "Demo satisfactorio";
+  }
 }
