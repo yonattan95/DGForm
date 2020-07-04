@@ -10,8 +10,8 @@ services:
     container_name: ms_api_nodejs
     expose:
       - "10010"
-    volumes:
-      - "./API_DGForm:/var/www"
+    # volumes:
+    #   - "./API_DGForm:/var/www"
     networks:
       - dg_form_network
     depends_on:
@@ -31,17 +31,13 @@ services:
       - "5432"
     networks:
       - dg_form_network
-  reverse_proxy:
-    image: nginx:1.19.0
-    container_name: proxy_nginx
+  jenkins:
+    image: jenkins/jenkins:latest
+    container_name: jenkins
     ports:
-      - "80:80"
+      - "5000:8080"
     volumes:
-      - "./DevOps/Nginx:/etc/nginx/conf.d"
-    networks:
-      - dg_form_network
-    depends_on:
-      - api
+      - "/home/yonattan/proyectos/DGForm/DevOps/Jenkins:/home/jenkins"
 
 volumes:
   postgres_12_vol:
