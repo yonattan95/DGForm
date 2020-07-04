@@ -31,13 +31,6 @@ services:
       - "5432"
     networks:
       - dg_form_network
-  jenkins:
-    image: jenkins/jenkins:latest
-    container_name: jenkins
-    ports:
-      - "5000:8080"
-    volumes:
-      - "/home/yonattan/proyectos/DGForm/DevOps/Jenkins:/home/jenkins"
 
 volumes:
   postgres_12_vol:
