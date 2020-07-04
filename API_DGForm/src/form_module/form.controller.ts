@@ -48,6 +48,6 @@ export class FormController {
 
   @Get()
   getDemo(): string {
-    return "Demo satisfactorio en el curso del integrador 2";
+    return "Demo satisfactorio en el curso del integrador 2 x2";
   }
 }
