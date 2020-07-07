@@ -12,29 +12,18 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.navigationdrawerpractica.Entidades.Persona;
 import com.example.navigationdrawerpractica.Fragments.DetallePersonaFragment;
-import com.example.navigationdrawerpractica.Fragments.GraficoFragment;
+import com.example.navigationdrawerpractica.Fragments.Detalle_HistorialFragment;
 import com.example.navigationdrawerpractica.Fragments.HistorailFragment;
 import com.example.navigationdrawerpractica.Fragments.MainFragment;
 import com.example.navigationdrawerpractica.Fragments.PersonasFragment;
 import com.example.navigationdrawerpractica.R;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.google.android.material.navigation.NavigationView;
-
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, iComunicaFragments{
 
@@ -108,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(menuItem.getItemId() == R.id.home2){
             fragmentManager = getSupportFragmentManager();
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container_fragment,new GraficoFragment());
+            fragmentTransaction.replace(R.id.container_fragment,new Detalle_HistorialFragment());
             fragmentTransaction.commit();
         }
         if(menuItem.getItemId() == R.id.personas2){
