@@ -20,8 +20,8 @@ export class Form {
   state: FormStatusEnum;
 
   @Column()
-  userAdminId: number;
+  user_id: number;
 
   @Column({ default: new Date() })
-  createdDate: Date;
+  created_date: Date;
 }
