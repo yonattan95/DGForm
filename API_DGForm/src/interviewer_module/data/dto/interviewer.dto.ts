@@ -1,18 +1,23 @@
-export class UserRequest {
+export class NewInterviewerRequest {
+  id: null;
   username: string;
-  state = 1;
   password: string;
   email: string;
-  constructor({ username, email, password }) {
+  state = 1;
+  userId: number;
+  constructor({ username, email, password, userId }) {
     this.email = email;
     this.username = username;
     this.password = password;
+    this.userId = userId;
   }
 }
-export class UserResponse {
+
+export class InterviewerProfile {
   username: string;
-  state: number;
   email: string;
+  state: number;
+
   constructor({ username, email, state }) {
     this.email = email;
     this.username = username;

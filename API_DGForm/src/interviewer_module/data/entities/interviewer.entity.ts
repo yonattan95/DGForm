@@ -6,10 +6,13 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class User {
+export class Interviewer {
   constructor() {}
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Column({ name: 'user_id' })
+  userId: number;
 
   @Column()
   username: string;
@@ -20,6 +23,6 @@ export class User {
   @Column()
   email: string;
 
-  @Column()
+  @Column({default:1})
   state: number;
 }

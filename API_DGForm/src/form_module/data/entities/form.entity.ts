@@ -16,12 +16,12 @@ export class Form {
   @Column()
   description: string;
 
-  @Column({ default: 1 })
+  @Column({ default: 0 })
   state: FormStatusEnum;
 
-  @Column()
-  user_id: number;
+  @Column({ name: 'user_id' })
+  userId: number;
 
-  @Column({ default: new Date() })
-  created_date: Date;
+  @Column({ default: new Date(), name: 'created_date' })
+  createdDate: Date;
 }
