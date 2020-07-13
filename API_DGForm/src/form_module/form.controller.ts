@@ -12,8 +12,6 @@ import {
   SuccessResponse,
   FailResponse,
 } from '../common/dto/response.dto';
-import { FormResponse, FormRequest } from './data/dto/form.dto';
-import { Request } from 'express';
 import { Form } from './data/entities/form.entity';
 
 @Controller('forms')
@@ -44,10 +42,5 @@ export class FormController {
   async newForm(@Body() body: Form): Promise<ResponseAPI<Form>> {
     await this.formService.saveForm(body);
     return new SuccessResponse(body);
-  }
-
-  @Get()
-  getDemo(): string {
-    return "Demo satisfactorio en el curso del integrador 2 x2";
   }
 }
