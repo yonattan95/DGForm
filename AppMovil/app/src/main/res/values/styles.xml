@@ -7,12 +7,14 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
@@ -49,11 +51,13 @@
         <item name="android:textColor">@color/blanco</item>
 
     </style>
+
     <style name="name">
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/blanco</item>
         <item name="android:textSize">10mm</item>
     </style>
+
     <style name="nametitulo">
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/negro</item>
@@ -62,6 +66,7 @@
         <item name="android:layout_marginTop">10mm</item>
         <item name="android:layout_marginBottom">3mm</item>
     </style>
+
     <style name="titlepre">
         <item name="android:gravity">left</item>
         <item name="android:textColor">@color/negro</item>
@@ -70,6 +75,7 @@
         <item name="android:layout_marginTop">3mm</item>
         <item name="android:layout_marginBottom">3mm</item>
     </style>
+
     <style name="pregunta">
         <item name="android:gravity">left</item>
         <item name="android:textColor">@color/gris</item>
