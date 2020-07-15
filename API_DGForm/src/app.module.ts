@@ -6,6 +6,7 @@ import { Connection } from 'typeorm';
 import { AuthModule } from './auth_module/auth.module';
 import { UserModule } from './user_module/user.module';
 import { InterviewerModule } from './interviewer_module/interviewer.module';
+import { GeneralModule } from './general_module/general.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { InterviewerModule } from './interviewer_module/interviewer.module';
     InterviewerModule,
     UserModule,
     AuthModule,
+    GeneralModule,
   ],
 })
 export class AppModule {

@@ -22,4 +22,10 @@ export class User {
 
   @Column()
   state: number;
+
+  @Column({
+    default:
+      'https://lh3.googleusercontent.com/proxy/cYLoDLhzWKYq3YpWPFprXc4DvHi-_S6YmvNVPJjQBjdiXtLX0-ROPY_ElEjU3DDOoomadywJ_GGs2kIHG3BMGJHPnfD4FMQtmoEgbf0Uyu7BMzWxKsU',
+  })
+  image: string;
 }

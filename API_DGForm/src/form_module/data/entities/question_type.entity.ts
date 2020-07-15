@@ -1,13 +1,13 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
-export default class Answer {
+export default class QuestionType {
   @PrimaryColumn()
   id: number;
 
   @Column()
-  value: string;
+  name: string;
 
-  @Column({ name: 'question_id' })
-  questionId: number;
+  @Column()
+  description: string;
 }
