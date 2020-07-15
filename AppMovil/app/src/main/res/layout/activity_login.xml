@@ -7,14 +7,9 @@
     android:layout_height="match_parent"
     android:background="@color/fondo"
     android:orientation="vertical"
-    tools:context=".Interfaces.Login"
+    tools:context=".Interfaces.LoginActivity"
     android:gravity="center">
     <!--android:paddingTop="30mm"-->
-
-
-
-
-
         <TextView
             style="@style/name"
             android:layout_width="match_parent"
