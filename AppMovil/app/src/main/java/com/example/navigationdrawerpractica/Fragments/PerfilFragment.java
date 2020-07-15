@@ -1,44 +1,50 @@
 package com.example.navigationdrawerpractica.Fragments;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.navigationdrawerpractica.Entidades.Usuario;
 import com.example.navigationdrawerpractica.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link PerfilFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class PerfilFragment extends Fragment {
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
+public class PerfilFragment extends Fragment implements Response.ErrorListener, Response.Listener<JSONObject> {
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    RequestQueue request;
+    TextView tvCod_usu,tvemail_usuario,tvnombre_usuario;
+    JsonObjectRequest jsonObjectRequest;
+    ProgressDialog progreso;
 
     public PerfilFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PerfilFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static PerfilFragment newInstance(String param1, String param2) {
         PerfilFragment fragment = new PerfilFragment();
         Bundle args = new Bundle();
@@ -60,7 +66,42 @@ public class PerfilFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_perfil, container, false);
+        View view = inflater.inflate(R.layout.fragment_perfil, container, false);
+        tvCod_usu = view.findViewById(R.id.tvCod_usuario);
+        tvemail_usuario = view.findViewById(R.id.tvemail_usuario);
+        tvnombre_usuario = view.findViewById(R.id.tvnombre_usuario);
+
+        request = Volley.newRequestQueue(getContext());
+        fillLista();
+        return view;
+    }
+    private void fillLista() {
+        progreso = new ProgressDialog(getContext());
+        progreso.setMessage("Usuario...");
+        progreso.show();
+
+        String url = "http://dgform.ga/interviewers/"+ "1";
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null,this,this);
+        request.add(jsonObjectRequest);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        progreso.hide();
+        Toast.makeText(getContext(),"No se pudo registrar"+error.toString(),Toast.LENGTH_SHORT).show();
+        Log.i("ERROR",error.toString());
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        progreso.hide();
+        Usuario miUsuario = new Usuario();
+        JSONObject jsonObject = response.optJSONObject("data");
+        miUsuario.setxNombre(jsonObject.optString("userId"));
+        miUsuario.setEmail(jsonObject.optString("email"));
+        miUsuario.setUsuario(jsonObject.optString("username"));
+        tvCod_usu.setText(miUsuario.getUsuario());
+        tvemail_usuario.setText(miUsuario.getEmail());
+        tvnombre_usuario.setText(miUsuario.getxNombre());
     }
 }

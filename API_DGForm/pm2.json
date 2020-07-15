@@ -1,7 +1,7 @@
 {
   "name": "api_dgform",
   "script": "yarn",
-  "args": "start",
+  "args": "startProd",
   "instances": "1",
   "interpreter": "bash",
   "env": {

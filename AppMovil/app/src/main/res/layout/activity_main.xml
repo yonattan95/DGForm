@@ -18,6 +18,16 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:background="@color/colorPrimary" />
+  <TextView
+      android:id="@+id/tvDatTotCom"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:visibility="invisible"/>
+  <TextView
+      android:id="@+id/tvDatTotPen"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:visibility="invisible"/>
 
   <com.google.android.material.navigation.NavigationView
       android:id="@+id/navigationView"

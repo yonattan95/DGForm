@@ -13,7 +13,7 @@ RUN yarn --version
 # Intalacion de las dependencias del proyecto
 COPY . ./
 RUN yarn global add @nestjs/cli -y
-RUN yarn install -y
+# RUN yarn install -y
 
 # Ejecucion del api
 CMD [ "pm2-runtime","start","pm2.json"]

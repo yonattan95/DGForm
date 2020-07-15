@@ -29,7 +29,7 @@ export default class UserController {
     const userResponse = new UserProfileResponse({
       email: user.email,
       username: user.username,
-      image: 'url :v',
+      image: user.image,
     });
     return new SuccessResponse(userResponse);
   }
