@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import ErrorResponseException from 'src/common/exceptions/error_response.exception';
 import { Repository } from 'typeorm';
 import { Interviewer } from './data/entities/interviewer.entity';
 import {
@@ -14,8 +15,9 @@ export default class InterviewerService {
     private interviewerRepository: Repository<Interviewer>,
   ) {}
   async newInterviewer(interviewer: Interviewer): Promise<boolean> {
-    await this.interviewerRepository.save(interviewer);
-    return true;
+    const res = await this.interviewerRepository.save(interviewer);
+    console.log(res);
+    return res ? true : false;
   }
   async getinterviewerById(id: number): Promise<Interviewer> {
     return this.interviewerRepository.findOne({ id: id });
@@ -27,15 +29,17 @@ export default class InterviewerService {
   }
 
   async changeState({ id, state }): Promise<boolean> {
-    await this.interviewerRepository.update(id, { state });
-    return true;
+    const res = await this.interviewerRepository.update(id, {
+      state,
+    });
+    return res && res.affected > 0 ? true : false;
   }
 
   async updateInterviewerData(
     id: number,
     data: UpdateInterviewerI,
   ): Promise<boolean> {
-    await this.interviewerRepository.update({ id }, data);
-    return true;
+    const res = await this.interviewerRepository.update({ id }, data);
+    return res && res.affected > 0 ? true : false;
   }
 }

@@ -1,5 +1,9 @@
 import { Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import {
+  ResponseAPI,
+  SuccessResponse,
+} from 'src/common/dto/response.dto';
 import AuthService from './auth.service';
 import JwtAuthGuard from './guards/jwt_auth.guard';
 import LocalAuthGuard from './guards/local_auth.guard';
@@ -16,7 +20,15 @@ export default class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login_interviewer')
-  async loginByInterviewer(@Request() req): Promise<any> {
-    return this.authService.login(req.user);
+  async loginByInterviewer(
+    @Request() req,
+  ): Promise<ResponseAPI<any>> {
+    const { user } = req;
+    const token = await this.authService.login(user);
+    return new SuccessResponse({
+      interviewerId: user.id,
+      username: user.username,
+      accessToken: token,
+    });
   }
 }
