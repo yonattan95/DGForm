@@ -13,9 +13,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -24,11 +26,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.navigationdrawerpractica.Entidades.Persona;
+import com.example.navigationdrawerpractica.Entidades.Usuario;
 import com.example.navigationdrawerpractica.Fragments.DetallePersonaFragment;
 import com.example.navigationdrawerpractica.Fragments.Detalle_HistorialFragment;
+import com.example.navigationdrawerpractica.Fragments.EncuestaFragment;
 import com.example.navigationdrawerpractica.Fragments.GraficoFragment;
 import com.example.navigationdrawerpractica.Fragments.HistorailFragment;
 import com.example.navigationdrawerpractica.Fragments.MainFragment;
+import com.example.navigationdrawerpractica.Fragments.PerfilFragment;
 import com.example.navigationdrawerpractica.Fragments.PersonasFragment;
 import com.example.navigationdrawerpractica.R;
 import com.google.android.material.navigation.NavigationView;
@@ -50,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //variable del fragment detalle
     DetallePersonaFragment detallePersonaFragment;
     TextView tvDatTotCom,tvDatTotPen ;
+    JsonObjectRequest jsonObjectRequest;
 
 
     @Override
@@ -108,13 +114,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(menuItem.getItemId() == R.id.personas){
             fragmentManager = getSupportFragmentManager();
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container_fragment,new PersonasFragment());
+            //fragmentTransaction.replace(R.id.container_fragment,new PersonasFragment());
+            fragmentTransaction.replace(R.id.container_fragment,new EncuestaFragment());
             fragmentTransaction.commit();
         }
         if(menuItem.getItemId() == R.id.gestion){
             fragmentManager = getSupportFragmentManager();
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container_fragment,new HistorailFragment());
+            fragmentTransaction.replace(R.id.container_fragment,new Detalle_HistorialFragment());
             fragmentTransaction.commit();
         }
         if(menuItem.getItemId() == R.id.home2){
@@ -129,7 +136,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(menuItem.getItemId() == R.id.home3){
             fragmentManager = getSupportFragmentManager();
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container_fragment,new Detalle_HistorialFragment());
+            fragmentTransaction.replace(R.id.container_fragment,new PerfilFragment());
+            //fragmentTransaction.replace(R.id.container_fragment,new Detalle_HistorialFragment());
             fragmentTransaction.commit();
         }
         if(menuItem.getItemId() == R.id.personas2){
