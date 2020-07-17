@@ -34,7 +34,7 @@ export class Interviewer {
 
   @Column({
     default:
-      'https://lh3.googleusercontent.com/proxy/cYLoDLhzWKYq3YpWPFprXc4DvHi-_S6YmvNVPJjQBjdiXtLX0-ROPY_ElEjU3DDOoomadywJ_GGs2kIHG3BMGJHPnfD4FMQtmoEgbf0Uyu7BMzWxKsU',
+      'https://cdn2.iconfinder.com/data/icons/people-occupation-job/64/Ninja-Warrior-Assassin-Japan-Fighter-Avatar-Martial_arts-512.png',
   })
   image: string;
 }
