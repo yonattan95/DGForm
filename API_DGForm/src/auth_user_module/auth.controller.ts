@@ -8,25 +8,19 @@ import AuthService from './auth.service';
 import JwtAuthGuard from './guards/jwt_auth.guard';
 import LocalAuthGuard from './guards/local_auth.guard';
 
-@Controller('auth')
+@Controller('user_auth')
 export default class AuthController {
   constructor(private authService: AuthService) {}
 
   @UseGuards(LocalAuthGuard)
-  @Post('login_user')
-  async loginByUser(@Request() req): Promise<any> {
-    return req.user;
-  }
+  @Post('login')
+  async loginByUser(@Request() req): Promise<ResponseAPI<any>> {
+    console.log('extraño x2');
 
-  @UseGuards(LocalAuthGuard)
-  @Post('login_interviewer')
-  async loginByInterviewer(
-    @Request() req,
-  ): Promise<ResponseAPI<any>> {
     const { user } = req;
     const token = await this.authService.login(user);
     return new SuccessResponse({
-      interviewerId: user.id,
+      userId: user.id,
       username: user.username,
       accessToken: token,
     });

@@ -7,7 +7,7 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
-import JwtAuthGuard from 'src/auth_module/guards/jwt_auth.guard';
+import JwtAuthGuard from 'src/auth_interviewer_module/guards/jwt_auth.guard';
 import {
   ResponseAPI,
   SuccessResponse,
@@ -114,5 +114,11 @@ export default class InterviewerController {
         errorMessage: 'No existe un encuestador con ese ID',
       });
     return new SuccessResponse(interviewer);
+  }
+
+  @Get()
+  async getAllInterviewer() {
+    const list = await this.interviewerService.getAllInterviewer();
+    return list;
   }
 }
