@@ -13,8 +13,8 @@ export default class UserService {
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
   async newUser(user: NewUserI): Promise<boolean> {
-    await this.userRepository.save(user);
-    return true;
+    const res = await this.userRepository.save(user);
+    return res ? true : false;
   }
   getUserById(id: number): Promise<User> {
     return this.userRepository.findOne({ id: id });
@@ -24,15 +24,18 @@ export default class UserService {
   }
 
   async changeState(id: number, state: number): Promise<boolean> {
-    await this.userRepository.update({ id }, { state });
-    return true;
+    const res = await this.userRepository.update({ id }, { state });
+    return res ? true : false;
   }
 
   async updateUserData(
     id: number,
     data: UpdateUserI,
   ): Promise<boolean> {
-    await this.userRepository.update({ id }, data);
-    return true;
+    const res = await this.userRepository.update({ id }, data);
+    return res ? true : false;
+  }
+  async getAllUser(): Promise<[User[], number]> {
+    return this.userRepository.findAndCount();
   }
 }

@@ -11,6 +11,7 @@ import AuthService from './auth.service';
 @Injectable()
 export default class UserLocalStrategy extends PassportStrategy(
   Strategy,
+  'local2',
 ) {
   constructor(private authService: AuthService) {
     super();

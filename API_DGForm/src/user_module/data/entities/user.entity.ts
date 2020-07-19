@@ -12,6 +12,15 @@ export class User {
   id: number;
 
   @Column()
+  name: string;
+
+  @Column({ name: 'surname_1' })
+  surname1: string;
+
+  @Column({ name: 'surname_2' })
+  surname2: string;
+
+  @Column()
   username: string;
 
   @Column()
@@ -20,7 +29,7 @@ export class User {
   @Column()
   email: string;
 
-  @Column()
+  @Column({ default: 1 })
   state: number;
 
   @Column({

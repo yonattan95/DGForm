@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from 'src/auth_module/auth.module';
+import { AuthModule } from 'src/auth_interviewer_module/auth.module';
 import { Interviewer } from './data/entities/interviewer.entity';
 import InterviewerController from './interviewer.controller';
 import InterviewerService from './interviewer.service';

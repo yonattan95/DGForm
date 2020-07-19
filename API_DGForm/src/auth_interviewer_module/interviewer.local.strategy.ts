@@ -11,6 +11,7 @@ import AuthService from './auth.service';
 @Injectable()
 export default class InterviewerLocalStrategy extends PassportStrategy(
   Strategy,
+  'local1',
 ) {
   constructor(private authService: AuthService) {
     super();
