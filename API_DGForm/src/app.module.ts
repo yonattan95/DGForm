@@ -3,10 +3,11 @@ import { FormModule } from './form_module/form.module';
 import { Form } from './form_module/data/entities/form.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
-import { AuthModule } from './auth_module/auth.module';
+import { AuthModule } from './auth_interviewer_module/auth.module';
 import { UserModule } from './user_module/user.module';
 import { InterviewerModule } from './interviewer_module/interviewer.module';
 import { GeneralModule } from './general_module/general.module';
+import { AuthUserModule } from './auth_user_module/auth_user.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { GeneralModule } from './general_module/general.module';
     UserModule,
     AuthModule,
     GeneralModule,
+    AuthUserModule,
   ],
 })
 export class AppModule {

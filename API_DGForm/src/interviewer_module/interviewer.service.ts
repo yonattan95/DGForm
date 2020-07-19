@@ -42,4 +42,9 @@ export default class InterviewerService {
     const res = await this.interviewerRepository.update({ id }, data);
     return res && res.affected > 0 ? true : false;
   }
+
+  async getAllInterviewer(): Promise<[InterviewerI[], number]> {
+    const interviewerList = this.interviewerRepository.findAndCount();
+    return interviewerList;
+  }
 }
