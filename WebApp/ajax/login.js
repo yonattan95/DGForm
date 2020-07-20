@@ -12,22 +12,28 @@ $(document).on('submit', '#login-form', function(event){
 		}
 	})
 	.done(function(response){
-		if(response.error == null){
+
+		if(response.status == 1){
+			location.href = 'views/home';
+		}else if(response.status == 0){
+			console.log(response);
+			toastr.error('Las credenciales que ha ingresado no son válidas','Acceso Denegado');
+			$('#btnLogin').val('Ingresar');
+			return;
+		}else if(response.status == -2){
 			console.log(response);
 			toastr.error(response,'Error desconocido');
 			return;
+		}else if(response.status == -1){
+			console.log(response);
+			toastr.error(response,'Error al obtener respuesta de API');
+			return;
 		}
 
-		if(!response.error){
-			location.href = 'views/home';
-		}else{
-			toastr.error('Las credenciales que ha ingresado no son válidas','Acceso Denegado');
-			$('#btnLogin').val('Ingresar');
-		}		
 	})
 	.fail(function(response){
 		console.log(response.responseText);
-		toastr.error(response.responseText,'Error de respuesta del servidor');
+		toastr.error(response.responseText,'No se pudo recibir una respuesta del servidor');
 	})
 	.always(function(){
 		//console.log('AJAX call complete');
