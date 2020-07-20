@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "926453822310",
+    "firebase_url": "https://appmovil-7c430.firebaseio.com",
+    "project_id": "appmovil-7c430",
+    "storage_bucket": "appmovil-7c430.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:926453822310:android:81a316533c0109b0c00ea7",
+        "android_client_info": {
+          "package_name": "com.example.navigationdrawerpractica"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "926453822310-il2s32fql2alkedegeeea6l8a7grtsqd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.navigationdrawerpractica",
+            "certificate_hash": "9fbe7e8010bd72ac3c076de64fcb7a57519cf668"
+          }
+        },
+        {
+          "client_id": "926453822310-n14mahhcve21l9mkb9s27us9tfhbm1ds.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBs4QInsSr62ei1bojLs523J9CtnVfDAuQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "926453822310-n14mahhcve21l9mkb9s27us9tfhbm1ds.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
