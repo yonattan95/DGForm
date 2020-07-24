@@ -1,12 +1,12 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export default class QuestionOption {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  name: string;
+  description: string;
 
   @Column()
   value: string;
