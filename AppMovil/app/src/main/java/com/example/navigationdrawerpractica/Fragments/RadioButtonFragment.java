@@ -1,53 +1,42 @@
 package com.example.navigationdrawerpractica.Fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.CheckBox;
+import android.widget.RadioButton;
+import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.toolbox.StringRequest;
 import com.example.navigationdrawerpractica.Interfaces.Encuesta;
-import com.example.navigationdrawerpractica.Interfaces.LoginActivity;
 import com.example.navigationdrawerpractica.Interfaces.MainActivity;
 import com.example.navigationdrawerpractica.R;
 
-
-public class EditTextFragment extends Fragment {
-
+public class RadioButtonFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-
     private String mParam1;
     private String mParam2;
-    int nPregunta;
     Button atras,siguiente;
     String DatoRespuesta,NumeroPregunta,PreguntaFinal;
-    EditText edRespuestaEditText;
+    int nPregunta;
+    RadioButton Valor1,Valor2,Valor3,Valor4,Valor5,Valor6;
 
-
-    public EditTextFragment() {
+    public RadioButtonFragment() {
         // Required empty public constructor
     }
 
-    public static EditTextFragment newInstance(String param1, String param2) {
-        EditTextFragment fragment = new EditTextFragment();
+    public static RadioButtonFragment newInstance(String param1, String param2) {
+        RadioButtonFragment fragment = new RadioButtonFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -67,33 +56,59 @@ public class EditTextFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_edit_text, container, false);
-        atras = view.findViewById(R.id.btnAtras);
+        View view = inflater.inflate(R.layout.fragment_radio_button, container, false);
         SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences("gymapp", Context.MODE_PRIVATE);
         NumeroPregunta = sharedPreferences2.getString("Pregunta", "");
         PreguntaFinal = sharedPreferences2.getString("PreguntaFinal", "");
+        atras = view.findViewById(R.id.btnAtrasrb);
         if (NumeroPregunta.equals("1"))
         {
             atras.setVisibility(View.INVISIBLE);
         }else{
             atras.setVisibility(View.VISIBLE);
         }
-        siguiente = view.findViewById(R.id.btnSiguiente);
+        siguiente = view.findViewById(R.id.btnSiguienterb);
         if (PreguntaFinal.equals(NumeroPregunta)){
             siguiente.setText("Terminar");
         }else{
             siguiente.setText("Siguiente");
         }
-        edRespuestaEditText =view.findViewById(R.id.edRespuesta);
+        Valor1 = view.findViewById(R.id.rbRespuesta1);
+        Valor2 = view.findViewById(R.id.rbRespuesta2);
+        Valor3 = view.findViewById(R.id.rbRespuesta3);
+        Valor4 = view.findViewById(R.id.rbRespuesta4);
+        Valor5 = view.findViewById(R.id.rbRespuesta5);
+        Valor6 = view.findViewById(R.id.rbRespuesta6);
+
+
+        for (int i = 0; i < 3; i++){
+            if (i == 1){
+                Valor1.setVisibility(View.VISIBLE);
+            }
+            if (i == 2){
+                Valor2.setVisibility(View.VISIBLE);
+            }
+            if (i == 3){
+                Valor3.setVisibility(View.VISIBLE);
+            }
+            if (i == 4){
+                Valor4.setVisibility(View.VISIBLE);
+            }
+            if (i == 5){
+                Valor5.setVisibility(View.VISIBLE);
+            }
+            if (i == 6){
+                Valor6.setVisibility(View.VISIBLE);
+            }
+        }
 
         siguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatoRespuesta =  ValidarRegistro(edRespuestaEditText.getText().toString());
+                DatoRespuesta = ValidarRegistro();
                 if (DatoRespuesta.equals("N")){
-                    edRespuestaEditText.setError("Este campo está vacío");
-                }
-                else {
+                    Toast.makeText(getContext(),"Seleccionar respuesta",Toast.LENGTH_SHORT).show();
+                }else {
                     if (PreguntaFinal.equals(NumeroPregunta)){
                         startActivity(new Intent(getActivity(), MainActivity.class));
                         getActivity().onBackPressed();
@@ -101,7 +116,7 @@ public class EditTextFragment extends Fragment {
                         SharedPreferences.Editor sharedPreferences = getActivity().getSharedPreferences("gymapp", Context.MODE_PRIVATE).edit();
                         nPregunta = Integer.valueOf(NumeroPregunta) + 1;
                         NumeroPregunta =  String.valueOf(nPregunta);
-                        sharedPreferences.putString("Pregunta",NumeroPregunta);
+                        sharedPreferences.putString("Pregunta", NumeroPregunta);
                         sharedPreferences.commit();
                         startActivity(new Intent(getActivity(), Encuesta.class));
                         getActivity().onBackPressed();
@@ -109,20 +124,29 @@ public class EditTextFragment extends Fragment {
                 }
             }
         });
+
         return view;
     }
-    public String ValidarRegistro(String Dato){
-        final String xResp;
-        if (Dato.equals("")){
-            xResp = "N";
+    public String ValidarRegistro(){
+        String resp="N";
+        if (Valor1.isChecked()){
+            resp = "S";
         }
-        else{
-            xResp = "S";
+        if (Valor2.isChecked()){
+            resp = "S";
         }
-        return xResp;
+        if (Valor3.isChecked()){
+            resp = "S";
+        }
+        if (Valor4.isChecked()){
+            resp = "S";
+        }
+        if (Valor5.isChecked()){
+            resp = "S";
+        }
+        if (Valor6.isChecked()){
+            resp = "S";
+        }
+        return resp;
     }
-    public void buscarDatos(){
-        
-    }
-
 }

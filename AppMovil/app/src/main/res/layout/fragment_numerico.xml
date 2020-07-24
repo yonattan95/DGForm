@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragments.EditTextFragment"
-    android:layout_marginTop="55dp"
-    android:id="@+id/FragmentEditText">
+    tools:context=".Fragments.NumericoFragment"
+    android:orientation="vertical"
+    android:layout_marginTop="55dp">
 
     <TextView
-        android:id="@+id/tvPreguntaET"
+        android:id="@+id/tvPreguntaTiTNum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -21,39 +20,37 @@
     </TextView>
 
     <TextView
-        android:id="@+id/tvPregunta"
+        android:id="@+id/tvPreguntaN"
         android:gravity="center"
-        android:textSize="20sp"
+        android:textSize="50dp"
         android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </TextView>
 
     <EditText
-        android:id="@+id/edRespuesta"
-        android:layout_marginTop="50dp"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:id="@+id/edtRespuestaNum"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number" />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="300dp">
-    <Button
-        android:id="@+id/btnAtras"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Atras"
-        android:visibility="invisible"
-        android:layout_weight="1" />
-    <Button
-        android:id="@+id/btnSiguiente"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Siguiente"/>
+        <Button
+            android:id="@+id/btnAtrasNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Atras"
+            android:layout_weight="1" />
+        <Button
+            android:id="@+id/btnSiguienteNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Siguiente"/>
     </LinearLayout>
 </LinearLayout>
