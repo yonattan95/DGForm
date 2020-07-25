@@ -29,7 +29,8 @@
 
     <TextView
         android:text="Nombre:"
-        android:paddingLeft="10dp"
+        android:layout_marginTop="50dp"
+        android:paddingLeft="50dp"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_width="match_parent"
@@ -38,7 +39,6 @@
     </TextView>
     <TextView
         android:id="@+id/tvnombre_usuario"
-        android:text="Goku"
         android:gravity="center"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -46,10 +46,29 @@
         android:layout_height="wrap_content">
 
     </TextView>
+    <TextView
+        android:text="Apellidos:"
+        android:paddingLeft="50dp"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/tvApellidos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textStyle="bold">
+
+    </TextView>
 
     <TextView
         android:text="Email:"
-        android:paddingLeft="10dp"
+        android:paddingLeft="50dp"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_width="match_parent"
@@ -58,7 +77,6 @@
     </TextView>
     <TextView
         android:id="@+id/tvemail_usuario"
-        android:text="Goku"
         android:gravity="center"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -67,24 +85,23 @@
     </TextView>
     <TextView
         android:text="Usuario:"
-        android:paddingLeft="10dp"
+        android:paddingLeft="50dp"
         android:textSize="24sp"
         android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
     </TextView>
+
     <TextView
         android:id="@+id/tvCod_usuario"
-        android:text="Goku"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:textStyle="bold">
 
     </TextView>
-
 
 
 </LinearLayout>
