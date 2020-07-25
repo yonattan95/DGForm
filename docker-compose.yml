@@ -31,6 +31,15 @@ services:
       - "5432"
     networks:
       - dg_form_network
+  web_app:
+    build:
+      context: ./WebApp/
+      dockerfile: ./Dockerfile
+    container_name: ms_web_php
+    ports:
+      - "8080:80"
+    volumes:
+      - "./WebApp:/var/www/html/dgform/webapp"
 
 volumes:
   postgres_12_vol:
