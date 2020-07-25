@@ -19,6 +19,7 @@ import {
 } from './data/dto/interviewer.dto';
 import {
   InterviewerI,
+  NewInterviewerI,
   UpdateInterviewerI,
 } from './data/interfaces/interviewer.interface';
 import InterviewerService from './interviewer.service';
@@ -31,7 +32,7 @@ export default class InterviewerController {
 
   @Post()
   async newInterviewer(
-    @Body() interviewer: NewInterviewerRequest,
+    @Body() interviewer: NewInterviewerI,
   ): Promise<ResponseAPI<string>> {
     const res = await this.interviewerService.newInterviewer(
       interviewer,
@@ -119,6 +120,10 @@ export default class InterviewerController {
   @Get()
   async getAllInterviewer() {
     const list = await this.interviewerService.getAllInterviewer();
-    return list;
+    if (!list)
+      throw new ErrorResponseException({
+        errorMessage: 'No se pudo cargar la lista',
+      });
+    return new SuccessResponse(list);
   }
 }

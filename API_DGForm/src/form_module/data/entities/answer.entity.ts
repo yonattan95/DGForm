@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm';
+import Question from './question.entity';
+import Quiz from './quiz.entity';
 
 @Entity()
 export default class Answer {
@@ -8,6 +10,11 @@ export default class Answer {
   @Column()
   value: string;
 
-  @Column({ name: 'question_id' })
-  questionId: number;
+  // @Column({ name: 'question_id' })
+  @ManyToOne(type => Question)
+  question: number;
+
+  // @Column({ name: 'quiz_id' })
+  @ManyToOne(type => Quiz)
+  quiz: number;
 }

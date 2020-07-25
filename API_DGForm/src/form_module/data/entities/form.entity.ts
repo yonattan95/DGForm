@@ -1,4 +1,16 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import Category from 'src/general_module/data/entities/category.entity';
+import { Interviewer } from 'src/interviewer_module/data/entities/interviewer.entity';
+import { User } from 'src/user_module/data/entities/user.entity';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import InterviewerToForm from './interviewer_to_form.entity';
 
 enum FormStatusEnum {
   'pendiente' = 0,
@@ -19,12 +31,6 @@ export class Form {
   @Column({ default: 0 })
   state: FormStatusEnum;
 
-  @Column({ name: 'user_id' })
-  userId: number;
-
-  @Column({ name: 'category_id', default: 1 })
-  categoryId: number;
-
   @Column({ name: 'start_date', default: new Date() })
   startDate: Date;
 
@@ -36,4 +42,18 @@ export class Form {
 
   @Column({ default: new Date(), name: 'created_date' })
   createdDate: Date;
+
+  // @Column({ name: 'user_id' })
+  @ManyToOne(type => User)
+  user: number;
+
+  // @Column({ name: 'category_id', default: 2 })
+  @ManyToOne(type => Category)
+  category: number;
+
+  @OneToMany(
+    type => InterviewerToForm,
+    interviewerToForm => interviewerToForm.form,
+  )
+  interviewerToForm!: InterviewerToForm[];
 }

@@ -13,7 +13,11 @@ import {
   FailResponse,
 } from '../common/dto/response.dto';
 import { Form } from './data/entities/form.entity';
-import NewFormI from './data/interfaces/form.interface';
+import {
+  AssignedIntervierwerToFormI,
+  NewFormI,
+} from './data/interfaces/form.interface';
+import ErrorResponseException from 'src/common/exceptions/error_response.exception';
 
 @Controller('forms')
 export class FormController {
@@ -39,7 +43,6 @@ export class FormController {
     @Param('id') id: number,
   ): Promise<ResponseAPI<Form>> {
     const form = await this.formService.getFormById(id);
-
     return form
       ? new SuccessResponse(form)
       : new FailResponse('El formulario no existe.');
@@ -50,5 +53,18 @@ export class FormController {
   ): Promise<ResponseAPI<String>> {
     await this.formService.saveForm(body);
     return new SuccessResponse('Se creo el formulario');
+  }
+
+  @Post('interviewer')
+  async assignedInterviewerToForm(
+    @Body() data: AssignedIntervierwerToFormI,
+  ) {
+    const res = await this.formService.assingInterviewerToForm(data);
+    if (!res)
+      throw new ErrorResponseException({
+        errorMessage:
+          'Ocurrio un error al interntar asignar a un encuestador al formulario selecionado',
+      });
+    return new SuccessResponse('se asigno correctamente');
   }
 }
