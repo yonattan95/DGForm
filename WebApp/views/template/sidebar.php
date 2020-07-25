@@ -49,7 +49,14 @@
           </li>
 
           <li class="nav-item">
-            <a href="<?php echo $funciones->direct_paginas()."pollsters/list-pollsters" ?>" class="nav-link">
+            <a href="<?php echo $funciones->direct_paginas()."users/list-users" ?>" class="nav-link">
+              <i class="nav-icon fas fa-users"></i>
+              <p>Usuarios</p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="<?php echo $funciones->direct_paginas()."interviewers/list-interviewers" ?>" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>Encuestadores</p>
             </a>

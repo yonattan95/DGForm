@@ -14,7 +14,7 @@ if (isset($_SESSION['loggedInUser'])) {
     <meta name="author" content="ESG Peru">
     <meta name="theme-color" content="#563d7c">
     <title>Inicio de Sesión - DigiForms</title>
-    <link href="./css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="./css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 
     <link href="./plugins/toastr/toastr.min.css" rel="stylesheet">
     <link rel="icon" href="./img/favicons/form-32x32.png" sizes="32x32" type="image/png">

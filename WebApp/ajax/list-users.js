@@ -1,20 +1,22 @@
 $("#col-btn-delete-user").hide();
 
-var tabla_usuarios = $('#table-usuarios');
+var tabla_usuarios = $('#table-users');
 
 tabla_usuarios.dataTable({
     "ajax": {
-        "url": "../../modules/usuarios/consultar-usuario.php",
+        "url": "../../modules/users/get-user.php",
         "type": "POST",
         "data": { "FILTER": "ALL" },
     },
     "columns": [
-        { "data": "CODIGO_USR" },
+        { "data": "ID" },
+        { "data": "NAME" },
+        { "data": "SURNAME1" },
+        { "data": "SURNAME2" },
         { "data": "USERNAME" },
-        { "data": "CODIGO_EMP" },
-        { "data": "NOMBRE_EMP" },
-        { "data": "CARGO_EMP" },
-        { "data": "FEC_REG" }
+        { "data": "EMAIL" },
+        { "data": "STATE" },
+        { "data": "IMG" }
     ],
     "order": [[1, "asc"]],
     "language": {
@@ -22,13 +24,15 @@ tabla_usuarios.dataTable({
         }
 });
 
+/*
 $.post("../../modules/empleados/consultar-empleado.php", { FILTER: "SELECT_LIST" }, function (data) {
     $('select[name="usuario_empleado_id"]').select2({
         data: JSON.parse(data)
     })
 });
+*/
 
-
+/*
 $("#FRM_INSERT_USUARIO").submit(function (e) {
     e.preventDefault();
     var form = $(this);
@@ -187,3 +191,4 @@ $("#btn-delete-user").click(function () {
         })
     }
 })
+*/
