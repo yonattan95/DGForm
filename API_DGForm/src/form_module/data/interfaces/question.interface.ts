@@ -1,17 +1,17 @@
 export interface NewQuestionI {
-  quizId: number;
-  questionTypeId: number;
-
   name: string;
   description: string;
-  numberQuestion: number;
+  questionNumber: number;
+
+  form: number;
+  questionType: number;
 }
 export interface QuestionI {
-  questionId: number;
-  quizId: number;
-  questionTypeId: number;
-
+  id: number;
   name: string;
   description: string;
-  numberQuestion: number;
+  questionNumber: number;
+
+  questionType: number;
+  form: number;
 }

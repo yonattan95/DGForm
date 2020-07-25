@@ -14,6 +14,8 @@ export default class GeneralController {
   @Get('categories')
   async getCategoryList() {
     const res = await this.categoryService.getAll();
+    console.log(res);
+
     if (!res)
       throw new ErrorResponseException({
         errorMessage:
