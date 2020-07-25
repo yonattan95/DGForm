@@ -1,47 +1,58 @@
 <?php
 
 if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'){
-
-	require '../global/connection.php';
+	
+	require '../global/config.php';
 
 	$username = $_POST['txtUsername'];
 	$password = $_POST['txtPassword'];
 
-	$sqlStatement = $pdo->prepare("SELECT u.id AS USERID, u.username AS USERNAME,
-		u.password AS PASS, u.photo_url AS PHOTO_URL, e.job AS JOB,
-		CONCAT(e.name, ' ', e.last_name_1) AS EMPLOYEE_NAME
-		FROM tbl_user u JOIN tbl_employee e ON u.employee_id=e.id
-		WHERE u.username=:username");
+	$query_url = "user_auth/login";
+	$url = API_URL . $query_url;
 
-	$sqlStatement->bindParam("username",$username,PDO::PARAM_STR);
-	$sqlStatement->execute();
+	$data = json_encode(array(
+		'username' => $username,
+		'password' => $password));
 
-	$rowsNumber=$sqlStatement->rowCount();
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_POST, true);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, Array("Content-Type: application/json"));
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	
+	$res = json_decode(curl_exec($ch),true);
+	curl_close($ch);
 
-	if ($rowsNumber==1) {
+	if($res['status']===null){
+		echo json_encode(array(
+			'status' => -1,
+			'statusCode' => $res['statusCode'],
+			'message' => $res['message']));
 
-		$sqlData=$sqlStatement->fetch(PDO::FETCH_ASSOC);
+	}else if($res['status'] == 1){
+		session_start();
 
-		if (password_verify($password, $sqlData['PASS'])) {
+		$_SESSION['loggedInUser'] = array(
+			'USERID' => $res['data']['userId'],
+			'USERNAME' => $res['data']['username'],
+			'PHOTO_URL' => 'default-avatar.png',
+			'JOB' => 'Administrador',
+			'EMPLOYEE_NAME' => 'Usuario ADM',
+			'TOKEN' => $res['data']['accessToken']);
 
-			$sqlData['PASS'] = "";
+		echo json_encode(array(
+			'status' => 1));
 
-			if ($sqlData['PHOTO_URL'] == ""){
-				$sqlData['PHOTO_URL'] = "default-avatar.png";
-			}
+	}else if($res['status'] == 0){
+		echo json_encode(array(
+			'status' => 0,
+			'message' => $res['errorMessage']));
 
-			session_start();
-			$_SESSION['loggedInUser']=$sqlData;
-
-			echo json_encode(array('error' => false));
-		
-		} else {
-			echo json_encode(array('error' => true));
-		}
-
-	} else {
-		echo json_encode(array('error' => true));
+	}else{
+		echo json_encode(array('status' => -2));
 	}
+
 }
 
 ?>
