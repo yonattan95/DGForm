@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(menuItem.getItemId() == R.id.personas){
             fragmentManager = getSupportFragmentManager();
             fragmentTransaction = fragmentManager.beginTransaction();
-          //  fragmentTransaction.replace(R.id.container_fragment,new PersonasFragment());
+            //fragmentTransaction.replace(R.id.container_fragment,new PersonasFragment());
             fragmentTransaction.replace(R.id.container_fragment,new EncuestaFragment());
             fragmentTransaction.commit();
         }
