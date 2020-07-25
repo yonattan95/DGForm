@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.ChecklistFragment"
+    android:orientation="vertical"
+    android:layout_marginTop="55dp">
+
+    <TextView
+        android:id="@+id/tvPreguntaTiCb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:text="Detalle Usuario"
+        android:textSize="24sp"
+        android:textStyle="bold">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/tvPreguntaCb"
+        android:gravity="center"
+        android:textSize="50dp"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </TextView>
+    <CheckBox
+        android:id="@+id/CbRespuesta1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="invisible"></CheckBox>
+    <CheckBox
+        android:id="@+id/CbRespuesta2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="invisible"></CheckBox>
+    <CheckBox
+        android:id="@+id/CbRespuesta3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="invisible"></CheckBox>
+    <CheckBox
+        android:id="@+id/CbRespuesta4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="invisible"></CheckBox>
+    <CheckBox
+        android:id="@+id/CbRespuesta5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="invisible"></CheckBox>
+    <CheckBox
+        android:id="@+id/CbRespuesta6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="invisible"></CheckBox>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp">
+        <Button
+            android:id="@+id/btnAtrascb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Atras"
+            android:visibility="invisible"
+            android:layout_weight="1" />
+        <Button
+            android:id="@+id/btnSiguientecb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Siguiente"/>
+    </LinearLayout>
+
+</LinearLayout>
