@@ -1,6 +1,6 @@
 export interface InterviewerI {
   id: number | null;
-  userId: number;
+  user: number;
   name: string;
   surname1: string;
   surname2: string;
@@ -8,12 +8,11 @@ export interface InterviewerI {
   email: string;
   password: string;
   state: number;
-  image:string;
+  image: string;
 }
 
-
 export interface NewInterviewerI {
-  userId: number;
+  user: number;
   name: string;
   surname1: string;
   surname2: string;

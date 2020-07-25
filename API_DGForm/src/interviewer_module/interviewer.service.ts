@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { Interviewer } from './data/entities/interviewer.entity';
 import {
   InterviewerI,
+  NewInterviewerI,
   UpdateInterviewerI,
 } from './data/interfaces/interviewer.interface';
 
@@ -14,18 +15,25 @@ export default class InterviewerService {
     @InjectRepository(Interviewer)
     private interviewerRepository: Repository<Interviewer>,
   ) {}
-  async newInterviewer(interviewer: Interviewer): Promise<boolean> {
+  async newInterviewer(
+    interviewer: NewInterviewerI,
+  ): Promise<boolean> {
     const res = await this.interviewerRepository.save(interviewer);
-    console.log(res);
     return res ? true : false;
   }
   async getinterviewerById(id: number): Promise<Interviewer> {
-    return this.interviewerRepository.findOne({ id: id });
+    return this.interviewerRepository.findOne({
+      where: { id: id },
+      relations: ['user'],
+    });
   }
   async getinterviewerByUsername(
     username: string,
   ): Promise<Interviewer> {
-    return this.interviewerRepository.findOne({ username });
+    return this.interviewerRepository.findOne({
+      where: { username },
+      relations: ['user'],
+    });
   }
 
   async changeState({ id, state }): Promise<boolean> {
@@ -44,7 +52,9 @@ export default class InterviewerService {
   }
 
   async getAllInterviewer(): Promise<[InterviewerI[], number]> {
-    const interviewerList = this.interviewerRepository.findAndCount();
+    const interviewerList = this.interviewerRepository.findAndCount({
+      relations: ['user'],
+    });
     return interviewerList;
   }
 }
