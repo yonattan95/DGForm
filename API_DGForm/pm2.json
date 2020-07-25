@@ -1,0 +1,11 @@
+{
+  "name": "api_dgform",
+  "script": "src/main.ts",
+  "instances": "2",
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "env_production": {
+    "NODE_ENV": "production"
+  }
+}
