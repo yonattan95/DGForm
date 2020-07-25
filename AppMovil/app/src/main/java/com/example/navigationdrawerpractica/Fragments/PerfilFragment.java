@@ -1,16 +1,18 @@
 package com.example.navigationdrawerpractica.Fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,10 +23,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.navigationdrawerpractica.Entidades.Usuario;
+import com.example.navigationdrawerpractica.Interfaces.MainActivity;
 import com.example.navigationdrawerpractica.R;
+import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
+
 import org.json.JSONObject;
 
 
@@ -35,9 +38,11 @@ public class PerfilFragment extends Fragment implements Response.ErrorListener, 
 
     private String mParam1;
     private String mParam2;
+    SharedPreferences preferences;
+    ImageView imagen_PerfilUsuario;
 
     RequestQueue request;
-    TextView tvCod_usu,tvemail_usuario,tvnombre_usuario;
+    TextView tvCod_usu,tvemail_usuario,tvnombre_usuario,apellidos;
     JsonObjectRequest jsonObjectRequest;
     ProgressDialog progreso;
 
@@ -70,7 +75,9 @@ public class PerfilFragment extends Fragment implements Response.ErrorListener, 
         tvCod_usu = view.findViewById(R.id.tvCod_usuario);
         tvemail_usuario = view.findViewById(R.id.tvemail_usuario);
         tvnombre_usuario = view.findViewById(R.id.tvnombre_usuario);
-
+        imagen_PerfilUsuario = view.findViewById(R.id.imagen_PerfilUsuario);
+        apellidos = view.findViewById(R.id.tvApellidos);
+        preferences = ((MainActivity)getActivity()).getSharedPreferences("gymapp", Context.MODE_PRIVATE);
         request = Volley.newRequestQueue(getContext());
         fillLista();
         return view;
@@ -80,7 +87,8 @@ public class PerfilFragment extends Fragment implements Response.ErrorListener, 
         progreso.setMessage("Usuario...");
         progreso.show();
 
-        String url = "http://dgform.ga/interviewers/"+ "1";
+
+        String url = "http://dgform.ga/interviewers/"+ preferences.getString("UsuarioID","");
         jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null,this,this);
         request.add(jsonObjectRequest);
     }
@@ -97,11 +105,16 @@ public class PerfilFragment extends Fragment implements Response.ErrorListener, 
         progreso.hide();
         Usuario miUsuario = new Usuario();
         JSONObject jsonObject = response.optJSONObject("data");
-        miUsuario.setxNombre(jsonObject.optString("userId"));
+        miUsuario.setxNombre(jsonObject.optString("name"));
         miUsuario.setEmail(jsonObject.optString("email"));
         miUsuario.setUsuario(jsonObject.optString("username"));
+        miUsuario.setApellidoA(jsonObject.optString("surname1"));
+        miUsuario.setApellidoP(jsonObject.optString("surname2"));
+        miUsuario.setImagen(jsonObject.optString("image"));
         tvCod_usu.setText(miUsuario.getUsuario());
         tvemail_usuario.setText(miUsuario.getEmail());
         tvnombre_usuario.setText(miUsuario.getxNombre());
+        apellidos.setText(miUsuario.getApellidoA() +" " + miUsuario.getApellidoP());
+        Picasso.with(getActivity()).load(miUsuario.getImagen()).fit().centerInside().into(imagen_PerfilUsuario);
     }
 }
