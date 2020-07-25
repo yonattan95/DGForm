@@ -1,16 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Interfaces.Encuesta"
-    android:layout_marginTop="55dp">
+    android:background="@color/blanco"
+    tools:context=".Interfaces.Encuesta">
 
-    <FrameLayout
-        android:id="@+id/Preguntascontainer_fragment"
+
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="5dp"
-        />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:gravity="center">
+
+        <TextView
+            style="@style/titlepre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pregunta 1" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/pregunta"
+            android:text="¿Cuantos dias a la semana sales de casa?"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20mm"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/button11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/boton"
+            android:onClick="Encu2"
+            android:text="Siguiente" />
+
+    </LinearLayout>
 </LinearLayout>
