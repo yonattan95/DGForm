@@ -1,17 +1,24 @@
 package com.example.navigationdrawerpractica.Adaptadores;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.navigationdrawerpractica.Entidades.Encuestas;
 import com.example.navigationdrawerpractica.Interfaces.Encuesta;
+import com.example.navigationdrawerpractica.Interfaces.MainActivity;
 import com.example.navigationdrawerpractica.R;
 
 import java.util.ArrayList;
@@ -24,6 +31,7 @@ public class DetalleEncuestaAdapter extends RecyclerView.Adapter<DetalleEncuesta
     public DetalleEncuestaAdapter(Context context) {
         this.context = context;
         lista = new ArrayList<>();
+
     }
 
     @NonNull
@@ -38,6 +46,15 @@ public class DetalleEncuestaAdapter extends RecyclerView.Adapter<DetalleEncuesta
         final Encuestas obj = lista.get(i);
         viewHolder.tvNombre.setText(""+obj.getNombre());
         viewHolder.tvDetalle.setText(""+obj.getDetalle());
+        viewHolder.cvDetalleEncuesta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SharedPreferences.Editor sharedPreferences = context.getSharedPreferences("gymapp", Context.MODE_PRIVATE).edit();
+                sharedPreferences.putString("Pregunta", "1");
+                sharedPreferences.commit();
+                context.startActivity(new Intent(context, Encuesta.class));
+            }
+        });
     }
 
     @Override
@@ -47,10 +64,12 @@ public class DetalleEncuestaAdapter extends RecyclerView.Adapter<DetalleEncuesta
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvNombre, tvDetalle;
+        CardView cvDetalleEncuesta;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvNombre = itemView.findViewById(R.id.tvNombreDetPed);
             tvDetalle = itemView.findViewById(R.id.tvPrecioDetPed);
+            cvDetalleEncuesta = itemView.findViewById(R.id.cvEncuetas);
         }
     }
     public void fillDetalle(ArrayList<Encuestas> listaDet){
