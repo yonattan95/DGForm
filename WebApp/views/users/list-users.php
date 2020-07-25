@@ -116,15 +116,17 @@
             <div class="card mt-3">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table id="table-usuarios" class="table table-bordered table-hover" style="width: 100%">
+                        <table id="table-users" class="table table-bordered table-hover" style="width: 100%">
                             <thead>
                                 <tr>
-                                    <th>Código</th>
-                                    <th>Nombre de Usuario</th>
-                                    <th>Cód. Empleado</th>
-                                    <th>Empleado</th>
-                                    <th>Cargo</th>
-                                    <th>Fec. Registro</th>
+                                    <th>Cód. Usuario</th>
+                                    <th>Nombres</th>
+                                    <th>A. Paterno</th>
+                                    <th>A. Materno</th>
+                                    <th>Usuario</th>
+                                    <th>Email</th>
+                                    <th>Estado</th>
+                                    <th>Imagen</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
