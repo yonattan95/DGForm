@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name"></string>
+    <string name="app_name">DigiForms</string>
     <string name="open">open</string>
     <string name="close">close</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -18,11 +18,10 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
 
-    <string name="login_user">User</string>
-    <string name="login_pass">Password</string>
-    <string name="login_boton">Iniciar Sesión</string>
+    <string name="login_user">Usuario</string>
+    <string name="login_pass">Contraseña</string>
+    <string name="login_boton">Ingresar</string>
     <string name="login_name">DigiForms</string>
-
 
     <string name="lista_name">!Hola Eduardo. T</string>
     <string name="title_activity_cargar">CargarActivity</string>
@@ -34,4 +33,7 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="loggedUserFullName">Nombre de usuario</string>
+    <string name="loggedUserEmail">abc@gmail.com</string>
+    <string name="digiformslogo">DigiFormsLogo</string>
 </resources>
