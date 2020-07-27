@@ -84,8 +84,8 @@ public class PerfilFragment extends Fragment implements Response.ErrorListener, 
     }
     private void fillLista() {
         progreso = new ProgressDialog(getContext());
-        progreso.setMessage("Usuario...");
-        progreso.show();
+//        progreso.setMessage("Usuario...");
+//        progreso.show();
 
 
         String url = "http://dgform.ga/interviewers/"+ preferences.getString("UsuarioID","");

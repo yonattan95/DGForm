@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.navigationdrawerpractica.Entidades.Encuestas;
 import com.example.navigationdrawerpractica.Entidades.Persona;
 import com.example.navigationdrawerpractica.Entidades.Usuario;
 import com.example.navigationdrawerpractica.Fragments.DetallePersonaFragment;
@@ -37,6 +40,7 @@ import com.example.navigationdrawerpractica.Fragments.PerfilFragment;
 import com.example.navigationdrawerpractica.Fragments.PersonasFragment;
 import com.example.navigationdrawerpractica.R;
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,13 +53,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ActionBarDrawerToggle actionBarDrawerToggle;
     Toolbar toolbar;
     NavigationView navigationView;
-
+    SharedPreferences preferences3;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     //variable del fragment detalle
     DetallePersonaFragment detallePersonaFragment;
-    TextView tvDatTotCom,tvDatTotPen ;
-    JsonObjectRequest jsonObjectRequest;
+    TextView tvDatTotCom,tvDatTotPen ,tvNombBarra,tvCorreo;
+    private ImageView imgBarra;
 
 
     @Override
@@ -69,7 +73,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById(R.id.navigationView);
         tvDatTotPen  =findViewById(R.id.tvDatTotPen);
         tvDatTotCom=findViewById(R.id.tvDatTotCom);
+
+        mQueue = Volley.newRequestQueue(this);
+
         //lo sgt se implementa luego de haber implementado NavigationView.OnNavigationItemSelectedListener
+
         navigationView.setNavigationItemSelectedListener(this);
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open,R.string.close);
@@ -82,9 +90,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.container_fragment,new MainFragment());
         fragmentTransaction.commit();
-        mQueue = Volley.newRequestQueue(this);
+        preferences3 = this.getSharedPreferences("gymapp", Context.MODE_PRIVATE);
+        View header = navigationView.getHeaderView(0);
+        tvNombBarra = header.findViewById(R.id.tvNomBarras);
+        tvCorreo = header.findViewById(R.id.tvCorreo);
+        imgBarra = header.findViewById(R.id.imgBarras);
+
+        tvNombBarra.setText(preferences3.getString("NombreBarra",""));
+        tvCorreo.setText(preferences3.getString("CorreoBarra",""));
+//        Picasso.with(this).load(preferences3.getString("ImagenBarra","")).fit().centerInside().into(imgBarra);
+       // Picasso.with(this).load(preferences3.getString("ImagenBarra","")).resize(90,90).into(imgBarra);
         fillLista();
         fillLista2();
+
 
 
     }

@@ -46,6 +46,7 @@ public class DetalleEncuestaAdapter extends RecyclerView.Adapter<DetalleEncuesta
         final Encuestas obj = lista.get(i);
         viewHolder.tvNombre.setText(""+obj.getNombre());
         viewHolder.tvDetalle.setText(""+obj.getDetalle());
+        viewHolder.tvcategoria.setText(""+obj.getCategoria());
         viewHolder.cvDetalleEncuesta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,13 +64,15 @@ public class DetalleEncuestaAdapter extends RecyclerView.Adapter<DetalleEncuesta
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvNombre, tvDetalle;
+        TextView tvNombre, tvDetalle,tvcategoria;
         CardView cvDetalleEncuesta;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvNombre = itemView.findViewById(R.id.tvNombreDetPed);
             tvDetalle = itemView.findViewById(R.id.tvPrecioDetPed);
+            tvcategoria = itemView.findViewById(R.id.tvCategoria);
             cvDetalleEncuesta = itemView.findViewById(R.id.cvEncuetas);
+
         }
     }
     public void fillDetalle(ArrayList<Encuestas> listaDet){

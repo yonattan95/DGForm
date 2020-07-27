@@ -10,6 +10,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -18,6 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.navigationdrawerpractica.Adaptadores.DetalleEncuestaAdapter;
+import com.example.navigationdrawerpractica.Entidades.Categorias;
 import com.example.navigationdrawerpractica.Entidades.Encuestas;
 import com.example.navigationdrawerpractica.Interfaces.Encuesta;
 import com.example.navigationdrawerpractica.R;
@@ -44,8 +48,12 @@ public class EncuestaFragment extends Fragment {
     private RecyclerView rvDetalle;
     private DetalleEncuestaAdapter adapter;
     private ArrayList<Encuestas> lista;
+    private ArrayList<Categorias> lista2;
+
     private RequestQueue mQueue;
     private View.OnFocusChangeListener mListener;
+    private Spinner spinner;
+    private boolean isFirstTime = true;
 
     public EncuestaFragment() {
         // Required empty public constructor
@@ -74,13 +82,63 @@ public class EncuestaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_encuesta, container, false);
+        spinner = view.findViewById(R.id.spnCategoria);
         rvDetalle = view.findViewById(R.id.rvDetalle);
         rvDetalle.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new DetalleEncuestaAdapter(getActivity());
         rvDetalle.setAdapter(adapter);
         lista = new ArrayList<>();
+        lista2 = new ArrayList<>();
         mQueue = Volley.newRequestQueue(getActivity());
-        fillLista();
+        LlenarCombo();
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view,final int position, long id) {
+                if (isFirstTime){
+                    isFirstTime = false;
+                    fillLista();
+                }
+                else{
+                    String url = "http://dgform.ga/forms/pending";
+                    lista.clear();
+                    JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            try {
+                                JSONArray jsonArray = response.getJSONArray("data");
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject obj = jsonArray.getJSONObject(i);
+                                    JSONObject jsonObject = obj.getJSONObject("category");
+                                    if (jsonObject.getString("name").equals(lista2.get(position).getNombreCat())) {
+                                        lista.add(new Encuestas(obj.getString("name"),
+                                                obj.getString("description"), jsonObject.getString("name")));
+                                    }else if(lista2.get(position).getNombreCat().equals("Todos")){
+                                        lista.add(new Encuestas(obj.getString("name"),
+                                                obj.getString("description"), jsonObject.getString("name")));
+                                    }
+                                }
+
+                                adapter.fillDetalle(lista);
+                            } catch (JSONException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                        }
+                    });
+                    mQueue.add(request);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         return view;
     }
 
@@ -93,9 +151,11 @@ public class EncuestaFragment extends Fragment {
                     JSONArray jsonArray = response.getJSONArray("data");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject obj = jsonArray.getJSONObject(i);
+                        JSONObject jsonObject = obj.getJSONObject("category");
                         lista.add(new Encuestas(obj.getString("name"),
-                                obj.getString("description")));
+                                obj.getString("description"),jsonObject.getString("name")));
                     }
+
                     adapter.fillDetalle(lista);
                 } catch (JSONException ex) {
                     ex.printStackTrace();
@@ -106,6 +166,38 @@ public class EncuestaFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                     error.printStackTrace();
+            }
+        });
+        mQueue.add(request);
+    }
+    private void LlenarCombo(){
+        String url = "http://dgform.ga/generals/categories/";
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray jsonArray = response.getJSONArray("data");
+                    Categorias c2 = new Categorias();
+                    c2.setNombreCat("Todos");
+                    lista2.add(c2);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject obj = jsonArray.getJSONObject(i);
+                        Categorias c = new Categorias();
+                        c.setNombreCat(obj.getString("name"));
+                        lista2.add(c);
+                    }
+                    ArrayAdapter<Categorias> a = new ArrayAdapter<Categorias>(getContext(),R.layout.support_simple_spinner_dropdown_item,lista2);
+                    spinner.setAdapter(a);
+                   // adapter.fillDetalle(lista2);
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
             }
         });
         mQueue.add(request);

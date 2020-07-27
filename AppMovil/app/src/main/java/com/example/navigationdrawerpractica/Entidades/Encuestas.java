@@ -4,19 +4,21 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Encuestas implements Parcelable {
-    private String Nombre,Detalle;
+    private String Nombre,Detalle,Categoria;
 
     public Encuestas() {
     }
 
-    public Encuestas(String nombre, String detalle) {
+    public Encuestas(String nombre, String detalle,String categoria) {
         Nombre = nombre;
         Detalle = detalle;
+        Categoria = categoria;
     }
 
     protected Encuestas(Parcel in) {
         Nombre = in.readString();
         Detalle = in.readString();
+        Categoria = in.readString();
     }
 
     public static final Creator<Encuestas> CREATOR = new Creator<Encuestas>() {
@@ -47,6 +49,14 @@ public class Encuestas implements Parcelable {
         Detalle = detalle;
     }
 
+    public String getCategoria() {
+        return Categoria;
+    }
+
+    public void setCategoria(String categoria) {
+        Categoria = categoria;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -56,5 +66,6 @@ public class Encuestas implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(Nombre);
         dest.writeString(Detalle);
+        dest.writeString(Categoria);
     }
 }

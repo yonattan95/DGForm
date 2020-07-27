@@ -22,6 +22,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import com.example.navigationdrawerpractica.Entidades.Usuario;
 import com.example.navigationdrawerpractica.R;
 import com.google.gson.JsonObject;
 
@@ -40,7 +41,8 @@ public class LoginActivity extends AppCompatActivity {
     private TextView tvUsuario, tvPassword ;
     private Button button;
     String usuario,password;
-
+    RequestQueue requestQueue;
+    SharedPreferences.Editor preferences;
 
 
     @Override
@@ -50,6 +52,8 @@ public class LoginActivity extends AppCompatActivity {
         tvUsuario = findViewById(R.id.textView1);
         tvPassword = findViewById(R.id.textView2);
         button = findViewById(R.id.button);
+        requestQueue = Volley.newRequestQueue(this);
+        preferences = getSharedPreferences("gymapp", Context.MODE_PRIVATE).edit();
 
         recuperarPreferencias();
         button.setOnClickListener(new View.OnClickListener() {
@@ -85,17 +89,19 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     if (String.valueOf(response.getInt("status")).equals("1")) {
                         JSONObject jsonObject = response.getJSONObject("data");
-                        SharedPreferences preferences = getSharedPreferences("gymapp", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putString("UsuarioID", String.valueOf(jsonObject.getInt("interviewerId")));
-                        editor.commit();
+                        String url2 = "http://dgform.ga/interviewers/"+ String.valueOf(jsonObject.getInt("interviewerId"));
+                        fillBarras(url2,String.valueOf(jsonObject.getInt("interviewerId")));
+//                        preferences.putString("UsuarioID", String.valueOf(jsonObject.getInt("interviewerId")));
+//                        preferences.commit();
+
+
                         guardarPreferencias();
                         Toast.makeText(LoginActivity.this, "Ingreso :D", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
                         finish();
                     }else{
-                        Toast.makeText(LoginActivity.this, "Usuario o Contraseña incorrecta", Toast.LENGTH_SHORT).show();
+                       Toast.makeText(LoginActivity.this, "Usuario o Contraseña incorrecta", Toast.LENGTH_SHORT).show();
                     }
                 }catch (JSONException e){
                     e.printStackTrace();
@@ -108,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
+
         requestQueue.add(request);
     }
     private void guardarPreferencias(){
@@ -122,6 +128,30 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("gymapp",Context.MODE_PRIVATE);
         tvUsuario.setText(preferences.getString("usuario",""));
 
+    }
+    private void fillBarras(String url,final String IdUsu) {
+        JsonObjectRequest request2 = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONObject obj = response.getJSONObject("data");
+                    preferences.putString("CorreoBarra", obj.getString("email"));
+                    preferences.putString("NombreBarra", obj.getString("name"));
+                    preferences.putString("ImagenBarra", obj.getString("image"));
+                    preferences.putString("UsuarioID", IdUsu);
+                    preferences.commit();
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        requestQueue.add(request2);
     }
 
 }

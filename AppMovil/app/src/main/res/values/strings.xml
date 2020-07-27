@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NavigationPruebaPractica</string>
+    <string name="app_name"></string>
     <string name="open">open</string>
     <string name="close">close</string>
     <!-- TODO: Remove or change this placeholder text -->
@@ -21,7 +21,7 @@
     <string name="login_user">User</string>
     <string name="login_pass">Password</string>
     <string name="login_boton">Iniciar Sesión</string>
-    <string name="login_name">DigitForm</string>
+    <string name="login_name">DigiForms</string>
 
 
     <string name="lista_name">!Hola Eduardo. T</string>

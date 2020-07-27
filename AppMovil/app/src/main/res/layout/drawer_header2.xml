@@ -11,19 +11,22 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/imgBarras"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:src="@mipmap/ic_launcher" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:text="SurfLaWeb"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textColor="#fff" />
+        <TextView
+            android:id="@+id/tvNomBarras"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:text="SurfLaWeb"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="#fff" />
 
     <TextView
+        android:id="@+id/tvCorreo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="miemail@gmail.com"
