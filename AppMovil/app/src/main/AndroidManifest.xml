@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.navigationdrawerpractica">
+    package="com.example.digiforms">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -13,22 +13,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Interfaces.LoginActivity"/>
+        <activity android:name="com.example.digiforms.Interfaces.LoginActivity"/>
         <activity
-            android:name=".Interfaces.MainActivity"
+            android:name="com.example.digiforms.Interfaces.MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Interfaces.Encuesta"
+            android:name="com.example.digiforms.Interfaces.Encuesta"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Interfaces.Encuesta2"
+            android:name="com.example.digiforms.Interfaces.Encuesta2"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".CargarActivity"
+            android:name="com.example.digiforms.CargarActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

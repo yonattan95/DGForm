@@ -6,7 +6,7 @@
             <item
                 android:id="@+id/home"
                 android:icon="@drawable/ic_home_black_24dp"
-                android:title="home"/>
+                android:title="Inicio" />
 
             <item
                 android:id="@+id/personas"
@@ -15,24 +15,24 @@
             <item
                 android:id="@+id/gestion"
                 android:icon="@drawable/gestionformulario"
-                android:title="Gestión de Encuetas"/>
+                android:title="Gestión de Encuestas" />
             <item
                 android:id="@+id/home2"
                 android:icon="@drawable/perfil"
-                android:title="Grafico"/>
+                android:title="Gráficos" />
         </menu>
     </item>
-    <item android:title="Configuracion">
+    <item android:title="Configuración">
         <menu>
             <item
                 android:id="@+id/home3"
                 android:icon="@drawable/perfil"
-                android:title="Perfil"/>
+                android:title="Perfil" />
 
             <item
                 android:id="@+id/personas2"
                 android:icon="@drawable/logout"
-                android:title="Salir"/>
+                android:title="Cerrar sesión" />
         </menu>
     </item>
 </menu>
