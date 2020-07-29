@@ -31,26 +31,29 @@ export class FormController {
   @Get('pending')
   async getPendingFormList() {
     const list = await this.formService.getPendingFormList();
-    return new SuccessResponse({
-      pendingFormList: list,
-      totalPendingFormList: list.length,
-    });
+    return new SuccessResponse(list);
+    // return new SuccessResponse({
+    //   pendingFormList: list,
+    //   totalPendingFormList: list.length,
+    // });
   }
   @Get('complete')
   async getCompleteFormList() {
     const list = await this.formService.getCompleteFormList();
-    return new SuccessResponse({
-      completeFormList: list,
-      totalCompleteFormList: list.length,
-    });
+    return new SuccessResponse(list);
+    // return new SuccessResponse({
+    //   completeFormList: list,
+    //   totalCompleteFormList: list.length,
+    // });
   }
   @Get()
   async getFormList() {
     const list = await this.formService.getAllForm();
-    return new SuccessResponse({
-      formList: list,
-      totalFormList: list.length,
-    });
+    return new SuccessResponse(list);
+    // return new SuccessResponse({
+    //   formList: list,
+    //   totalFormList: list.length,
+    // });
   }
   @Get(':id')
   async getFormById(
@@ -89,25 +92,31 @@ export class FormController {
       newAnswer.quiz,
       newAnswer.value,
     );
+    console.log(answer);
+    
     const question = await this.quizService.getQuestion(
       newAnswer.question,
     );
-    await this.quizService.updateQuiz(
-      newAnswer.quiz,
+    console.log(question);
+    const updateQuiz = await this.quizService.updateQuiz(
+      answer.quiz,
       question.questionNumber,
     );
+    console.log(updateQuiz);
+    
     return new SuccessResponse({ answerId: answer.id });
   }
 
   @Get('question/:questionId')
   async getQuestion(@Param('questionId') questionId: number) {
     const question = await this.quizService.getQuestion(questionId);
-    return new SuccessResponse(question);
+    const answer = await this.quizService.getAnswer(question.id);
+    return new SuccessResponse({ ...question, answer });
   }
 
-  @Get('answer/:answerId')
-  async getAnswer(@Param('answerId') answerId: number) {
-    const answer = await this.quizService.getAnswer(answerId);
+  @Get('answer/:questionId')
+  async getAnswer(@Param('questionId') questionId: number) {
+    const answer = await this.quizService.getAnswer(questionId);
     return new SuccessResponse(answer);
   }
 }

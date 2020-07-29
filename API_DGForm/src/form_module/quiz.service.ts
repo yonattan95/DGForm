@@ -51,12 +51,13 @@ export default class QuizService {
   async getQuestion(questionId: number) {
     return this.questionRepository.findOne({
       where: { id: questionId },
-      relations:['form','questionType']
+      relations: ['form', 'questionType'],
     });
   }
-  async getAnswer(answerId: number) {
+  async getAnswer(questionId: number) {
     return this.answerRepository.findOne({
-      where: { id: answerId },relations:['question','quiz'],
+      where: { question: questionId },
+      relations: ['question', 'quiz'],
     });
   }
 
@@ -80,6 +81,7 @@ export default class QuizService {
         return 'quiz.form IN ' + subQuery;
       })
       .andWhere('quiz.state = :state', { state: 0 })
+      .orderBy("quiz.id","DESC")
       .getOne();
 
     console.log(quiz);
@@ -102,9 +104,15 @@ export default class QuizService {
     quizId: number,
     lastQuestionNumberCompleted: number,
   ) {
+    console.log(quizId);
+    console.log(lastQuestionNumberCompleted);
+    
     return await this.quizRepository.update(quizId, {
       lastQuestionNumberCompleted,
     });
   }
 
+  async getQuizList(formId:number,interviewerId:number){
+    return this.quizRepository.find()
+  }
 }

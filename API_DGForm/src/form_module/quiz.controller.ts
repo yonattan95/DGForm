@@ -61,6 +61,7 @@ export default class QuestionController {
     return quiz
       ? new SuccessResponse({
           isNew: false,
+          // question:ques,
           lastQuestionNumberCompleted:
             quiz.lastQuestionNumberCompleted,
           quizId: quiz.id,
@@ -79,7 +80,7 @@ export default class QuestionController {
   // async getNextQuestion(
   //   @Param('formId') formId: number,
   //   @Param('quizId') quizId: number,
-  //   @Param('questionId') questionId: number    
+  //   @Param('questionId') questionId: number
   // ) {
 
   // }

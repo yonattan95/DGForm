@@ -39,6 +39,26 @@ export class FormService {
       relations: ['category', 'user'],
     });
   }
+  async getPendingFormListByInterviewer(
+    interviewerId: number,
+  ): Promise<Array<Form>> {
+    return this.formRepository.find({
+      where: {
+        state: 0,
+      },
+      relations: ['category', 'user'],
+    });
+  }
+  async getCompleteFormListByInterviewer(
+    interviewerId: number,
+  ): Promise<Array<Form>> {
+    return this.formRepository.find({
+      where: {
+        state: 1,
+      },
+      relations: ['category', 'user'],
+    });
+  }
   async getFormById(id: number): Promise<Form> {
     return this.formRepository.findOne({
       where: {

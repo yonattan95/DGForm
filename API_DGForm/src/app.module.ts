@@ -15,8 +15,8 @@ import { AuthUserModule } from './auth_user_module/auth_user.module';
       // useFactory: () => {
       //   return {
       type: 'postgres',
-      // host: 'db_postgres_12',
-      host: 'localhost',
+      host: 'db_postgres_12',
+      // host: 'localhost',
       database: 'db_dgform',
       username: 'admin',
       port: 5432,
