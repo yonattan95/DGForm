@@ -67,6 +67,9 @@ export default class UserController {
   @Get()
   async getAllUser() {
     const list = await this.userService.getAllUser();
-    return new SuccessResponse(list);
+    return new SuccessResponse({
+      userList: list,
+      totalUser: list.length,
+    });
   }
 }
