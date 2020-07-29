@@ -1,8 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { FormController } from './form.controller';
 import { FormService } from './form.service';
-import { FormRequest } from './data/dto/form.dto';
-import { Form } from './data/entities/form.entity';
 
 describe('Modulo Gestion de Formularios', () => {
   let formController: FormController;
