@@ -124,9 +124,6 @@ export default class InterviewerController {
       throw new ErrorResponseException({
         errorMessage: 'No se pudo cargar la lista',
       });
-    return new SuccessResponse({
-      interviewerList: list,
-      totalInterviewer: list.length,
-    });
+    return new SuccessResponse(list);
   }
 }

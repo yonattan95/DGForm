@@ -1,12 +1,10 @@
-import { Form } from '../entities/form.entity';
-
 export interface QuizI {
   id: number;
-  form: Form;
+  form: number;
 
   state: number;
 
-  lastQuestionNumberCompleted: number;
+  lastQuestionCompleted: number;
 }
 export interface NewQuizI {
   form: number;
