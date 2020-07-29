@@ -51,8 +51,8 @@ export default class InterviewerService {
     return res && res.affected > 0 ? true : false;
   }
 
-  async getAllInterviewer(): Promise<[InterviewerI[], number]> {
-    const interviewerList = this.interviewerRepository.findAndCount({
+  async getAllInterviewer(): Promise<InterviewerI[]> {
+    const interviewerList = this.interviewerRepository.find({
       relations: ['user'],
     });
     return interviewerList;
