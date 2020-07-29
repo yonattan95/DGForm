@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { SuccessResponse } from 'src/common/dto/response.dto';
 import ErrorResponseException from 'src/common/exceptions/error_response.exception';
-import { NewAnswerI } from './data/interfaces/answer.interface';
 import { NewQuestionI } from './data/interfaces/question.interface';
 import QuizService from './quiz.service';
 
@@ -9,7 +8,7 @@ import QuizService from './quiz.service';
 export default class QuestionController {
   constructor(private readonly quizService: QuizService) {}
 
-  @Post('question')
+  @Post('questions')
   async newQuestion(
     @Body() question: NewQuestionI,
     @Param('formId') formId: number,
@@ -36,51 +35,8 @@ export default class QuestionController {
       throw new ErrorResponseException({
         errorMessage: 'ocurrio un problema',
       });
-    return new SuccessResponse({
-      questionList: res,
-      totalQuestion: res.length,
-    });
+    return new SuccessResponse(res);
   }
 
   //verifica si el formulario del encuestador tiene un quiz con una pregunta incompleta
-  @Get('interviewer/:interviewerId/last_quiz')
-  async lastQuestion(
-    @Param('interviewerId') interviewerId: number,
-    @Param('formId') formId: number,
-  ) {
-    const quiz = await this.quizService.getLastQuiz(
-      interviewerId,
-      formId,
-    );
-
-    const questionList = await this.quizService.getQuestionList(
-      formId,
-      1,
-    );
-
-    return quiz
-      ? new SuccessResponse({
-          isNew: false,
-          lastQuestionNumberCompleted:
-            quiz.lastQuestionNumberCompleted,
-          quizId: quiz.id,
-          totalQuestion: questionList.length,
-        })
-      : new SuccessResponse({ isNew: true });
-  }
-
-  @Post('quiz')
-  async newQuiz(@Param('formId') formId: number) {
-    const quiz = await this.quizService.createQuiz(formId);
-    return new SuccessResponse({ quizId: quiz.id });
-  }
-
-  // @Get('quiz/:quizId/question/:questionId/next_question')
-  // async getNextQuestion(
-  //   @Param('formId') formId: number,
-  //   @Param('quizId') quizId: number,
-  //   @Param('questionId') questionId: number    
-  // ) {
-
-  // }
 }

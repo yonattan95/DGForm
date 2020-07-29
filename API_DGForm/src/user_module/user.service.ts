@@ -35,7 +35,7 @@ export default class UserService {
     const res = await this.userRepository.update({ id }, data);
     return res ? true : false;
   }
-  async getAllUser(): Promise<User[]> {
-    return this.userRepository.find();
+  async getAllUser(): Promise<[User[], number]> {
+    return this.userRepository.findAndCount();
   }
 }

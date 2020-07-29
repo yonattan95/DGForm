@@ -18,39 +18,25 @@ import {
   NewFormI,
 } from './data/interfaces/form.interface';
 import ErrorResponseException from 'src/common/exceptions/error_response.exception';
-import { NewAnswerI } from './data/interfaces/answer.interface';
-import QuizService from './quiz.service';
 
 @Controller('forms')
 export class FormController {
-  constructor(
-    private readonly formService: FormService,
-    private readonly quizService: QuizService,
-  ) {}
+  constructor(private readonly formService: FormService) {}
 
   @Get('pending')
-  async getPendingFormList() {
+  async getPendingFormList(): Promise<ResponseAPI<Array<Form>>> {
     const list = await this.formService.getPendingFormList();
-    return new SuccessResponse({
-      pendingFormList: list,
-      totalPendingFormList: list.length,
-    });
+    return new SuccessResponse(list);
   }
   @Get('complete')
-  async getCompleteFormList() {
+  async getCompleteFormList(): Promise<ResponseAPI<Array<Form>>> {
     const list = await this.formService.getCompleteFormList();
-    return new SuccessResponse({
-      completeFormList: list,
-      totalCompleteFormList: list.length,
-    });
+    return new SuccessResponse(list);
   }
   @Get()
-  async getFormList() {
+  async getFormList(): Promise<ResponseAPI<Array<Form>>> {
     const list = await this.formService.getAllForm();
-    return new SuccessResponse({
-      formList: list,
-      totalFormList: list.length,
-    });
+    return new SuccessResponse(list);
   }
   @Get(':id')
   async getFormById(
@@ -80,34 +66,5 @@ export class FormController {
           'Ocurrio un error al interntar asignar a un encuestador al formulario selecionado',
       });
     return new SuccessResponse('se asigno correctamente');
-  }
-
-  @Post('answer')
-  async saveAnswer(@Body() newAnswer: NewAnswerI) {
-    const answer = await this.quizService.saveAnswer(
-      newAnswer.question,
-      newAnswer.quiz,
-      newAnswer.value,
-    );
-    const question = await this.quizService.getQuestion(
-      newAnswer.question,
-    );
-    await this.quizService.updateQuiz(
-      newAnswer.quiz,
-      question.questionNumber,
-    );
-    return new SuccessResponse({ answerId: answer.id });
-  }
-
-  @Get('question/:questionId')
-  async getQuestion(@Param('questionId') questionId: number) {
-    const question = await this.quizService.getQuestion(questionId);
-    return new SuccessResponse(question);
-  }
-
-  @Get('answer/:answerId')
-  async getAnswer(@Param('answerId') answerId: number) {
-    const answer = await this.quizService.getAnswer(answerId);
-    return new SuccessResponse(answer);
   }
 }
