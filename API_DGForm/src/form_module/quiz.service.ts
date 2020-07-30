@@ -8,6 +8,7 @@ import Question from './data/entities/question.entity';
 import QuestionOption from './data/entities/question_option.entity';
 import Quiz from './data/entities/quiz.entity';
 import { NewQuestionI } from './data/interfaces/question.interface';
+import { NewQuestionOptionI } from './data/interfaces/question_option.interface';
 import { NewQuizI } from './data/interfaces/quiz.interface';
 
 @Injectable()
@@ -33,6 +34,14 @@ export default class QuizService {
     const res = await this.questionRepository.save(question);
     return res ? true : false;
   }
+  async createQuestionOption(questionOption: NewQuestionOptionI) {
+    console.log(questionOption);
+
+    const res = await this.questionOptionRepository.save(
+      questionOption,
+    );
+    return res ? true : false;
+  }
 
   //creacion de la encuestra
   async createQuiz(form: number) {
@@ -54,10 +63,10 @@ export default class QuizService {
       relations: ['form', 'questionType'],
     });
   }
-  async getAnswer(questionId: number) {
+  async getAnswer(questionId: number, quizId: number) {
     return this.answerRepository.findOne({
-      where: { question: questionId },
-      relations: ['question', 'quiz'],
+      where: { question: questionId, quiz: quizId },
+      // relations: ['question', 'quiz'],
     });
   }
 
@@ -81,7 +90,7 @@ export default class QuizService {
         return 'quiz.form IN ' + subQuery;
       })
       .andWhere('quiz.state = :state', { state: 0 })
-      .orderBy("quiz.id","DESC")
+      .orderBy('quiz.id', 'DESC')
       .getOne();
 
     console.log(quiz);
@@ -97,7 +106,15 @@ export default class QuizService {
     answer.question = questionId;
     answer.quiz = quizId;
     answer.value = value;
-    return await this.answerRepository.save(answer);
+    const preAnswer = await this.getAnswer(questionId, quizId);
+    // console.log(preAnswer);
+
+    return preAnswer
+      ? undefined
+      : await this.answerRepository.save(answer);
+  }
+  async updateAnswer(answerId: number, value: string) {
+    return await this.answerRepository.update(answerId, { value });
   }
 
   async updateQuiz(
@@ -106,13 +123,18 @@ export default class QuizService {
   ) {
     console.log(quizId);
     console.log(lastQuestionNumberCompleted);
-    
+
     return await this.quizRepository.update(quizId, {
       lastQuestionNumberCompleted,
     });
   }
 
-  async getQuizList(formId:number,interviewerId:number){
-    return this.quizRepository.find()
+  async getQuizList(formId: number, interviewerId: number) {
+    return this.quizRepository.find();
+  }
+  async getQuestionOption(questionId: number) {
+    return this.questionOptionRepository.find({
+      where: { question: questionId },
+    });
   }
 }
