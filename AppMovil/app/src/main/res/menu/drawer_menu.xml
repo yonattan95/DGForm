@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Principal">
+        <menu>
+            <item
+                android:id="@+id/home"
+                android:icon="@drawable/ic_home_black_24dp"
+                android:title="Inicio" />
+
+            <item
+                android:id="@+id/personas"
+                android:icon="@drawable/ic_group_black_24dp"
+                android:title="Encuestas"/>
+            <item
+                android:id="@+id/gestion"
+                android:icon="@drawable/gestionformulario"
+                android:title="Gestión de Encuestas" />
+            <item
+                android:id="@+id/home2"
+                android:icon="@drawable/perfil"
+                android:title="Gráficos" />
+        </menu>
+    </item>
+    <item android:title="Configuración">
+        <menu>
+            <item
+                android:id="@+id/home3"
+                android:icon="@drawable/perfil"
+                android:title="Perfil" />
+
+            <item
+                android:id="@+id/personas2"
+                android:icon="@drawable/logout"
+                android:title="Cerrar sesión" />
+        </menu>
+    </item>
+</menu>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Interfaces.Encuesta2"
+    android:orientation="vertical"
+    android:background="@color/blanco">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:gravity="center">
+
+        <TextView
+            style="@style/titlepre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pregunta 20" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/pregunta"
+            android:text="¿Haces uso de agua y jabon para labarte las manos?"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20mm"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar2"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp">
+
+        <Button
+            android:id="@+id/btnAtras"
+            android:layout_width="143dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10mm"
+            android:background="@drawable/boton"
+            android:text="Atras"
+            android:onClick="Click"/>
+
+        <Button
+            android:id="@+id/btnFinal"
+            android:layout_width="118dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10mm"
+            android:background="@drawable/boton"
+            android:text="Finalizar"
+            android:textColor="@color/rojo"
+            android:onClick="Click"/>
+
+    </LinearLayout>
+
+</LinearLayout>
