@@ -83,9 +83,10 @@ public class LoginActivity extends AppCompatActivity {
                         String url2 = "http://dgform.ga/interviewers/"+ String.valueOf(jsonObject.getInt("interviewerId"));
                         fillBarras(url2,String.valueOf(jsonObject.getInt("interviewerId")));
                         // preferences.putString("UsuarioID", String.valueOf(jsonObject.getInt("interviewerId")));
-                        // preferences.commit();
-
                         guardarPreferencias();
+                         //preferences.commit();
+
+
                         Toast.makeText(LoginActivity.this, "¡Bienvenido! :)", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);

@@ -34,6 +34,7 @@ import com.example.digiforms.Fragments.MainFragment;
 import com.example.digiforms.Fragments.PerfilFragment;
 import com.example.digiforms.R;
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //Variables del fragment Detalle
     DetallePersonaFragment detallePersonaFragment;
     TextView tvDatTotCom,tvDatTotPen ,tvNombBarra,tvCorreo;
+    ImageView imgBarra;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById(R.id.navigationView);
         tvDatTotPen  =findViewById(R.id.tvDatTotPen);
         tvDatTotCom=findViewById(R.id.tvDatTotCom);
+        View header = navigationView.getHeaderView(0);
+        tvNombBarra = header.findViewById(R.id.tvNomBarras);
+        tvCorreo = header.findViewById(R.id.tvCorreo);
+        imgBarra = header.findViewById(R.id.imgBarras);
 
         mQueue = Volley.newRequestQueue(this);
 
@@ -84,13 +90,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction.add(R.id.container_fragment,new EncuestaFragment());
         fragmentTransaction.commit();
         preferences3 = this.getSharedPreferences("gymapp", Context.MODE_PRIVATE);
-        View header = navigationView.getHeaderView(0);
-        tvNombBarra = header.findViewById(R.id.tvNomBarras);
-        tvCorreo = header.findViewById(R.id.tvCorreo);
-        ImageView imgBarra = header.findViewById(R.id.imgBarras);
 
-        tvNombBarra.setText(preferences3.getString("NombreBarra",""));
-        tvCorreo.setText(preferences3.getString("CorreoBarra",""));
+
         // Picasso.with(this).load(preferences3.getString("ImagenBarra","")).fit().centerInside().into(imgBarra);
         // Picasso.with(this).load(preferences3.getString("ImagenBarra","")).resize(90,90).into(imgBarra);
         fillLista();
@@ -102,6 +103,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         //getMenuInflater().inflate(R.menu.drawer_menu, menu);
+        tvNombBarra.setText(preferences3.getString("NombreBarra",""));
+        tvCorreo.setText(preferences3.getString("CorreoBarra",""));
+        //Picasso.(this).load(preferences3.getString("ImagenBarra","")).resize(90,90).into(imgBarra);
+        Picasso.get().load(preferences3.getString("ImagenBarra","")).fit().centerInside().into(imgBarra);
         return true;
     }
 

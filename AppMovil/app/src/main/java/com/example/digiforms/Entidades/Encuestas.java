@@ -5,20 +5,23 @@ import android.os.Parcelable;
 
 public class Encuestas implements Parcelable {
     private String Nombre,Detalle,Categoria;
+    private int IdForm;
 
     public Encuestas() {
     }
 
-    public Encuestas(String nombre, String detalle,String categoria) {
+    public Encuestas(String nombre, String detalle,String categoria,int idForm) {
         Nombre = nombre;
         Detalle = detalle;
         Categoria = categoria;
+        IdForm = idForm;
     }
 
     protected Encuestas(Parcel in) {
         Nombre = in.readString();
         Detalle = in.readString();
         Categoria = in.readString();
+        IdForm = in.readInt();
     }
 
     public static final Creator<Encuestas> CREATOR = new Creator<Encuestas>() {
@@ -57,6 +60,15 @@ public class Encuestas implements Parcelable {
         Categoria = categoria;
     }
 
+    public int getIdForm() {
+        return IdForm;
+    }
+
+    public void setIdForm(int idForm) {
+        IdForm = idForm;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -67,5 +79,6 @@ public class Encuestas implements Parcelable {
         dest.writeString(Nombre);
         dest.writeString(Detalle);
         dest.writeString(Categoria);
+        dest.writeInt(IdForm);
     }
 }

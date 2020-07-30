@@ -110,10 +110,10 @@ public class EncuestaFragment extends Fragment {
                                     JSONObject jsonObject = obj.getJSONObject("category");
                                     if (jsonObject.getString("name").equals(lista2.get(position).getNombreCat())) {
                                         lista.add(new Encuestas(obj.getString("name"),
-                                                obj.getString("description"), jsonObject.getString("name")));
+                                                obj.getString("description"), jsonObject.getString("name"),obj.getInt("id")));
                                     }else if(lista2.get(position).getNombreCat().equals("Todos")){
                                         lista.add(new Encuestas(obj.getString("name"),
-                                                obj.getString("description"), jsonObject.getString("name")));
+                                                obj.getString("description"), jsonObject.getString("name"),obj.getInt("id")));
                                     }
                                 }
 
@@ -151,7 +151,7 @@ public class EncuestaFragment extends Fragment {
                         JSONObject obj = jsonArray.getJSONObject(i);
                         JSONObject jsonObject = obj.getJSONObject("category");
                         lista.add(new Encuestas(obj.getString("name"),
-                                obj.getString("description"),jsonObject.getString("name")));
+                                obj.getString("description"),jsonObject.getString("name"),obj.getInt("id")));
                     }
 
                     adapter.fillDetalle(lista);
