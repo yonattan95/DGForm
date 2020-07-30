@@ -5,6 +5,7 @@ import {
   Req,
   Body,
   Param,
+  Put,
 } from '@nestjs/common';
 import { FormService } from './form.service';
 import {
@@ -20,6 +21,7 @@ import {
 import ErrorResponseException from 'src/common/exceptions/error_response.exception';
 import { NewAnswerI } from './data/interfaces/answer.interface';
 import QuizService from './quiz.service';
+import { NewQuestionOptionI } from './data/interfaces/question_option.interface';
 
 @Controller('forms')
 export class FormController {
@@ -92,31 +94,76 @@ export class FormController {
       newAnswer.quiz,
       newAnswer.value,
     );
-    console.log(answer);
-    
+    // console.log(answer);
+    if (answer === undefined)
+      throw new ErrorResponseException({
+        errorMessage: 'Esta pregunta ya cuenta con una respuesta.',
+      });
+
     const question = await this.quizService.getQuestion(
       newAnswer.question,
     );
-    console.log(question);
+    // console.log(question);
     const updateQuiz = await this.quizService.updateQuiz(
       answer.quiz,
       question.questionNumber,
     );
-    console.log(updateQuiz);
-    
+    // console.log(updateQuiz);
+
     return new SuccessResponse({ answerId: answer.id });
   }
 
   @Get('question/:questionId')
   async getQuestion(@Param('questionId') questionId: number) {
     const question = await this.quizService.getQuestion(questionId);
-    const answer = await this.quizService.getAnswer(question.id);
-    return new SuccessResponse({ ...question, answer });
+    const optionList = await this.quizService.getQuestionOption(
+      questionId,
+    );
+    return new SuccessResponse({ ...question, optionList });
   }
 
-  @Get('answer/:questionId')
-  async getAnswer(@Param('questionId') questionId: number) {
-    const answer = await this.quizService.getAnswer(questionId);
+  @Get('quiz/:quizId/answer/:questionId')
+  async getAnswer(
+    @Param('quizId') quizId: number,
+    @Param('questionId') questionId: number,
+  ) {
+    const answer = await this.quizService.getAnswer(
+      questionId,
+      quizId,
+    );
     return new SuccessResponse(answer);
+  }
+  @Put('answer/:answerId')
+  async updateAnswer(
+    @Param('answerId') answerId: number,
+    @Body('value') value: string,
+  ) {
+    const answer = await this.quizService.updateAnswer(
+      answerId,
+      value,
+    );
+    return new SuccessResponse(answer);
+  }
+  @Get('question/:questionId/options')
+  async getQuestionOption(@Param('questionId') questionId: number) {
+    const optionList = await this.quizService.getQuestionOption(
+      questionId,
+    );
+    return new SuccessResponse(optionList);
+  }
+
+  @Post('question_options')
+  async newQuestionOption(
+    @Body() questionOption: NewQuestionOptionI,
+  ) {
+    const res = await this.quizService.createQuestionOption(
+      questionOption,
+    );
+
+    if (!res)
+      throw new ErrorResponseException({
+        errorMessage: 'Ocurrio un problema al crear la optcion',
+      });
+    return new SuccessResponse('Se creo correctamente la opcion');
   }
 }
