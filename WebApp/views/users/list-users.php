@@ -6,7 +6,7 @@
             <div class="row mb-0">
                 <div class="col-md-12">
                     <div class="m-0 text-dark text-center text-lg">
-                        <i class="fas fa-user-cog"></i>&nbsp;&nbsp;Usuarios ADM
+                        <i class="fas fa-users"></i>&nbsp;&nbsp;Usuarios ADM
                     </div>
                 </div>
             </div>
