@@ -11,11 +11,11 @@
             <item
                 android:id="@+id/personas"
                 android:icon="@drawable/ic_group_black_24dp"
-                android:title="Encuestas"/>
+                android:title="Fomularios"/>
             <item
                 android:id="@+id/gestion"
                 android:icon="@drawable/gestionformulario"
-                android:title="Gestión de Encuestas" />
+                android:title="Gestión de Formularios" />
             <item
                 android:id="@+id/home2"
                 android:icon="@drawable/perfil"

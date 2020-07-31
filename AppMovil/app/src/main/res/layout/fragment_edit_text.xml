@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.EditTextFragment"
-    android:layout_marginTop="55dp"
+    android:layout_marginTop="50dp"
     android:id="@+id/FragmentEditText">
 
     <TextView
@@ -13,20 +13,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingBottom="10dp"
         android:text="Detalle Usuario"
-        android:textSize="24sp"
+        android:textSize="50sp"
         android:textStyle="bold">
-
     </TextView>
 
     <TextView
         android:id="@+id/tvPregunta"
         android:gravity="center"
-        android:textSize="20sp"
+        android:textSize="35sp"
         android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+    </TextView>
+    <TextView
+        android:id="@+id/tvIdRespuestaEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible">
     </TextView>
 
     <EditText
@@ -41,7 +45,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="300dp">
+        android:layout_marginTop="100dp">
     <Button
         android:id="@+id/btnAtras"
         android:layout_width="wrap_content"

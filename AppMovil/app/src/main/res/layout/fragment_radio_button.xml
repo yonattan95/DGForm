@@ -14,18 +14,22 @@
         android:gravity="center"
         android:paddingBottom="10dp"
         android:text="Detalle Usuario"
-        android:textSize="24sp"
+        android:textSize="50sp"
         android:textStyle="bold">
-
     </TextView>
-
     <TextView
         android:id="@+id/tvPreguntarb"
         android:gravity="center"
-        android:textSize="50dp"
+        android:textSize="30sp"
         android:textStyle="bold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+    </TextView>
+    <TextView
+        android:id="@+id/tvIdRespuestaRb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible">
     </TextView>
     <RadioGroup
         android:layout_width="match_parent"

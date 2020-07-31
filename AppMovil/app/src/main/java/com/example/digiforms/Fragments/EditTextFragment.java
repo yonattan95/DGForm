@@ -44,9 +44,9 @@ public class EditTextFragment extends Fragment {
     int nPregunta,IdQuiz,IdPregunta;
     RequestQueue requestQueue;
     Button atras,siguiente;
-    String DatoRespuesta,NumeroPregunta,PreguntaFinal,DescripcionPregunta;
+    String DatoRespuesta,NumeroPregunta,PreguntaFinal,DescripcionPregunta,PrsAtras;
     EditText edRespuestaEditText;
-    TextView desPregunta,Titulo;
+    TextView desPregunta,Titulo,tvIdRespuestaEdit;
 
     public EditTextFragment() {
         // Required empty public constructor
@@ -77,6 +77,7 @@ public class EditTextFragment extends Fragment {
         desPregunta = view.findViewById(R.id.tvPregunta);
         Titulo = view.findViewById(R.id.tvPreguntaET);
         atras = view.findViewById(R.id.btnAtras);
+        tvIdRespuestaEdit = view.findViewById(R.id.tvIdRespuestaEdit);
         requestQueue = Volley.newRequestQueue(getActivity());
         SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences("gymapp", Context.MODE_PRIVATE);
         NumeroPregunta = sharedPreferences2.getString("NumeroPregunta", "");
@@ -84,6 +85,7 @@ public class EditTextFragment extends Fragment {
         PreguntaFinal = sharedPreferences2.getString("PreguntaFinal", "");
         IdQuiz = sharedPreferences2.getInt("IdQuiz", 0);
         IdPregunta = sharedPreferences2.getInt("IdPregunta", 0);
+        PrsAtras= sharedPreferences2.getString("Atras","");
         desPregunta.setText(DescripcionPregunta);
         Titulo.setText("Pregunta N°"+ NumeroPregunta);
         if (NumeroPregunta.equals("1"))
@@ -98,13 +100,28 @@ public class EditTextFragment extends Fragment {
         }else{
             siguiente.setText("Siguiente");
         }
+        SharedPreferences.Editor sharedPreferences = getActivity().getSharedPreferences("gymapp", Context.MODE_PRIVATE).edit();
         edRespuestaEditText =view.findViewById(R.id.edRespuesta);
-
+        if (PrsAtras.equals("S")){
+            LLenarRespuesta(IdQuiz,IdPregunta);
+        }
+        atras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nPregunta = Integer.valueOf(NumeroPregunta) - 1;
+                NumeroPregunta =  String.valueOf(nPregunta);
+                sharedPreferences.putString("Atras","S");
+                sharedPreferences.putString("Pregunta",NumeroPregunta);
+                sharedPreferences.commit();
+                startActivity(new Intent(getActivity(), Encuesta.class));
+                getActivity().onBackPressed();
+            }
+        });
         siguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatoRespuesta =  ValidarRegistro(edRespuestaEditText.getText().toString());
-                SharedPreferences.Editor sharedPreferences = getActivity().getSharedPreferences("gymapp", Context.MODE_PRIVATE).edit();
+
                 if (DatoRespuesta.equals("N")){
                     edRespuestaEditText.setError("Este campo está vacío");
                 }
@@ -116,7 +133,14 @@ public class EditTextFragment extends Fragment {
                         startActivity(new Intent(getActivity(), MainActivity.class));
                         getActivity().onBackPressed();
                     }else{
-                        Registro(edRespuestaEditText.getText().toString(),IdPregunta,IdQuiz);
+                        if (PrsAtras.equals("N")){
+                            Registro(edRespuestaEditText.getText().toString(),IdPregunta,IdQuiz);
+                        }
+                        else
+                        {
+                            ActualizarDato();
+                        }
+
                         nPregunta = Integer.valueOf(NumeroPregunta) + 1;
                         NumeroPregunta =  String.valueOf(nPregunta);
                         sharedPreferences.putString("Pregunta",NumeroPregunta);
@@ -166,8 +190,55 @@ public class EditTextFragment extends Fragment {
         });
         requestQueue.add(request);
     }
-    public void buscarDatos(){
-        
+    public void LLenarRespuesta(int xIdQuiz, int xIdPregunta){
+        String xURL ="http://dgform.ga/forms/quiz/"+xIdQuiz+"/answer/"+xIdPregunta;
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, xURL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONObject obj = response.getJSONObject("data");
+                    tvIdRespuestaEdit.setText(obj.getString("id"));
+                    edRespuestaEditText.setText(obj.getString("value"));
+
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        requestQueue.add(request);
+    }
+    public void ActualizarDato(){
+        String cURL ="http://dgform.ga/forms/answer/" + tvIdRespuestaEdit.getText().toString();
+        String Respuesta = edRespuestaEditText.getText().toString();
+
+        Map<String,String> mapEditText = new HashMap<>();
+        mapEditText.put("value",Respuesta);
+        JSONObject jsonObject = new JSONObject(mapEditText);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, cURL, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if (String.valueOf(response.getInt("status")).equals("1")) {
+                        Toast.makeText(getActivity(), "Registro Actualizado", Toast.LENGTH_SHORT).show();
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        requestQueue.add(request);
     }
 
 }

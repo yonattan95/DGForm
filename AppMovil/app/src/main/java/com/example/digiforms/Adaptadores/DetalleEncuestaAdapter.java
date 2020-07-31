@@ -63,7 +63,7 @@ public class DetalleEncuestaAdapter extends RecyclerView.Adapter<DetalleEncuesta
             public void onClick(View v) {
                 try {
                     SharedPreferences sharedPreferences2 = context.getSharedPreferences("gymapp", Context.MODE_PRIVATE);
-                    validar(sharedPreferences2.getInt("IdQuiz", 0),idForm);
+                    validar(sharedPreferences2.getInt("IdQuiz", 0),idForm,sharedPreferences2.getString("IdForm",""));
 //                SharedPreferences.Editor sharedPreferences = context.getSharedPreferences("gymapp", Context.MODE_PRIVATE).edit();
 //                sharedPreferences.putString("Pregunta", "1");
 //                sharedPreferences.putString("IdForm",idForm);
@@ -99,10 +99,10 @@ public class DetalleEncuestaAdapter extends RecyclerView.Adapter<DetalleEncuesta
         this.lista.addAll(listaDet);
         notifyDataSetChanged();
     }
-    public void validar(int Idq, String idF){
+    public void validar(int Idq, String idF,String vIdF){
 
         SharedPreferences.Editor sharedPreferences = context.getSharedPreferences("gymapp", Context.MODE_PRIVATE).edit();
-        if (Idq == 0){
+        if (Idq == 0 || Integer.valueOf(idF) != Integer.valueOf(vIdF) ){
             int prueba = Integer.valueOf(idF);
             String url ="http://dgform.ga/form/"+ prueba +"/quiz";
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
@@ -111,12 +111,12 @@ public class DetalleEncuestaAdapter extends RecyclerView.Adapter<DetalleEncuesta
                     try {
                         JSONObject Objx = response.getJSONObject("data");
                         idquiz = Objx.getInt("quizId");
-
                         sharedPreferences.putInt("IdQuiz",idquiz);
                         sharedPreferences.putString("IdForm",idF);
                         sharedPreferences.putString("NumeroPregunta","0");
                         sharedPreferences.putString("PreguntaFinal","0");
                         sharedPreferences.putString("Pregunta", "1");
+                        sharedPreferences.putString("Atras","N");
                         sharedPreferences.commit();
                         context.startActivity(new Intent(context, Encuesta.class));
                     } catch (JSONException ex) {

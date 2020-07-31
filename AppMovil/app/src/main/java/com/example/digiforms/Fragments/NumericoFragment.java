@@ -42,10 +42,10 @@ public class NumericoFragment extends Fragment {
     private String mParam2;
     Button atras,siguiente;
     RequestQueue requestQueue;
-    String DatoRespuesta,NumeroPregunta,PreguntaFinal,Respuesta,DescripcionPregunta;
+    String DatoRespuesta,NumeroPregunta,PreguntaFinal,Respuesta,DescripcionPregunta,PrsAtras;
     int nPregunta,IdQuiz,IdPregunta;
     EditText edRespuestaNumerico;
-    TextView desPregunta,Titulo;
+    TextView desPregunta,Titulo,tvIdRespuestaNum;
 
     public NumericoFragment() {
         // Required empty public constructor
@@ -76,6 +76,7 @@ public class NumericoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_numerico, container, false);
         desPregunta = view.findViewById(R.id.tvPreguntaN);
         Titulo = view.findViewById(R.id.tvPreguntaTiTNum);
+        tvIdRespuestaNum = view.findViewById(R.id.tvIdRespuestaNum);
         requestQueue = Volley.newRequestQueue(getActivity());
         SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences("gymapp", Context.MODE_PRIVATE);
         NumeroPregunta = sharedPreferences2.getString("NumeroPregunta", "");
@@ -83,6 +84,7 @@ public class NumericoFragment extends Fragment {
         PreguntaFinal = sharedPreferences2.getString("PreguntaFinal", "");
         IdQuiz = sharedPreferences2.getInt("IdQuiz", 0);
         IdPregunta = sharedPreferences2.getInt("IdPregunta", 0);
+        PrsAtras= sharedPreferences2.getString("Atras","");
         desPregunta.setText(DescripcionPregunta);
         Titulo.setText("Pregunta N°"+ NumeroPregunta);
         atras = view.findViewById(R.id.btnAtrasNum);
@@ -98,14 +100,29 @@ public class NumericoFragment extends Fragment {
         }else{
             siguiente.setText("Siguiente");
         }
-
+        SharedPreferences.Editor sharedPreferences = getActivity().getSharedPreferences("gymapp", Context.MODE_PRIVATE).edit();
         edRespuestaNumerico = view.findViewById(R.id.edtRespuestaNum);
+        if (PrsAtras.equals("S")){
+            LLenarRespuesta(IdQuiz,IdPregunta);
+        }
+        atras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nPregunta = Integer.valueOf(NumeroPregunta) - 1;
+                NumeroPregunta =  String.valueOf(nPregunta);
+                sharedPreferences.putString("Atras","S");
+                sharedPreferences.putString("Pregunta",NumeroPregunta);
+                sharedPreferences.commit();
+                startActivity(new Intent(getActivity(), Encuesta.class));
+                getActivity().onBackPressed();
+            }
+        });
         siguiente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Respuesta = edRespuestaNumerico.getText().toString();
                 DatoRespuesta =  ValidarRegistro(Respuesta);
-                SharedPreferences.Editor sharedPreferences = getActivity().getSharedPreferences("gymapp", Context.MODE_PRIVATE).edit();
+
                 if (DatoRespuesta.equals("N")){
                     edRespuestaNumerico.setError("Este campo está vacío");
                 }
@@ -117,7 +134,13 @@ public class NumericoFragment extends Fragment {
                         startActivity(new Intent(getActivity(), MainActivity.class));
                         getActivity().onBackPressed();
                     }else{
-                        Registro(edRespuestaNumerico.getText().toString(),IdPregunta,IdQuiz);
+                        if (PrsAtras.equals("N")){
+                            Registro(edRespuestaNumerico.getText().toString(),IdPregunta,IdQuiz);
+                        }
+                        else
+                        {
+                            ActualizarDato();
+                        }
                         nPregunta = Integer.valueOf(NumeroPregunta) + 1;
                         NumeroPregunta =  String.valueOf(nPregunta);
                         sharedPreferences.putString("Pregunta", NumeroPregunta);
@@ -154,6 +177,56 @@ public class NumericoFragment extends Fragment {
                 try {
                     if (String.valueOf(response.getInt("status")).equals("1")) {
                         Toast.makeText(getActivity(), "Registro Correctamente", Toast.LENGTH_SHORT).show();
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+        requestQueue.add(request);
+    }
+    public void LLenarRespuesta(int xIdQuiz, int xIdPregunta){
+        String xURL ="http://dgform.ga/forms/quiz/"+xIdQuiz+"/answer/"+xIdPregunta;
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, xURL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONObject obj = response.getJSONObject("data");
+                    tvIdRespuestaNum.setText(obj.getString("id"));
+                    edRespuestaNumerico.setText(obj.getString("value"));
+
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        requestQueue.add(request);
+    }
+    public void ActualizarDato(){
+        String cURL ="http://dgform.ga/forms/answer/" + tvIdRespuestaNum.getText().toString();
+        String Respuesta = edRespuestaNumerico.getText().toString();
+
+        Map<String,String> mapEditText = new HashMap<>();
+        mapEditText.put("value",Respuesta);
+        JSONObject jsonObject = new JSONObject(mapEditText);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, cURL, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if (String.valueOf(response.getInt("status")).equals("1")) {
+                        Toast.makeText(getActivity(), "Registro Actualizado", Toast.LENGTH_SHORT).show();
                     }
                 }catch (JSONException e){
                     e.printStackTrace();
