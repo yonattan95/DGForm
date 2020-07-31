@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:926453822310:android:81a316533c0109b0c00ea7",
         "android_client_info": {
-          "package_name": "com.example.navigationdrawerpractica"
+          "package_name": "com.example.digiforms"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "926453822310-il2s32fql2alkedegeeea6l8a7grtsqd.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.navigationdrawerpractica",
+            "package_name": "com.example.digiforms",
             "certificate_hash": "9fbe7e8010bd72ac3c076de64fcb7a57519cf668"
           }
         },

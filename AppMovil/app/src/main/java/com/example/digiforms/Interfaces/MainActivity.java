@@ -102,11 +102,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.drawer_menu, menu);
+        getMenuInflater().inflate(R.menu.drawer_menu, menu);
         tvNombBarra.setText(preferences3.getString("NombreBarra",""));
         tvCorreo.setText(preferences3.getString("CorreoBarra",""));
         //Picasso.(this).load(preferences3.getString("ImagenBarra","")).resize(90,90).into(imgBarra);
-        Picasso.get().load(preferences3.getString("ImagenBarra","")).fit().centerInside().into(imgBarra);
+        if (preferences3.getString("ImagenBarra","").equals("")){
+
+        }else {
+            Picasso.get().load(preferences3.getString("ImagenBarra","")).fit().centerInside().into(imgBarra);
+        }
+
         return true;
     }
 

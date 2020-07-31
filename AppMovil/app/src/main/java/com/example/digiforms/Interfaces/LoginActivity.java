@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
         preferences = getSharedPreferences("gymapp", Context.MODE_PRIVATE).edit();
 
-        recuperarPreferencias();
+        //recuperarPreferencias();
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

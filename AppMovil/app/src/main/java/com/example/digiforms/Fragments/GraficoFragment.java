@@ -40,7 +40,7 @@ public class GraficoFragment extends Fragment {
     private int[] sale =new int[2];
     private int completo = 0;
     private int pendientes = 0;
-    private int[] colors= new int[]{Color.BLACK,Color.RED,Color.GREEN,Color.BLUE,Color.LTGRAY};
+    private int[] colors= new int[]{Color.BLACK,Color.LTGRAY,Color.GREEN,Color.BLUE,Color.RED};
     private String[] DescTotal = new String[]{"Completos","Pendientes"};
     private RequestQueue mQueue;
     private static TextView tvTotalCompl,tvTotalPend;
@@ -110,7 +110,7 @@ public class GraficoFragment extends Fragment {
         axis.setEnabled(false);
     }
     public void createCharts(){
-        pieChart = (PieChart) getSameChart(pieChart,"Encuestas",Color.GRAY,Color.MAGENTA,3000);
+        pieChart = (PieChart) getSameChart(pieChart,"Encuestas",Color.GRAY,Color.CYAN,3000);
         pieChart.setHoleRadius(10);
         pieChart.setTransparentCircleRadius(12);
         pieChart.setData(getPieData());

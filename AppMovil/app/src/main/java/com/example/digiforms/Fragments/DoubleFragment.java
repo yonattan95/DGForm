@@ -169,7 +169,7 @@ public class DoubleFragment extends Fragment {
         return xResp;
     }
     public void Registro(String Respuesta,int IdPreg,int idQ){
-        String url ="http://dgform.ga/forms/answer/";
+        String url ="http://dgform.ga/forms/answer";
         Map<String,Object> mapEditText = new HashMap<>();
         mapEditText.put("question",IdPreg);
         mapEditText.put("quiz",idQ);
