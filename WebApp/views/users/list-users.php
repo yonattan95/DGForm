@@ -6,7 +6,7 @@
             <div class="row mb-0">
                 <div class="col-md-12">
                     <div class="m-0 text-dark text-center text-lg">
-                        <i class="fas fa-user-cog"></i>&nbsp;&nbsp;Registro de Usuario
+                        <i class="fas fa-user-cog"></i>&nbsp;&nbsp;Usuarios ADM
                     </div>
                 </div>
             </div>
@@ -16,16 +16,42 @@
     <div class="content">
         <div class="container-fluid">
             <div style="max-width: 1140px;margin: 0 auto;">
-                <form id="FRM_INSERT_USUARIO" method="post" action="<?php echo $funciones->direct_sistema(); ?>/modules/usuarios/insert-update-usuario.php" enctype="multipart/form-data">
-                    <input type="hidden" name="usuario_id">
+                <form id="frmInsertUser" method="post" action="<?php echo $funciones->direct_sistema(); ?>/modules/users/insert-update-user.php" enctype="multipart/form-data">
+                    <input type="hidden" name="user_id">
                     <div class="card card-primary">
                         <div class="card-header">
                             <div class="card-title">Datos de Usuario</div>
                             <div class="float-right" style="height: 2rem; width: 150px">
-                                <input type="text" placeholder="Código de usuario" class="form-control" name="usuario_codigo" readonly>
+                                <input type="text" placeholder="Código de usuario" class="form-control" name="user_code" readonly>
                             </div>
                         </div>
                         <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Nombre</label>
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="Ingrese nombre" name="user_nombre" pattern="[A-Za-z0-9_-]{1,50}" maxlength="50" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Apellido Paterno</label>
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="Ingrese apellido paterno" name="user_apepat" pattern="[A-Za-z0-9_-]{1,50}" maxlength="50" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Apellido Materno</label>
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="Ingrese apellido materno" name="user_apemat" pattern="[A-Za-z0-9_-]{1,50}" maxlength="50" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -36,16 +62,21 @@
                                                     <i class="fas fa-at"></i>
                                                 </span>
                                             </div>
-                                            <input type="text" class="form-control" placeholder="Ingrese nombre de usuario" name="usuario_nombre" pattern="[A-Za-z0-9_-]{1,50}" maxlength="50" autocomplete="username" required>
+                                            <input type="text" class="form-control" placeholder="Ingrese nombre de usuario" name="user_username" pattern="[A-Za-z0-9_-]{1,50}" maxlength="50" autocomplete="username" required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-5">
                                     <div class="form-group">
-                                        <label><i class="fas fa-user-tie"></i> Empleado</label>
-                                        <select class="form-control select2" style="width: 100%;" name="usuario_empleado_id" required>
-                                            <option value="">Seleccione empleado</option>
-                                        </select>
+                                        <label>Email</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-envelope"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Ingrese email" name="user_email" maxlength="50" autocomplete="email">
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -57,7 +88,22 @@
                                                     <i class="far fa-calendar-alt"></i>
                                                 </span>
                                             </div>
-                                            <input type="date" id="usuario_fecreg" class="form-control" name="usuario_fecreg" defaultValue="<?php echo date('Y-m-d'); ?>" value="<?php echo date('Y-m-d'); ?>" readonly>
+                                            <input type="date" id="user_fecreg" class="form-control" name="user_fecreg" defaultValue="<?php echo date('Y-m-d'); ?>" value="<?php echo date('Y-m-d'); ?>" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Imagen para mostrar de usuario (URL)</label>
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa-link"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control" placeholder="Ingrese URL de imagen" name="user_image_url">
                                         </div>
                                     </div>
                                 </div>
@@ -79,7 +125,7 @@
                                                                     <i class="fas fa-key"></i>
                                                                 </span>
                                                             </div>
-                                                            <input type="password" id="usuario_pass" class="form-control" placeholder="Ingrese contraseña" name="usuario_pass" pattern="[A-Za-z0-9_-]{1,72}" maxlength="72" autocomplete="new-password" required>
+                                                            <input type="password" id="user_pass" class="form-control" placeholder="Ingrese contraseña" name="user_pass" pattern="[A-Za-z0-9_-]{1,72}" maxlength="72" autocomplete="new-password" required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -92,7 +138,7 @@
                                                                     <i class="fas fa-key"></i>
                                                                 </span>
                                                             </div>
-                                                            <input type="password" id="usuario_pass_conf" class="form-control" placeholder="Confirme contraseña" name="usuario_pass_conf" pattern="[A-Za-z0-9_-]{1,72}" maxlength="72" autocomplete="new-password" required>
+                                                            <input type="password" id="user_pass_conf" class="form-control" placeholder="Confirme contraseña" name="user_pass_conf" pattern="[A-Za-z0-9_-]{1,72}" maxlength="72" autocomplete="new-password" required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -112,28 +158,28 @@
                         </div>
                     </div>
                 </form>
-            </div>
-            <div class="card mt-3">
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table id="table-users" class="table table-bordered table-hover" style="width: 100%">
-                            <thead>
-                                <tr>
-                                    <th>Cód. Usuario</th>
-                                    <th>Nombres</th>
-                                    <th>A. Paterno</th>
-                                    <th>A. Materno</th>
-                                    <th>Usuario</th>
-                                    <th>Email</th>
-                                    <th>Estado</th>
-                                    <th>Imagen</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="table-users" class="table table-bordered table-hover" style="width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th>Cód. Usuario</th>
+                                        <th>Nombres</th>
+                                        <th>A. Paterno</th>
+                                        <th>A. Materno</th>
+                                        <th>Usuario</th>
+                                        <th>Email</th>
+                                        <th>Imagen</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
+            
         </div>
     </div>
 
