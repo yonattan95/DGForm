@@ -36,7 +36,7 @@
                   <span class="brand-text font-weight-dark text-cyan text-xl">Digi<strong>Forms</strong></span>
                 </div>
                 <div class="mt-2">
-                  <span class="font-weight-dark text-black text-lg">Haz clic <a href="#">aquí</a> para descargar nuestra aplicación</span>
+                  <span class="font-weight-dark text-black text-lg">Haz clic <a href="https://bit.ly/2Pd7NL2">aquí</a> para descargar nuestra aplicación</span>
                 </div>
               </div>
             </div>

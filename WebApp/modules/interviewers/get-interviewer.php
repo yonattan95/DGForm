@@ -7,7 +7,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
     $FILTER_USER = $_POST["FILTER"];
     if ($FILTER_USER == "ALL") {
         
-        $query_url = "users";
+        $query_url = "interviewers";
         $url = API_URL . $query_url;
 
         $ch = curl_init();
@@ -27,7 +27,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
         }else if($res['status'] == 1){
 
             $json_data = array();
-            foreach ($res['data']['userList'] as $ROW) {
+            foreach ($res['data']['interviewerList'] as $ROW) {
                 $ROWDATA['ID'] = $ROW['id'];
                 $ROWDATA['NAME'] = $ROW['name'];
                 $ROWDATA['SURNAME1'] = $ROW['surname1'];
@@ -82,6 +82,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
                 array_push($json_data, $ROWDATA);
             }
             echo json_encode($json_data);
+            
         }
         */
     }
