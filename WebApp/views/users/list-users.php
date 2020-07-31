@@ -6,7 +6,7 @@
             <div class="row mb-0">
                 <div class="col-md-12">
                     <div class="m-0 text-dark text-center text-lg">
-                        <i class="fas fa-user-cog"></i>&nbsp;&nbsp;Registro de Usuario
+                        <i class="fas fa-user-cog"></i>&nbsp;&nbsp;Usuarios ADM
                     </div>
                 </div>
             </div>
@@ -26,6 +26,32 @@
                             </div>
                         </div>
                         <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Usuario</label>
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="Ingrese nombre de usuario" name="usuario_nombre" pattern="[A-Za-z0-9_-]{1,50}" maxlength="50" autocomplete="username" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Usuario</label>
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="Ingrese nombre de usuario" name="usuario_nombre" pattern="[A-Za-z0-9_-]{1,50}" maxlength="50" autocomplete="username" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Usuario</label>
+                                        <div class="input-group mb-3">
+                                            <input type="text" class="form-control" placeholder="Ingrese nombre de usuario" name="usuario_nombre" pattern="[A-Za-z0-9_-]{1,50}" maxlength="50" autocomplete="username" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">

@@ -25,7 +25,7 @@ if ($FILTER_USER == "ALL") {
     }else if($res['status'] == 1){
 
         $json_data = array();
-        foreach ($res['data'][0] as $ROW) {
+        foreach ($res['data']['userList'] as $ROW) {
             $ROWDATA['ID'] = $ROW['id'];
             $ROWDATA['NAME'] = $ROW['name'];
             $ROWDATA['SURNAME1'] = $ROW['surname1'];
