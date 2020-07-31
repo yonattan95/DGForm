@@ -28,7 +28,7 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
 		echo json_encode(array(
 			'status' => -1,
 			'statusCode' => $res['statusCode'],
-			'message' => $res['message']));
+			'message' => $res));
 
 	}else if($res['status'] == 1){
 		session_start();
