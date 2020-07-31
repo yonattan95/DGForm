@@ -21,14 +21,19 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.digiforms.Entidades.Categorias;
+import com.example.digiforms.Entidades.Encuestas;
+import com.example.digiforms.Entidades.OpcionesPreguntas;
 import com.example.digiforms.Interfaces.Encuesta;
 import com.example.digiforms.Interfaces.MainActivity;
 import com.example.digiforms.R;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +45,8 @@ public class RadioButtonFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     Button atras,siguiente;
+    static ArrayList<OpcionesPreguntas> lista;
+
     RequestQueue requestQueue;
     String DatoRespuesta,NumeroPregunta,PreguntaFinal,DescripcionPregunta;
     int nPregunta,IdQuiz,IdPregunta;
@@ -75,6 +82,7 @@ public class RadioButtonFragment extends Fragment {
         desPregunta = view.findViewById(R.id.tvPreguntarb);
         Titulo = view.findViewById(R.id.tvPreguntaTitrb);
         requestQueue = Volley.newRequestQueue(getActivity());
+        lista = new ArrayList<>();
         SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences("gymapp", Context.MODE_PRIVATE);
         NumeroPregunta = sharedPreferences2.getString("NumeroPregunta", "");
         DescripcionPregunta = sharedPreferences2.getString("DescripcionPregunta", "");
@@ -103,27 +111,27 @@ public class RadioButtonFragment extends Fragment {
         Valor5 = view.findViewById(R.id.rbRespuesta5);
         Valor6 = view.findViewById(R.id.rbRespuesta6);
 
-
-        for (int i = 0; i < 3; i++){
-            if (i == 1){
-                Valor1.setVisibility(View.VISIBLE);
-            }
-            if (i == 2){
-                Valor2.setVisibility(View.VISIBLE);
-            }
-            if (i == 3){
-                Valor3.setVisibility(View.VISIBLE);
-            }
-            if (i == 4){
-                Valor4.setVisibility(View.VISIBLE);
-            }
-            if (i == 5){
-                Valor5.setVisibility(View.VISIBLE);
-            }
-            if (i == 6){
-                Valor6.setVisibility(View.VISIBLE);
-            }
-        }
+        LLenarValores(IdPregunta);
+//        for (int i = 0; i < 3; i++){
+//            if (i == 1){
+//                Valor1.setVisibility(View.VISIBLE);
+//            }
+//            if (i == 2){
+//                Valor2.setVisibility(View.VISIBLE);
+//            }
+//            if (i == 3){
+//                Valor3.setVisibility(View.VISIBLE);
+//            }
+//            if (i == 4){
+//                Valor4.setVisibility(View.VISIBLE);
+//            }
+//            if (i == 5){
+//                Valor5.setVisibility(View.VISIBLE);
+//            }
+//            if (i == 6){
+//                Valor6.setVisibility(View.VISIBLE);
+//            }
+//        }
 
         siguiente.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,13 +142,13 @@ public class RadioButtonFragment extends Fragment {
                     Toast.makeText(getContext(),"Seleccionar respuesta",Toast.LENGTH_SHORT).show();
                 }else {
                     if (PreguntaFinal.equals(NumeroPregunta)){
-                        Registro(Valor2.getText().toString(),IdPregunta,IdQuiz);    //cambiar
+                        Registro(IdPregunta,IdQuiz);    //cambiar
                         sharedPreferences.putInt("IdQuiz",0);
                         sharedPreferences.commit();
                         startActivity(new Intent(getActivity(), MainActivity.class));
                         getActivity().onBackPressed();
                     }else{
-                        Registro(Valor2.getText().toString(),IdPregunta,IdQuiz);    //cambiar
+                        Registro(IdPregunta,IdQuiz);    //cambiar
 
                         nPregunta = Integer.valueOf(NumeroPregunta) + 1;
                         NumeroPregunta =  String.valueOf(nPregunta);
@@ -177,8 +185,28 @@ public class RadioButtonFragment extends Fragment {
         }
         return resp;
     }
-    public void Registro(String Respuesta,int IdPreg,int idQ){
+    public void Registro(int IdPreg,int idQ){
         String url ="http://dgform.ga/forms/answer/";
+        String Respuesta="";
+        if (Valor1.isChecked()){
+            Respuesta = Valor1.getText().toString();
+        }
+        if (Valor2.isChecked()){
+            Respuesta = Valor2.getText().toString();
+        }
+        if (Valor3.isChecked()){
+            Respuesta = Valor3.getText().toString();
+        }
+        if (Valor4.isChecked()){
+            Respuesta = Valor4.getText().toString();
+        }
+        if (Valor5.isChecked()){
+            Respuesta = Valor5.getText().toString();
+        }
+        if (Valor6.isChecked()){
+            Respuesta = Valor6.getText().toString();
+        }
+
         Map<String,String> mapEditText = new HashMap<>();
         mapEditText.put("question",String.valueOf(IdPreg));
         mapEditText.put("quiz",String.valueOf(idQ));
@@ -200,6 +228,59 @@ public class RadioButtonFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
+            }
+        });
+        requestQueue.add(request);
+    }
+    public void LLenarValores(int idQues){
+        String URL ="http://dgform.ga/forms/question/" + idQues + "/options";
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+
+                    JSONArray jsonArray = response.getJSONArray("data");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject obj = jsonArray.getJSONObject(i);
+                        lista.add(new OpcionesPreguntas(obj.getString("description"),
+                                obj.getString("value")));
+                    }
+                    for (int i = 0; i < lista.size(); i++){
+                        if (i == 0){
+                            Valor1.setText(lista.get(i).getDescripcionPr());
+                            Valor1.setVisibility(View.VISIBLE);
+                        }
+                        if (i == 1){
+                            Valor2.setText(lista.get(i).getDescripcionPr());
+                            Valor2.setVisibility(View.VISIBLE);
+                        }
+                        if (i == 2){
+                            Valor3.setText(lista.get(i).getDescripcionPr());
+                            Valor3.setVisibility(View.VISIBLE);
+                        }
+                        if (i == 3){
+                            Valor4.setText(lista.get(i).getDescripcionPr());
+                            Valor4.setVisibility(View.VISIBLE);
+                        }
+                        if (i == 4){
+                            Valor5.setText(lista.get(i).getDescripcionPr());
+                            Valor5.setVisibility(View.VISIBLE);
+                        }
+                        if (i == 5){
+                            Valor6.setText(lista.get(i).getDescripcionPr());
+                            Valor6.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                } catch (JSONException ex) {
+                    ex.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
             }
         });
         requestQueue.add(request);

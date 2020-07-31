@@ -24,15 +24,15 @@ public class Preguntas implements Parcelable {
         IdPregunta = in.readInt();
     }
 
-    public static final Creator<Encuestas> CREATOR = new Creator<Encuestas>() {
+    public static final Creator<Preguntas> CREATOR = new Creator<Preguntas>() {
         @Override
-        public Encuestas createFromParcel(Parcel in) {
-            return new Encuestas(in);
+        public Preguntas createFromParcel(Parcel in) {
+            return new Preguntas(in);
         }
 
         @Override
-        public Encuestas[] newArray(int size) {
-            return new Encuestas[size];
+        public Preguntas[] newArray(int size) {
+            return new Preguntas[size];
         }
     };
 
