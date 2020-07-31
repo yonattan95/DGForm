@@ -1,5 +1,7 @@
 <?php
 
+if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+
 require '../../global/config.php';
 
 $FILTER_USER = $_POST["FILTER"];
@@ -39,10 +41,12 @@ if ($FILTER_USER == "ALL") {
                 $ROWDATA['STATE'] = "Inactivo";
             }
 
-            if ($ROW['image'] === null){
+            if ($ROW['image'] === null || $ROW['image'] == ""){
                 $ROWDATA['IMG'] = "";
+                $ROWDATA['IMG_RENDERED'] = "";
             }else{
-                $ROWDATA['IMG'] = "<img src='" . $ROW['image'] . "' width='100' height='100'>";
+                $ROWDATA['IMG'] = $ROW['image'];
+                $ROWDATA['IMG_RENDERED'] = "<img src='" . $ROW['image'] . "' width='100' height='100'>";
             }
             
             array_push($json_data, $ROWDATA);
@@ -78,4 +82,8 @@ if ($FILTER_USER == "ALL") {
         }
         echo json_encode($json_data);
     }
+}
+
+} else {
+    echo "ERROR";
 }
