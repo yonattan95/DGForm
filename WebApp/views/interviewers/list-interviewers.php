@@ -19,6 +19,7 @@
                 <form id="frmInsertInterviewer" method="post" action="<?php echo $funciones->direct_sistema(); ?>/modules/interviewers/insert-update-interviewer.php" enctype="multipart/form-data">
                     <input type="hidden" name="user_id">
                     <input type="hidden" name="user_parent_id" value="<?php echo $_SESSION['loggedInUser']['USERID']?>">
+                    <input type="hidden" name="token" value="<?php echo $_SESSION['loggedInUser']['TOKEN']?>">
                     <div class="card card-primary">
                         <div class="card-header">
                             <div class="card-title">Datos de Usuario</div>

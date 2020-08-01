@@ -36,9 +36,9 @@ if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQU
 		$_SESSION['loggedInUser'] = array(
 			'USERID' => $res['data']['userId'],
 			'USERNAME' => $res['data']['username'],
-			'PHOTO_URL' => 'default-avatar.png',
+			'PHOTO_URL' => $res['data']['image'],
 			'JOB' => 'Administrador',
-			'EMPLOYEE_NAME' => 'Usuario ADM',
+			'NAME' => $res['data']['fullName'],
 			'TOKEN' => $res['data']['accessToken']);
 
 		echo json_encode(array(

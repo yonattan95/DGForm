@@ -18,6 +18,7 @@
             <div style="max-width: 1140px;margin: 0 auto;">
                 <form id="frmInsertUser" method="post" action="<?php echo $funciones->direct_sistema(); ?>/modules/users/insert-update-user.php" enctype="multipart/form-data">
                     <input type="hidden" name="user_id">
+                    <input type="hidden" name="token" value="<?php echo $_SESSION['loggedInUser']['TOKEN']?>">
                     <div class="card card-primary">
                         <div class="card-header">
                             <div class="card-title">Datos de Usuario</div>
