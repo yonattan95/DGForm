@@ -14,7 +14,7 @@
         <div class="container-fluid">
             <div style="max-width: 1140px;margin: 0 auto;">
                 <form id="frmInsertForm" method="post" action="<?php echo $funciones->direct_sistema(); ?>/modules/forms/insert-update-form.php" enctype="multipart/form-data">
-                    <input type="hidden" name="form_id" id="">
+                    <input type="hidden" name="form_id">
                     <input type="hidden" name="user_parent_id" value="<?php echo $_SESSION['loggedInUser']['USERID']?>">
                     <div class="card card-primary">
                         <div class="card-header">
@@ -93,7 +93,7 @@
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <button type="submit" href="detail-form" id="btn-save-product" class="btn btn-success btn-md btn-block"><i class="fa fa-arrow-right fa-1x"></i>&nbsp;&nbsp;<font>Continuar</font></a>
+                                    <button type="submit" href="detail-form" id="btn-save-product" class="btn btn-success btn-md btn-block"><i class="fa fa-arrow-right fa-1x"></i>&nbsp;&nbsp;<font>Continuar</font></button>
                                 </div>
                                 <div class="col-md-6">
                                     <a href="list-forms" id="btn-delete-product" class="btn btn-danger btn-block"><i class="fa fa-window-close fa-1x"></i>&nbsp;&nbsp;Cancelar</a>

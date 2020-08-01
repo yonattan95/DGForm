@@ -1,8 +1,8 @@
 $("#col-btn-delete-form").hide();
 
-var tabla_usuarios = $('#table-forms');
+var tabla_forms = $('#table-forms');
 
-tabla_usuarios.dataTable({
+tabla_forms.dataTable({
     "ajax": {
         "url": "../../modules/forms/get-form.php",
         "type": "POST",
@@ -113,78 +113,15 @@ $("#frmInsertUser").submit(function (e) {
         }
     });
 });
+*/
 
-tabla_usuarios.on('click', 'tr', function () {
-    var data = tabla_usuarios.fnGetData(this);
+tabla_forms.on('click', 'tr', function () {
+    var data = tabla_forms.fnGetData(this);
     if (data == null) return;
 
     var id_row = data["ID"];
 
-    $('input[name="user_nombre"]').focus();
-    $('#btn-delete-user').attr("js-id", data["ID"]);
-
-    $('input[name="user_id"]').val(data["ID"]);
-    $('input[name="user_code"]').val("USR-" + data["ID"]);
-
-    $('input[name="user_nombre"]').val(data["NAME"]);
-    $('input[name="user_apepat"]').val(data["SURNAME1"]);
-    $('input[name="user_apemat"]').val(data["SURNAME2"]);
-    $('input[name="user_username"]').val(data["USERNAME"]);
-    $('input[name="user_email"]').val(data["EMAIL"]);
-    $('input[name="user_image_url"]').val(data["IMG"]);
-
-    //$('input[name="user_fecreg"]').val(data_json[0]["FEC_REG"]);
-
-    $("#password-card").attr("class", "card card-secondary collapsed-card");
-    $("#password-card-header font").html("Cambiar contraseña");
-    $("#pass-label-1 font").html("Nueva Contraseña (dejar en blanco para dejar sin cambios)");
-    $("#pass-label-2 font").html("Confirmar Nueva Contraseña");
-    $("#user_pass").removeAttr('required');
-    $("#user_pass_conf").removeAttr('required');
-
-    $("#btn-save-user font").html("Actualizar usuario");
-    $("#col-btn-save-user").attr("class", "col-md-6");
-    $("#col-btn-delete-user").show("fast");
-
-    /*
-    Swal.fire({
-        html: '<h4>Cargando información deL usuario</h4>',
-        allowOutsideClick: false,
-        onBeforeOpen: () => {
-            Swal.showLoading();
-        }
-    });
-    $.post("../../modules/usuarios/consultar-usuario.php", { FILTER: id_row }, function (data) {
-        var data_json = JSON.parse(data);
-
-        $('input[name="usuario_codigo"]').focus();
-        $('#btn-delete-user').attr("js-id", data_json[0]["CODIGO"]);
-
-        $('input[name="usuario_id"]').val(data_json[0]["CODIGO"]);
-        $('input[name="usuario_codigo"]').val("USR-" + data_json[0]["CODIGO"]);
-        $('input[name="usuario_nombre"]').val(data_json[0]["USERNAME"]);
-
-        $('select[name="usuario_empleado_id"]').val(data_json[0]["CODIGO_EMP"]);
-        $('select[name="usuario_empleado_id"]').trigger('change');
-
-        $('input[name="usuario_fecreg"]').val(data_json[0]["FEC_REG"]);
-
-        $("#password-card").attr("class", "card card-secondary collapsed-card");
-        $("#password-card-header font").html("Cambiar contraseña");
-        $("#pass-label-1 font").html("Nueva Contraseña (dejar en blanco para dejar sin cambios)");
-        $("#pass-label-2 font").html("Confirmar Nueva Contraseña");
-        $("#usuario_pass").removeAttr('required');
-        $("#usuario_pass_conf").removeAttr('required');
-
-        $("#btn-save-user font").html("Actualizar usuario");
-        $("#col-btn-save-user").attr("class", "col-md-6");
-        $("#col-btn-delete-user").show("fast");
-
-    }).done(function(){
-        $(window).scrollTop(0);    
-    });
-
-    Swal.close();
+    window.location.replace("../../modules/forms/detail-form");
 
 });
 
@@ -228,5 +165,3 @@ $("#btn-delete-user").click(function () {
         })
     }
 });
-
-*/

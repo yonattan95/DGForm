@@ -4,29 +4,23 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
 
     require '../../global/config.php';
 
-    $f_name = trim($_POST['form_name']);
-    $f_description = trim($_POST['form_description']);
-    $f_start_date = trim($_POST['form_start_date']);
-    $f_end_date = trim($_POST['form_end_date']);
-    $f_quizzes = trim($_POST['form_quizzes']);
-    $f_category_id = trim($_POST['form_category']);
-    $f_user_id = $_POST['user_parent_id'];
+    $q_name = trim($_POST['question_name']);
+    $q_description = trim($_POST['question_description']);
+    $q_type = trim($_POST['question_type']);
+    $q_number = trim($_POST['question_number']);
+    $q_form_id = $_POST['form_id'];
+    $q_id = "";
 
-    $f_id = $_POST['form_id'];
-
-    if ($f_id == "" || $f_id == null) {
+    if ($q_id == "" || $q_id == null) {
         
-        $query_url = "forms";
+        $query_url = "form/" . $q_form_id . "/question";
         $url = API_URL . $query_url;
 
         $data = json_encode(array(
-            'name' => $f_name,
-            'description' => $f_description,
-            'startDate' => $f_start_date,
-            'endDate' => $f_end_date,
-            'allQuizAssigned' => $f_quizzes,
-            'category' => $f_category_id,
-            'user' => $f_user_id));
+            'name' => $q_name,
+            'description' => $q_description,
+            'questionType' => $q_type,
+            'questionNumber' => $q_number));
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -38,8 +32,10 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
         $res = json_decode(curl_exec($ch),true);
         curl_close($ch);
 
+        /*
         session_start();
         $_SESSION['FORMID'] = $res['data']['id'];
+        */
 
         echo "OK_INSERT" ;
 

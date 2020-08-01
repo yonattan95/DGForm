@@ -13,162 +13,83 @@
     <div class="content">
         <div class="container-fluid">
             <div style="max-width: 1140px;margin: 0 auto;">
-                <form id="FRM_INSERT_PRODUCTO" method="post" action="<?php echo $funciones->direct_sistema(); ?>/modules/productos/insert-update-producto.php" enctype="multipart/form-data">
-                    <input type="hidden" name="producto_id" id="">
+                <form id="frmInsertFormDetail" method="post" action="<?php echo $funciones->direct_sistema(); ?>/modules/forms/insert-update-question.php" enctype="multipart/form-data">
+                    <input type="hidden" name="token" value="<?php echo $_SESSION['loggedInUser']['TOKEN'];?>">
+                    <input type="hidden" name="form_id" value="<?php echo $_SESSION['FORMID'];?>">
+                    <input type="hidden" name="question_number" value="1">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="card card-primary">
-                                <div class="card-header">
-                                    <div class="card-title">Campos de Formulario</div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="card card-secondary">
-                                      <div class="card-header">
-                                        <h3 class="card-title">Item 1</h3>
-
-                                        <div class="card-tools">
-                                          <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                                          </button>
-                                        </div>
-                                        <!-- /.card-tools -->
-                                      </div>
-                                      <!-- /.card-header -->
-                                      <div class="card-body" style="display: block;">
-                                        <p>¿Pregunta ABC?</p>
-                                        <p>Tipo: Texto corto</p>
-                                      </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="card card-secondary">
-                                      <div class="card-header">
-                                        <h3 class="card-title">Item 2</h3>
-                                        <div class="card-tools">
-                                          <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                                          </button>
-                                        </div>
-                                        <!-- /.card-tools -->
-                                      </div>
-                                      <!-- /.card-header -->
-                                      <div class="card-body" style="display: block;">
-                                        <p>¿Pregunta XYZ?</p>
-                                        <p>Tipo: Numeros enteros</p>
-                                      </div>
-                                    </div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="card card-secondary">
-                                      <div class="card-header">
-                                        <h3 class="card-title">Item 3</h3>
-                                        <div class="card-tools">
-                                          <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                                          </button>
-                                        </div>
-                                        <!-- /.card-tools -->
-                                      </div>
-                                      <!-- /.card-header -->
-                                      <div class="card-body" style="display: block;">
-                                        <p>¿Pregunta Final?</p>
-                                        <p>Tipo: Checklist</p>
-                                      </div>
+                      <div class="col-md-12">
+                        <div class="card card-danger">
+                            <div class="card-header">
+                                <div class="card-title">Items de Formularios</div>
+                            </div>
+                            <div class="card-body">
+                              <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Nombre</label>
+                                        <input type="text" class="form-control" placeholder="Ingrese nombre" name="question_name" required>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="card card-danger">
-                                <div class="card-header">
-                                    <div class="card-title">Componentes de Formularios</div>
-                                </div>
-                                <div class="card-body">
-
-                                    <div class="card-body p-0">
-                                        <div class="card card-warning">
-                                          <div class="card-header">
-                                            <h3 class="card-title">Textos</h3>
-                                            <div class="card-tools">
-                                              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                                              </button>
-                                            </div>
-                                          </div>
-                                          <!-- /.card-header -->
-                                          <div class="card-body" style="display: block;">
-                                            <button type="button" class="btn btn-block btn-primary">Nuevo Texto Corto</button>
-                                            <button type="button" class="btn btn-block btn-primary">Nuevo Texto Largo</button>
-                                          </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="card-body p-0">
-                                        <div class="card card-warning">
-                                          <div class="card-header">
-                                            <h3 class="card-title">Listas</h3>
-                                            <div class="card-tools">
-                                              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                                              </button>
-                                            </div>
-                                          </div>
-                                          <!-- /.card-header -->
-                                          <div class="card-body" style="display: block;">
-                                            <button type="button" class="btn btn-block btn-primary">Checklist</button>
-                                            <button type="button" class="btn btn-block btn-primary">Opciones Múltiples</button>
-                                          </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="card-body p-0">
-                                        <div class="card card-warning">
-                                          <div class="card-header">
-                                            <h3 class="card-title">Fechas</h3>
-                                            <div class="card-tools">
-                                              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                                              </button>
-                                            </div>
-                                          </div>
-                                          <!-- /.card-header -->
-                                          <div class="card-body" style="display: block;">
-                                            <button type="button" class="btn btn-block btn-primary">Fecha Corta</button>
-                                            <button type="button" class="btn btn-block btn-primary">Fecha Completa</button>
-                                          </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="card-body p-0">
-                                        <div class="card card-warning">
-                                          <div class="card-header">
-                                            <h3 class="card-title">Números</h3>
-                                            <div class="card-tools">
-                                              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                                              </button>
-                                            </div>
-                                          </div>
-                                          <!-- /.card-header -->
-                                          <div class="card-body" style="display: block;">
-                                            <button type="button" class="btn btn-block btn-primary">Enteros</button>
-                                            <button type="button" class="btn btn-block btn-primary">Decimales</button>
-                                          </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-12">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <a href="list-forms" id="btn-save-product" class="btn btn-success btn-md btn-block"><i class="fa fa-arrow-right fa-1x"></i>&nbsp;&nbsp;<font>Continuar</font></a>
-                                </div>
-                                <div class="col-md-6">
-                                    <a href="list-forms" id="btn-delete-product" class="btn btn-danger btn-block"><i class="fa fa-window-close fa-1x"></i>&nbsp;&nbsp;Cancelar</a>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label>Descripción</label>
+                                        <textarea type="text" class="form-control" placeholder="Ingrese descripción" name="question_description" required></textarea>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                  <div class="form-group">
+                                    <label>Tipo</label>
+                                    <select class="form-control select2" style="width: 100%;" name="question_type" required>
+                                        <option value="">Seleccione...</option>
+                                    </select>
+                                  </div>
+                                </div>
+                            </div>
+                          </div>
                         </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <button type="submit" href="detail-form" id="btn-save-product" class="btn btn-success btn-md btn-block"><i class="fa fa-arrow-right fa-1x"></i>&nbsp;&nbsp;<font>Añadir</font></button>
+                      </div>
                     </div>
                 </form>
+                <div class="card mt-2">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="table-questions" class="table table-bordered table-hover" style="width: 100%">
+                                <thead>
+                                  <tr>
+                                    <th>#</th>
+                                    <th>Cód.</th>
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Tipo</th>
+                                  </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                  <div class="col-12">
+                      <div class="row">
+                          <div class="col-md-6">
+                              <a href="list-forms" id="btn-save-product" class="btn btn-success btn-md btn-block"><i class="fa fa-save fa-1x"></i>&nbsp;&nbsp;<font>Finalizar</font></a>
+                          </div>
+                          <div class="col-md-6">
+                              <a href="list-forms" id="btn-delete-product" class="btn btn-danger btn-block"><i class="fa fa-window-close fa-1x"></i>&nbsp;&nbsp;Cancelar</a>
+                          </div>
+                      </div>
+                  </div>
+                </div>
             </div>
         </div>
     </div>

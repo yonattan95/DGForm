@@ -41,6 +41,7 @@ $("#frmInsertForm").submit(function (e) {
             })
         },
         success: function (data) {
+
             if (data == "ERROR") {
                 $.Notification.notify("error", "bottom-right", "Error de guardado", "No se pudo guardar datos del formulario");
                 Swal.close();
@@ -57,7 +58,9 @@ $("#frmInsertForm").submit(function (e) {
 
                 $.Notification.notify("success", "bottom-right", "Formulario creado", "Datos almacenados");
                 Swal.close();
-                
+
+                window.location.replace("../../modules/forms/detail-form");
+
             } else if (data == "OK_UPDATE") {
                 /*
                 if (id_usuario != "" && id_usuario != null) {
