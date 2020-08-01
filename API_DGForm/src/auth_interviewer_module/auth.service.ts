@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import InterviewerService from 'src/interviewer_module/interviewer.service';
 import UserService from 'src/user_module/user.service';
+import { hashString } from 'src/common/helpers/security.helper';
 
 @Injectable()
 export default class AuthService {
@@ -14,7 +15,9 @@ export default class AuthService {
     const user = await this.interviewerService.getinterviewerByUsername(
       username,
     );
-    if (user && user.password === pass) {
+    const passHash = hashString(pass);
+
+    if (user && user.password === passHash) {
       const { password, ...result } = user;
       return result;
     }

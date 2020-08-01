@@ -30,6 +30,18 @@ export class FormController {
     private readonly quizService: QuizService,
   ) {}
 
+  @Get('user/:userId')
+  async getFormListByUser(@Param('userId') userId: number) {
+    const list = await this.formService.getFormListByUser(userId);
+    return new SuccessResponse({
+      formList: list,
+      total: list.length,
+    });
+    // return new SuccessResponse({
+    //   pendingFormList: list,
+    //   totalPendingFormList: list.length,
+    // });
+  }
   @Get('pending')
   async getPendingFormList() {
     const list = await this.formService.getPendingFormList();
@@ -67,11 +79,9 @@ export class FormController {
       : new FailResponse('El formulario no existe.');
   }
   @Post()
-  async newForm(
-    @Body() body: NewFormI,
-  ): Promise<ResponseAPI<String>> {
-    await this.formService.saveForm(body);
-    return new SuccessResponse('Se creo el formulario');
+  async newForm(@Body() body: NewFormI): Promise<ResponseAPI<Form>> {
+    const form = await this.formService.saveForm(body);
+    return new SuccessResponse(form);
   }
 
   @Post('interviewer')

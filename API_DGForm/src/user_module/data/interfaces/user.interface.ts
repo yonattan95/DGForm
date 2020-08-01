@@ -4,6 +4,7 @@ export interface UpdateUserI {
   surname2: string;
   username: string;
   email: string;
+  rol:string;
 }
 
 export interface NewUserI {
@@ -13,4 +14,6 @@ export interface NewUserI {
   username: string;
   email: string;
   password: string;
+
+  rol:string;
 }
