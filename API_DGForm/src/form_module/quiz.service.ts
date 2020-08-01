@@ -44,8 +44,11 @@ export default class QuizService {
   }
 
   //creacion de la encuestra
-  async createQuiz(form: number) {
-    const quiz: NewQuizI = { form };
+  async createQuiz(formId: number, interviewerId: number) {
+    const quiz: NewQuizI = {
+      form: formId,
+      interviewer: interviewerId,
+    };
     return this.quizRepository.save(quiz);
     // return res ? true : false;
   }
@@ -126,6 +129,13 @@ export default class QuizService {
 
     return await this.quizRepository.update(quizId, {
       lastQuestionNumberCompleted,
+    });
+  }
+  async updateQuizState(
+    quizId: number
+  ) {
+    return await this.quizRepository.update(quizId, {
+      state:1,
     });
   }
 

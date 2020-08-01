@@ -70,11 +70,7 @@ export default class QuestionController {
       : new SuccessResponse({ isNew: true });
   }
 
-  @Post('quiz')
-  async newQuiz(@Param('formId') formId: number) {
-    const quiz = await this.quizService.createQuiz(formId);
-    return new SuccessResponse({ quizId: quiz.id });
-  }
+  
 
   // @Get('quiz/:quizId/question/:questionId/next_question')
   // async getNextQuestion(

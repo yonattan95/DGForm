@@ -45,13 +45,16 @@ export class FormService {
   }
   async getPendingFormListByInterviewer(
     interviewerId: number,
-  ): Promise<Array<Form>> {
-    return this.formRepository.find({
-      where: {
-        state: 0,
-      },
-      relations: ['category', 'user'],
-    });
+  ): Promise<any> {
+    const list = await this.formRepository
+      .createQueryBuilder('interviewerToForm')
+      .leftJoinAndSelect('interviewerToForm.form', 'form')
+      .where('interviewerToForm.interviewer = :interviewerId', {
+        interviewerId,
+      })
+      .getMany();
+    console.log(list);
+    return list;
   }
   async getCompleteFormListByInterviewer(
     interviewerId: number,

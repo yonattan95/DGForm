@@ -42,6 +42,30 @@ export class FormController {
     //   totalPendingFormList: list.length,
     // });
   }
+  @Get('interviewer/:interviewerId/pending')
+  async getPendingFormListByInterviewer(
+    @Param('interviewerId') interviewerId: number,
+  ) {
+    const list = await this.formService.getPendingFormListByInterviewer(
+      interviewerId,
+    );
+    return new SuccessResponse(list);
+    // return new SuccessResponse({
+    //   pendingFormList: list,
+    //   totalPendingFormList: list.length,
+    // });
+  }
+  @Get('interviewer/:interviewerId/complete')
+  async getCompleteFormListByInterviewer(
+    @Param('interviewerId') interviewerId: number,
+  ) {
+    const list = await this.formService.getCompleteFormList();
+    return new SuccessResponse(list);
+    // return new SuccessResponse({
+    //   completeFormList: list,
+    //   totalCompleteFormList: list.length,
+    // });
+  }
   @Get('pending')
   async getPendingFormList() {
     const list = await this.formService.getPendingFormList();
@@ -175,5 +199,22 @@ export class FormController {
         errorMessage: 'Ocurrio un problema al crear la optcion',
       });
     return new SuccessResponse('Se creo correctamente la opcion');
+  }
+
+  @Post('quiz')
+  async newQuiz(
+    @Body('formId') formId: number,
+    @Body('interviewerId') interviewerId: number,
+  ) {
+    const quiz = await this.quizService.createQuiz(
+      formId,
+      interviewerId,
+    );
+    return new SuccessResponse({ quizId: quiz.id });
+  }
+  @Put('quiz/:quizId')
+  async updateQuizState(@Param('quizId') quizId: number) {
+    const quiz = await this.quizService.updateQuizState(quizId);
+    return new SuccessResponse('Encuesta completada');
   }
 }
