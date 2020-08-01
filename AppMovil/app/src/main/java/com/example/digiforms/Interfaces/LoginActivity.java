@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         Button button = findViewById(R.id.button);
 
         requestQueue = Volley.newRequestQueue(this);
-        preferences = getSharedPreferences("gymapp", Context.MODE_PRIVATE).edit();
+
 
         //recuperarPreferencias();
         button.setOnClickListener(new View.OnClickListener() {
@@ -80,10 +80,11 @@ public class LoginActivity extends AppCompatActivity {
                 try {
                     if (String.valueOf(response.getInt("status")).equals("1")) {
                         JSONObject jsonObject = response.getJSONObject("data");
+                        guardarPreferencias();
                         String url2 = "http://dgform.ga/interviewers/"+ String.valueOf(jsonObject.getInt("interviewerId"));
                         fillBarras(url2,String.valueOf(jsonObject.getInt("interviewerId")));
                         // preferences.putString("UsuarioID", String.valueOf(jsonObject.getInt("interviewerId")));
-                        guardarPreferencias();
+
                          //preferences.commit();
 
 
@@ -127,6 +128,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try {
                     JSONObject obj = response.getJSONObject("data");
+                    preferences = getSharedPreferences("gymapp", Context.MODE_PRIVATE).edit();
                     preferences.putString("CorreoBarra", obj.getString("email"));
                     preferences.putString("NombreBarra", obj.getString("name"));
                     preferences.putString("ImagenBarra", obj.getString("image"));

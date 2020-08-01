@@ -95,7 +95,7 @@ public class Detalle_HistorialFragment extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject obj = jsonArray.getJSONObject(i);
                                 lista.add(new HistorialA(obj.getString("name"),
-                                        obj.getString("description")));
+                                        obj.getString("description"),obj.getString("startDate"),obj.getString("endDate"),obj.getInt("allQuizAssigned")));
                             }
                             adapter.fillDetalle(lista);
                         } catch (JSONException ex) {
@@ -122,7 +122,7 @@ public class Detalle_HistorialFragment extends Fragment {
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject obj = jsonArray.getJSONObject(i);
                                 lista2.add(new HistorialB(obj.getString("name"),
-                                        obj.getString("description")));
+                                        obj.getString("description"),obj.getString("startDate"),obj.getString("endDate"),obj.getInt("allQuizAssigned")));
                             }
                             adapter2.fillDetalle(lista2);
                         } catch (JSONException ex) {

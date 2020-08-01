@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ActionBarDrawerToggle actionBarDrawerToggle;
     Toolbar toolbar;
     NavigationView navigationView;
-    SharedPreferences preferences3;
+
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
@@ -63,15 +63,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        drawerLayout = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.navigationView);
-        tvDatTotPen  =findViewById(R.id.tvDatTotPen);
-        tvDatTotCom=findViewById(R.id.tvDatTotCom);
         View header = navigationView.getHeaderView(0);
         tvNombBarra = header.findViewById(R.id.tvNomBarras);
         tvCorreo = header.findViewById(R.id.tvCorreo);
         imgBarra = header.findViewById(R.id.imgBarras);
+//        SharedPreferences preferences3 = getSharedPreferences("gymapp", Context.MODE_PRIVATE);
+//        tvNombBarra.setText(preferences3.getString("NombreBarra",""));
+//        tvCorreo.setText(preferences3.getString("CorreoBarra",""));
+//        //Picasso.(this).load(preferences3.getString("ImagenBarra","")).resize(90,90).into(imgBarra);
+//        if (preferences3.getString("ImagenBarra","").equals("")){
+//
+//        }else {
+//            //Picasso.get().load(preferences3.getString("ImagenBarra","")).resize(90,90).centerInside().into(imgBarra);
+//            Picasso.get().load(preferences3.getString("ImagenBarra","")).fit().centerInside().into(imgBarra);
+//        }
+        drawerLayout = findViewById(R.id.drawer);
+
+        tvDatTotPen  =findViewById(R.id.tvDatTotPen);
+        tvDatTotCom=findViewById(R.id.tvDatTotCom);
+
+
+
 
         mQueue = Volley.newRequestQueue(this);
 
@@ -89,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.container_fragment,new EncuestaFragment());
         fragmentTransaction.commit();
-        preferences3 = this.getSharedPreferences("gymapp", Context.MODE_PRIVATE);
+
 
 
         // Picasso.with(this).load(preferences3.getString("ImagenBarra","")).fit().centerInside().into(imgBarra);
@@ -102,16 +115,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.drawer_menu, menu);
+        //getMenuInflater().inflate(R.menu.drawer_menu, menu);
+        SharedPreferences preferences3 = getSharedPreferences("gymapp", Context.MODE_PRIVATE);
         tvNombBarra.setText(preferences3.getString("NombreBarra",""));
         tvCorreo.setText(preferences3.getString("CorreoBarra",""));
         //Picasso.(this).load(preferences3.getString("ImagenBarra","")).resize(90,90).into(imgBarra);
         if (preferences3.getString("ImagenBarra","").equals("")){
 
         }else {
+            //Picasso.get().load(preferences3.getString("ImagenBarra","")).resize(90,90).centerInside().into(imgBarra);
             Picasso.get().load(preferences3.getString("ImagenBarra","")).fit().centerInside().into(imgBarra);
         }
-
+//
         return true;
     }
 
@@ -171,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Gracias a haber implementado de la interface "iComunicaFragments" se tiene la implementacion del metodo enviarPersona
         //o mejor dicho este metodo.
         //Aqui se realiza toda la logica necesaria para poder realizar el envio
+
         detallePersonaFragment = new DetallePersonaFragment();
         //objeto bundle para transportar la informacion
         Bundle bundleEnvio = new Bundle();

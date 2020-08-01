@@ -13,7 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.digiforms.Entidades.HistorialB;
 import com.example.digiforms.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class DetalleHistorialB extends RecyclerView.Adapter<DetalleHistorialB.ViewHolder>{
     Context context;
@@ -34,8 +37,26 @@ public class DetalleHistorialB extends RecyclerView.Adapter<DetalleHistorialB.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         final HistorialB obj = lista.get(i);
-        viewHolder.tvNombre.setText(""+obj.getNombre());
-        viewHolder.tvDetalle.setText(""+obj.getDetalle());
+//        viewHolder.tvFechaIni.setText(""+obj.getNombre());
+//        viewHolder.TvFechaFin.setText(""+obj.getDetalle());
+        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date dateOjb  = format1.parse(obj.getFechaIni());
+            SimpleDateFormat format2 = new SimpleDateFormat("dd/MM/yyyy");
+            viewHolder.tvFechaIni.setText(format2.format(dateOjb));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //viewHolder.tvFechaIni.setText(""+format1.parse(obj.getFechaIni().toString()));
+        SimpleDateFormat format3 = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date dateOjb  = format3.parse(obj.getFechaFin());
+            SimpleDateFormat format4 = new SimpleDateFormat("dd/MM/yyyy");
+            viewHolder.TvFechaFin.setText(format4.format(dateOjb));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        viewHolder.cTotal.setText(""+obj.getcTotal());
     }
 
     @Override
@@ -45,11 +66,12 @@ public class DetalleHistorialB extends RecyclerView.Adapter<DetalleHistorialB.Vi
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvNombre, tvDetalle;
+        TextView tvNombre, tvDetalle,tvFechaIni,TvFechaFin,cTotal;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvNombre = itemView.findViewById(R.id.tvNombreHistorialB);
-            tvDetalle = itemView.findViewById(R.id.tvDetalleHistorialB);
+            tvFechaIni = itemView.findViewById(R.id.tvNombreHistorialB);
+            TvFechaFin = itemView.findViewById(R.id.tvDetalleHistorialB);
+            cTotal = itemView.findViewById(R.id.tvCantidadB);
         }
     }
     public void fillDetalle(ArrayList<HistorialB> listaDet){
