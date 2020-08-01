@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -29,6 +30,9 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class PerfilFragment extends Fragment implements Response.ErrorListener, Response.Listener<JSONObject> {
 
@@ -39,6 +43,7 @@ public class PerfilFragment extends Fragment implements Response.ErrorListener, 
     private String mParam2;
     SharedPreferences preferences;
     ImageView imagen_PerfilUsuario;
+    private String Token;
 
     RequestQueue request;
     TextView tvCod_usu,tvemail_usuario,tvnombre_usuario,apellidos;
@@ -77,6 +82,7 @@ public class PerfilFragment extends Fragment implements Response.ErrorListener, 
         imagen_PerfilUsuario = view.findViewById(R.id.imagen_PerfilUsuario);
         apellidos = view.findViewById(R.id.tvApellidos);
         preferences = ((MainActivity)getActivity()).getSharedPreferences("gymapp", Context.MODE_PRIVATE);
+        Token = preferences.getString("Token","");
         request = Volley.newRequestQueue(getContext());
         fillLista();
         return view;
@@ -86,9 +92,15 @@ public class PerfilFragment extends Fragment implements Response.ErrorListener, 
 //        progreso.setMessage("Usuario...");
 //        progreso.show();
 
-
-        String url = "http://dgform.ga/interviewers/"+ preferences.getString("UsuarioID","");
-        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null,this,this);
+        //String url = "http://dgform.ga/interviewers/"+ preferences.getString("UsuarioID","");
+        String url = "http://dgform.ga/interviewers/profile/"+ preferences.getString("UsuarioID","");
+        jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,url,null,this,this){
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
         request.add(jsonObjectRequest);
     }
 

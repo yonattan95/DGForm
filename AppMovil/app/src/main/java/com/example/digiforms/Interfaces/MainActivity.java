@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -40,6 +41,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, iComunicaFragments{
 
     DrawerLayout drawerLayout;
@@ -55,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DetallePersonaFragment detallePersonaFragment;
     TextView tvDatTotCom,tvDatTotPen ,tvNombBarra,tvCorreo;
     ImageView imgBarra;
+    private String Token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +73,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tvNombBarra = header.findViewById(R.id.tvNomBarras);
         tvCorreo = header.findViewById(R.id.tvCorreo);
         imgBarra = header.findViewById(R.id.imgBarras);
-//        SharedPreferences preferences3 = getSharedPreferences("gymapp", Context.MODE_PRIVATE);
+        SharedPreferences preferences4 = getSharedPreferences("gymapp", Context.MODE_PRIVATE);
+        Token = preferences4.getString("Token","");
 //        tvNombBarra.setText(preferences3.getString("NombreBarra",""));
 //        tvCorreo.setText(preferences3.getString("CorreoBarra",""));
 //        //Picasso.(this).load(preferences3.getString("ImagenBarra","")).resize(90,90).into(imgBarra);
@@ -229,7 +235,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        });
+        }){
+            public Map getHeaders() throws AuthFailureError{
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
         mQueue.add(request);
     }
 
@@ -253,7 +265,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        });
+        }){
+            public Map getHeaders() throws AuthFailureError{
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
         mQueue.add(request);
     }
 

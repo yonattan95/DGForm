@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -31,6 +32,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Encuesta extends AppCompatActivity{
 
@@ -42,7 +45,7 @@ public class Encuesta extends AppCompatActivity{
     private RequestQueue requestQueue;
     private int idfrom,IDUsu;
     private int NumeroPregunta,TipoPregunta,IdPregunta;
-    private String Descripcion;
+    private String Descripcion,Token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +66,7 @@ public class Encuesta extends AppCompatActivity{
         SharedPreferences sharedPreferences = getSharedPreferences("gymapp",MODE_PRIVATE);
         idfrom = Integer.valueOf(sharedPreferences.getString("IdForm",""));
         IDUsu = Integer.valueOf(sharedPreferences.getString("UsuarioID",""));
+        Token = sharedPreferences.getString("Token","");
         url ="http://dgform.ga/form/"+ idfrom +"/interviewer/"+ IDUsu +"/questions";
         JsonObjectRequest request2 = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -132,7 +136,13 @@ public class Encuesta extends AppCompatActivity{
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        });
+        }){
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
         requestQueue.add(request2);
     }
 

@@ -1,5 +1,7 @@
 package com.example.digiforms.Fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -22,6 +25,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.digiforms.Adaptadores.DetalleEncuestaAdapter;
 import com.example.digiforms.Entidades.Categorias;
 import com.example.digiforms.Entidades.Encuestas;
+import com.example.digiforms.Interfaces.MainActivity;
 import com.example.digiforms.R;
 
 import org.json.JSONArray;
@@ -29,6 +33,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,6 +57,7 @@ public class EncuestaFragment extends Fragment {
     private RequestQueue mQueue;
     private View.OnFocusChangeListener mListener;
     private Spinner spinner;
+    private String Token;
     private boolean isFirstTime = true;
 
     public EncuestaFragment() {
@@ -88,6 +95,8 @@ public class EncuestaFragment extends Fragment {
         lista = new ArrayList<>();
         lista2 = new ArrayList<>();
         mQueue = Volley.newRequestQueue(getActivity());
+        SharedPreferences preferences4 = ((MainActivity)getActivity()).getSharedPreferences("gymapp", Context.MODE_PRIVATE);
+        Token = preferences4.getString("Token","");
         LlenarCombo();
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -127,7 +136,13 @@ public class EncuestaFragment extends Fragment {
                         public void onErrorResponse(VolleyError error) {
                             error.printStackTrace();
                         }
-                    });
+                    }){
+                        public Map getHeaders() throws AuthFailureError {
+                            HashMap headers = new HashMap();
+                            headers.put("Authorization","Bearer " + Token);
+                            return headers;
+                        }
+                    };
                     mQueue.add(request);
                 }
             }
@@ -165,7 +180,13 @@ public class EncuestaFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                     error.printStackTrace();
             }
-        });
+        }){
+            public Map getHeaders() throws AuthFailureError{
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
         mQueue.add(request);
     }
     private void LlenarCombo(){
@@ -197,7 +218,13 @@ public class EncuestaFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        });
+        }){
+            public Map getHeaders() throws AuthFailureError{
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
         mQueue.add(request);
     }
 }

@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -42,10 +43,11 @@ public class NumericoFragment extends Fragment {
     private String mParam2;
     Button atras,siguiente;
     RequestQueue requestQueue;
-    String DatoRespuesta,NumeroPregunta,PreguntaFinal,Respuesta,DescripcionPregunta,PrsAtras;
-    int nPregunta,IdQuiz,IdPregunta;
+    String DatoRespuesta,NumeroPregunta,PreguntaFinal,Respuesta,DescripcionPregunta;
+    int nPregunta,IdQuiz,IdPregunta,PrsAtras;
     EditText edRespuestaNumerico;
     TextView desPregunta,Titulo,tvIdRespuestaNum;
+    private String Token;
 
     public NumericoFragment() {
         // Required empty public constructor
@@ -84,7 +86,8 @@ public class NumericoFragment extends Fragment {
         PreguntaFinal = sharedPreferences2.getString("PreguntaFinal", "");
         IdQuiz = sharedPreferences2.getInt("IdQuiz", 0);
         IdPregunta = sharedPreferences2.getInt("IdPregunta", 0);
-        PrsAtras= sharedPreferences2.getString("Atras","");
+        PrsAtras= sharedPreferences2.getInt("Atras",0);
+        Token = sharedPreferences2.getString("Token", "");
         desPregunta.setText(DescripcionPregunta);
         Titulo.setText("Pregunta N°"+ NumeroPregunta);
         atras = view.findViewById(R.id.btnAtrasNum);
@@ -102,7 +105,7 @@ public class NumericoFragment extends Fragment {
         }
         SharedPreferences.Editor sharedPreferences = getActivity().getSharedPreferences("gymapp", Context.MODE_PRIVATE).edit();
         edRespuestaNumerico = view.findViewById(R.id.edtRespuestaNum);
-        if (PrsAtras.equals("S")){
+        if (PrsAtras >= 1){
             LLenarRespuesta(IdQuiz,IdPregunta);
         }
         atras.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +113,8 @@ public class NumericoFragment extends Fragment {
             public void onClick(View v) {
                 nPregunta = Integer.valueOf(NumeroPregunta) - 1;
                 NumeroPregunta =  String.valueOf(nPregunta);
-                sharedPreferences.putString("Atras","S");
+                int numeroAtras = PrsAtras + 1;
+                sharedPreferences.putInt("Atras",numeroAtras);
                 sharedPreferences.putString("Pregunta",NumeroPregunta);
                 sharedPreferences.commit();
                 startActivity(new Intent(getActivity(), Encuesta.class));
@@ -134,12 +138,14 @@ public class NumericoFragment extends Fragment {
                         startActivity(new Intent(getActivity(), MainActivity.class));
                         getActivity().onBackPressed();
                     }else{
-                        if (PrsAtras.equals("N")){
+                        if (PrsAtras == 0){
                             Registro(edRespuestaNumerico.getText().toString(),IdPregunta,IdQuiz);
                         }
                         else
                         {
                             ActualizarDato();
+                            int numeroAtras = PrsAtras - 1;
+                            sharedPreferences.putInt("Atras",numeroAtras);
                         }
                         nPregunta = Integer.valueOf(NumeroPregunta) + 1;
                         NumeroPregunta =  String.valueOf(nPregunta);
@@ -188,7 +194,13 @@ public class NumericoFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
 
             }
-        });
+        }){
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
         requestQueue.add(request);
     }
     public void LLenarRespuesta(int xIdQuiz, int xIdPregunta){
@@ -211,7 +223,13 @@ public class NumericoFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        });
+        }){
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
         requestQueue.add(request);
     }
     public void ActualizarDato(){
@@ -238,7 +256,13 @@ public class NumericoFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
 
             }
-        });
+        }){
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
         requestQueue.add(request);
     }
 }

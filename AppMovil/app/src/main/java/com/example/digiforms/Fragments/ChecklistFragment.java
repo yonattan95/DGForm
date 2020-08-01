@@ -15,6 +15,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -44,6 +45,7 @@ public class ChecklistFragment extends Fragment {
     private String mParam2;
     int nPregunta,IdQuiz,IdPregunta;
     Button atras,siguiente;
+    private String Token;
     RequestQueue requestQueue;
     static ArrayList<OpcionesPreguntas> lista;
     String DatoRespuesta,NumeroPregunta,PreguntaFinal,DescripcionPregunta,PrsAtras;
@@ -88,6 +90,7 @@ public class ChecklistFragment extends Fragment {
         IdQuiz = sharedPreferences2.getInt("IdQuiz", 0);
         IdPregunta = sharedPreferences2.getInt("IdPregunta", 0);
         PrsAtras= sharedPreferences2.getString("Atras","");
+        Token = sharedPreferences2.getString("Token","");
         desPregunta.setText(DescripcionPregunta);
         Titulo.setText("Pregunta N°"+ NumeroPregunta);
         atras = view.findViewById(R.id.btnAtrascb);
@@ -265,7 +268,13 @@ public class ChecklistFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
 
             }
-        });
+        }){
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
         requestQueue.add(request);
     }
     public void LLenarValores(int idQues){
@@ -317,7 +326,13 @@ public class ChecklistFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        });
+        }){
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
         requestQueue.add(request);
     }
     public void LLenarRespuesta(int xIdQuiz, int xIdPregunta){
@@ -359,7 +374,14 @@ public class ChecklistFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        });
+        })
+        {
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
         requestQueue.add(request);
     }
     public void ActualizarDato(){
@@ -423,7 +445,14 @@ public class ChecklistFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
 
             }
-        });
+        })
+        {
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
         requestQueue.add(request);
     }
 }

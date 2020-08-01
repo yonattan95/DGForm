@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -67,7 +68,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private  static  String token;
 
     private void validarUsuario(String URL){
         Map<String,String> mapLogin = new HashMap<>();
@@ -82,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
                         JSONObject jsonObject = response.getJSONObject("data");
                         guardarPreferencias();
                         String url2 = "http://dgform.ga/interviewers/"+ String.valueOf(jsonObject.getInt("interviewerId"));
-                        fillBarras(url2,String.valueOf(jsonObject.getInt("interviewerId")));
+                        fillBarras(url2,String.valueOf(jsonObject.getInt("interviewerId")),jsonObject.getString("accessToken"));
                         // preferences.putString("UsuarioID", String.valueOf(jsonObject.getInt("interviewerId")));
 
                          //preferences.commit();
@@ -122,7 +122,7 @@ public class LoginActivity extends AppCompatActivity {
         tvUsuario.setText(preferences.getString("usuario",""));
 
     }
-    private void fillBarras(String url,final String IdUsu) {
+    private void fillBarras(String url,String IdUsu, String token) {
         JsonObjectRequest request2 = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -132,6 +132,7 @@ public class LoginActivity extends AppCompatActivity {
                     preferences.putString("CorreoBarra", obj.getString("email"));
                     preferences.putString("NombreBarra", obj.getString("name"));
                     preferences.putString("ImagenBarra", obj.getString("image"));
+                    preferences.putString("Token", token);
                     preferences.putString("UsuarioID", IdUsu);
                     preferences.commit();
                 } catch (JSONException ex) {

@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -41,12 +42,13 @@ public class EditTextFragment extends Fragment {
 
     private String mParam1;
     private String mParam2;
-    int nPregunta,IdQuiz,IdPregunta;
+    int nPregunta,IdQuiz,IdPregunta,PrsAtras;
     RequestQueue requestQueue;
     Button atras,siguiente;
-    String DatoRespuesta,NumeroPregunta,PreguntaFinal,DescripcionPregunta,PrsAtras;
+    String DatoRespuesta,NumeroPregunta,PreguntaFinal,DescripcionPregunta;
     EditText edRespuestaEditText;
     TextView desPregunta,Titulo,tvIdRespuestaEdit;
+    private String Token;
 
     public EditTextFragment() {
         // Required empty public constructor
@@ -85,7 +87,8 @@ public class EditTextFragment extends Fragment {
         PreguntaFinal = sharedPreferences2.getString("PreguntaFinal", "");
         IdQuiz = sharedPreferences2.getInt("IdQuiz", 0);
         IdPregunta = sharedPreferences2.getInt("IdPregunta", 0);
-        PrsAtras= sharedPreferences2.getString("Atras","");
+        PrsAtras= sharedPreferences2.getInt("Atras",0);
+        Token = sharedPreferences2.getString("Token", "");
         desPregunta.setText(DescripcionPregunta);
         Titulo.setText("Pregunta N°"+ NumeroPregunta);
         if (NumeroPregunta.equals("1"))
@@ -102,7 +105,7 @@ public class EditTextFragment extends Fragment {
         }
         SharedPreferences.Editor sharedPreferences = getActivity().getSharedPreferences("gymapp", Context.MODE_PRIVATE).edit();
         edRespuestaEditText =view.findViewById(R.id.edRespuesta);
-        if (PrsAtras.equals("S")){
+        if (PrsAtras >= 1){
             LLenarRespuesta(IdQuiz,IdPregunta);
         }
         atras.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +113,8 @@ public class EditTextFragment extends Fragment {
             public void onClick(View v) {
                 nPregunta = Integer.valueOf(NumeroPregunta) - 1;
                 NumeroPregunta =  String.valueOf(nPregunta);
-                sharedPreferences.putString("Atras","S");
+                int numeroAtras = PrsAtras + 1;
+                sharedPreferences.putInt("Atras",numeroAtras);
                 sharedPreferences.putString("Pregunta",NumeroPregunta);
                 sharedPreferences.commit();
                 startActivity(new Intent(getActivity(), Encuesta.class));
@@ -133,12 +137,14 @@ public class EditTextFragment extends Fragment {
                         startActivity(new Intent(getActivity(), MainActivity.class));
                         getActivity().onBackPressed();
                     }else{
-                        if (PrsAtras.equals("N")){
+                        if (PrsAtras == 0){
                             Registro(edRespuestaEditText.getText().toString(),IdPregunta,IdQuiz);
                         }
                         else
                         {
                             ActualizarDato();
+                            int numeroAtras = PrsAtras - 1;
+                            sharedPreferences.putInt("Atras",numeroAtras);
                         }
 
                         nPregunta = Integer.valueOf(NumeroPregunta) + 1;
@@ -187,7 +193,14 @@ public class EditTextFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        });
+        })
+        {
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
         requestQueue.add(request);
     }
     public void LLenarRespuesta(int xIdQuiz, int xIdPregunta){
@@ -210,7 +223,14 @@ public class EditTextFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        });
+        })
+        {
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
         requestQueue.add(request);
     }
     public void ActualizarDato(){
@@ -237,7 +257,14 @@ public class EditTextFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
 
             }
-        });
+        })
+        {
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
         requestQueue.add(request);
     }
 

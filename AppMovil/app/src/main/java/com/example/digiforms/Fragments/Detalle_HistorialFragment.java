@@ -1,5 +1,7 @@
 package com.example.digiforms.Fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -27,6 +30,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Detalle_HistorialFragment extends Fragment {
 
@@ -42,6 +47,7 @@ public class Detalle_HistorialFragment extends Fragment {
     private ArrayList<HistorialA> lista;
     private ArrayList<HistorialB> lista2;
     private RequestQueue mQueue;
+    private String Token;
 
     public Detalle_HistorialFragment() {
         // Required empty public constructor
@@ -73,6 +79,8 @@ public class Detalle_HistorialFragment extends Fragment {
         rvDetalle.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new DetalleHistorialA(getActivity());
         rvDetalle.setAdapter(adapter);
+        SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences("gymapp", Context.MODE_PRIVATE);
+        Token = sharedPreferences2.getString("Token", "");
         lista = new ArrayList<>();
         mQueue = Volley.newRequestQueue(getActivity());
         rvDetalle2 = view.findViewById(R.id.rvDetalleHistorialB);
@@ -108,7 +116,14 @@ public class Detalle_HistorialFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        });
+        })
+        {
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
         mQueue.add(request);
     }
     private void fillLista2() {
@@ -135,7 +150,13 @@ public class Detalle_HistorialFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        });
+        }){
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
         mQueue.add(request);
     }
 }

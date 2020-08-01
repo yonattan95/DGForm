@@ -15,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -46,10 +47,10 @@ public class RadioButtonFragment extends Fragment {
     private String mParam2;
     Button atras,siguiente;
     static ArrayList<OpcionesPreguntas> lista;
-
+    private String Token;
     RequestQueue requestQueue;
-    String DatoRespuesta,NumeroPregunta,PreguntaFinal,DescripcionPregunta,PrsAtras;
-    int nPregunta,IdQuiz,IdPregunta;
+    String DatoRespuesta,NumeroPregunta,PreguntaFinal,DescripcionPregunta;
+    int nPregunta,IdQuiz,IdPregunta,PrsAtras;
     RadioButton Valor1,Valor2,Valor3,Valor4,Valor5,Valor6;
     TextView desPregunta,Titulo,tvIdRespuestaRb;
 
@@ -90,7 +91,8 @@ public class RadioButtonFragment extends Fragment {
         PreguntaFinal = sharedPreferences2.getString("PreguntaFinal", "");
         IdQuiz = sharedPreferences2.getInt("IdQuiz", 0);
         IdPregunta = sharedPreferences2.getInt("IdPregunta", 0);
-        PrsAtras= sharedPreferences2.getString("Atras","");
+        PrsAtras= sharedPreferences2.getInt("Atras",0);
+        Token = sharedPreferences2.getString("Token", "");
         desPregunta.setText(DescripcionPregunta);
         Titulo.setText("Pregunta N°"+ NumeroPregunta);
         atras = view.findViewById(R.id.btnAtrasrb);
@@ -114,7 +116,7 @@ public class RadioButtonFragment extends Fragment {
         Valor6 = view.findViewById(R.id.rbRespuesta6);
 
         LLenarValores(IdPregunta);
-        if (PrsAtras.equals("S")){
+        if (PrsAtras >= 1){
             LLenarRespuesta(IdQuiz,IdPregunta);
         }
         SharedPreferences.Editor sharedPreferences = getActivity().getSharedPreferences("gymapp", Context.MODE_PRIVATE).edit();
@@ -143,7 +145,8 @@ public class RadioButtonFragment extends Fragment {
             public void onClick(View v) {
                 nPregunta = Integer.valueOf(NumeroPregunta) - 1;
                 NumeroPregunta =  String.valueOf(nPregunta);
-                sharedPreferences.putString("Atras","S");
+                int numeroAtras = PrsAtras + 1;
+                sharedPreferences.putInt("Atras",numeroAtras);
                 sharedPreferences.putString("Pregunta",NumeroPregunta);
                 sharedPreferences.commit();
                 startActivity(new Intent(getActivity(), Encuesta.class));
@@ -165,10 +168,13 @@ public class RadioButtonFragment extends Fragment {
                         startActivity(new Intent(getActivity(), MainActivity.class));
                         getActivity().onBackPressed();
                     }else{
-                        if (PrsAtras.equals("N")) {
+                        if (PrsAtras == 0) {
                             Registro(IdPregunta,IdQuiz);    //cambiar
                         }else{
                             ActualizarDato();
+                            int numeroAtras = PrsAtras - 1;
+                            sharedPreferences.putInt("Atras",numeroAtras);
+
                         }
                         nPregunta = Integer.valueOf(NumeroPregunta) + 1;
                         NumeroPregunta =  String.valueOf(nPregunta);
@@ -249,7 +255,14 @@ public class RadioButtonFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
 
             }
-        });
+        })
+        {
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
         requestQueue.add(request);
     }
     public void LLenarValores(int idQues){
@@ -302,7 +315,14 @@ public class RadioButtonFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        });
+        })
+        {
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
         requestQueue.add(request);
     }
     public void LLenarRespuesta(int xIdQuiz, int xIdPregunta){
@@ -342,7 +362,14 @@ public class RadioButtonFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
                 error.printStackTrace();
             }
-        });
+        })
+        {
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
         requestQueue.add(request);
     }
     public void ActualizarDato(){
@@ -386,7 +413,13 @@ public class RadioButtonFragment extends Fragment {
             public void onErrorResponse(VolleyError error) {
 
             }
-        });
+        }){
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
         requestQueue.add(request);
     }
 }
