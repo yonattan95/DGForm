@@ -1,52 +1,28 @@
-$("#col-btn-delete-user").hide();
 
-var tabla_usuarios = $('#table-users');
-
-tabla_usuarios.dataTable({
-    "ajax": {
-        "url": "../../modules/interviewers/get-interviewer.php",
-        "type": "POST",
-        "data": { "FILTER": "ALL" },
-    },
-    "columns": [
-        { "data": "ID" },
-        { "data": "NAME" },
-        { "data": "SURNAME1" },
-        { "data": "SURNAME2" },
-        { "data": "USERNAME" },
-        { "data": "EMAIL" },
-        { "data": "IMG_RENDERED" },
-        { "data": "IMG" }
-        //{ "data": "STATE" }
-    ],
-    "columnDefs": [
-        {
-            "targets": [ 7 ],
-            "visible": false,
-            "searchable": false
-        }
-    ],
-    "order": [[0, "asc"]],
-    "language": {
-            "url": "../../plugins/datatables/Spanish.json"
-        }
+$.post("../../modules/categories/request-category.php", 
+    { REQUEST_MODE: "ALL" }, function (data) {
+        $('select[name="form_category"]').select2({
+        data: JSON.parse(data)
+    })
 });
 
-$("#frmInsertInterviewer").submit(function (e) {
+$("#frmInsertForm").submit(function (e) {
     e.preventDefault();
     var form = $(this);
     var idform = form.attr("id");
     var url = form.attr('action');
     var formElement = document.getElementById(idform);
     var formData_rec = new FormData(formElement);
-    var id_usuario = $('input[name="user_id"]').val();
+    var id_usuario = $('input[name="form_id"]').val();
 
+    /*
     if ( $("#user_pass").val() != "" || $("#user_pass_conf").val() != "" ){
         if( $("#user_pass").val() != $("#user_pass_conf").val() ){
             $.Notification.notify("error", "bottom-right", "Contraseña", "Las contraseñas ingresadas no coinciden.");
             return;
         }
     }
+    */
 
     $.ajax({
         type: "POST",
@@ -65,32 +41,35 @@ $("#frmInsertInterviewer").submit(function (e) {
             })
         },
         success: function (data) {
+
             if (data == "ERROR") {
-                $.Notification.notify("error", "bottom-right", "Error de guardado", "No se pudo guardar datos del usuario");
+                $.Notification.notify("error", "bottom-right", "Error de guardado", "No se pudo guardar datos del formulario");
                 Swal.close();
             } else if (data == "EXISTE") {
-                $.Notification.notify("error", "bottom-right", "Error de guardado", "Usuario ya existe en la base de datos");
+                $.Notification.notify("error", "bottom-right", "Error de guardado", "Formulario ya existe en la base de datos");
                 Swal.close();
             } else if (data == "OK_INSERT") {
+                /*
                 form.find("input, textarea, select").val("");
                 //form.find("select").trigger("change");
-                $("#user_fecreg").val(function(){return this.defaultValue;});
+                $("#form_startDate").val(function(){return this.defaultValue;});
                 $('#table-users').DataTable().ajax.reload();
-                $.Notification.notify("success", "bottom-right", "Usuario creado", "Datos almacenados");
+                */
+
+                $.Notification.notify("success", "bottom-right", "Formulario creado", "Datos almacenados");
                 Swal.close();
 
+                window.location.replace("../../modules/forms/detail-form");
+
             } else if (data == "OK_UPDATE") {
+                /*
                 if (id_usuario != "" && id_usuario != null) {
                     $('input[name="user_id"]').val("");
                     $("#btn-save-user font").html("Guardar usuario");
                     $("#col-btn-save-user").attr("class", "col-md-12");
                     $("#col-btn-delete-user").hide();
-
-                    $user_parent_id=$("input[name=user_parent_id]").val();
-                    $token=$("input[name=token]").val();
                     form.find("input, textarea, select").val("");
-                    $("input[name=token]").val($token);
-                    $("input[name=user_parent_id]").val($user_parent_id);
+                    //form.find("select").trigger("change");
 
                     $("#password-card").attr("class", "card card-secondary");
                     $("#password-card-header font").html("Contraseña");
@@ -102,14 +81,18 @@ $("#frmInsertInterviewer").submit(function (e) {
 
                     $("#user_fecreg").val(function(){return this.defaultValue;});
                 }
-                $.Notification.notify("success", "bottom-right", "Usuario actualizado", "Datos actualizados");
+                */
+
+                $.Notification.notify("success", "bottom-right", "Formulario actualizado", "Datos actualizados");
                 Swal.close();
-                $('#table-users').DataTable().ajax.reload();
+
+                //$('#table-forms').DataTable().ajax.reload();
             }
         }
     });
 });
 
+/*
 tabla_usuarios.on('click', 'tr', function () {
     var data = tabla_usuarios.fnGetData(this);
     if (data == null) return;
@@ -120,7 +103,7 @@ tabla_usuarios.on('click', 'tr', function () {
     $('#btn-delete-user').attr("js-id", data["ID"]);
 
     $('input[name="user_id"]').val(data["ID"]);
-    $('input[name="user_code"]').val("INT-" + data["ID"]);
+    $('input[name="user_code"]').val("USR-" + data["ID"]);
 
     $('input[name="user_nombre"]').val(data["NAME"]);
     $('input[name="user_apepat"]').val(data["SURNAME1"]);
@@ -142,7 +125,6 @@ tabla_usuarios.on('click', 'tr', function () {
     $("#col-btn-save-user").attr("class", "col-md-6");
     $("#col-btn-delete-user").show("fast");
 
-    /*
     Swal.fire({
         html: '<h4>Cargando información deL usuario</h4>',
         allowOutsideClick: false,
@@ -181,7 +163,7 @@ tabla_usuarios.on('click', 'tr', function () {
     });
 
     Swal.close();
-    */
+
 });
 
 $("#btn-delete-user").click(function () {
@@ -197,10 +179,10 @@ $("#btn-delete-user").click(function () {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.value) {
-                $.post("../../modules/interviewers/delete-interviewer.php", { user_id: id_val }, function (data) {
+                $.post("../../modules/users/delete-user.php", { user_id: id_val }, function (data) {
                     if (data == true) {
-                        $("#frmInsertInterviewer").find("input, textarea, select").val("");
-                        $("#frmInsertInterviewer").find("select").trigger("change");
+                        $("#frmInsertUser").find("input, textarea, select").val("");
+                        $("#frmInsertUser").find("select").trigger("change");
 
                         $('#table-users').DataTable().ajax.reload();
                         $('input[name="user_id"]').val("");                    
@@ -224,3 +206,4 @@ $("#btn-delete-user").click(function () {
         })
     }
 });
+*/

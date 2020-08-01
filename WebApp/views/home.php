@@ -29,7 +29,7 @@
 
           <div class="card card-primary card-outline">
             <div class="card-header">
-              <h5 class="m-1"><i class="far fa-hand-spock"></i> ¡Bienvenido(a)! <strong><?php echo $_SESSION['loggedInUser']['EMPLOYEE_NAME']; ?></strong></h5>
+              <h5 class="m-1"><i class="far fa-hand-spock"></i> ¡Bienvenido(a)! <strong><?php echo $_SESSION['loggedInUser']['NAME']; ?></strong></h5>
             </div>
 
             <div class="card-body">

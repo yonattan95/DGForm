@@ -72,8 +72,10 @@ $("#frmInsertUser").submit(function (e) {
                 $.Notification.notify("error", "bottom-right", "Error de guardado", "Usuario ya existe en la base de datos");
                 Swal.close();
             } else if (data == "OK_INSERT") {
+                $token=$("input[name=token]").val();
                 form.find("input, textarea, select").val("");
-                //form.find("select").trigger("change");
+                $("input[name=token]").val($token);
+
                 $("#user_fecreg").val(function(){return this.defaultValue;});
                 $('#table-users').DataTable().ajax.reload();
                 $.Notification.notify("success", "bottom-right", "Usuario creado", "Datos almacenados");
@@ -85,8 +87,10 @@ $("#frmInsertUser").submit(function (e) {
                     $("#btn-save-user font").html("Guardar usuario");
                     $("#col-btn-save-user").attr("class", "col-md-12");
                     $("#col-btn-delete-user").hide();
+
+                    $token=$("input[name=token]").val();
                     form.find("input, textarea, select").val("");
-                    //form.find("select").trigger("change");
+                    $("input[name=token]").val($token);
 
                     $("#password-card").attr("class", "card card-secondary");
                     $("#password-card-header font").html("Contraseña");

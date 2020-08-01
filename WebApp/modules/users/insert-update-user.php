@@ -17,25 +17,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
 
     $u_iduser = $_POST['user_id'];
 
-    /*
-    if ($u_iduser == "" || $u_iduser == null) {
-        $sqlStatement = $pdo->prepare("SELECT * FROM tbl_user WHERE username=:usuario");
-        $sqlStatement->bindParam("usuario", $u_usuario, PDO::PARAM_STR);
-    } else {
-        $sqlStatement = $pdo->prepare("SELECT * FROM tbl_user WHERE (username=:usuario) AND (id <> :iduser)");
-         $sqlStatement->bindParam("usuario", $u_usuario, PDO::PARAM_STR);
-        $sqlStatement->bindParam("iduser", $u_iduser, PDO::PARAM_INT);
-    }
-
-    $sqlStatement->execute();
-    $rowsNumber = $sqlStatement->rowCount();
-
-    if ($rowsNumber == 0) {
-    */
-
-    if (!$u_password == "" || !$u_password == null){
-        $hashedPassword = password_hash($u_password, PASSWORD_DEFAULT);
-    }
+    $token = $_POST['token'];
 
     if ($u_iduser == "" || $u_iduser == null) {
         
@@ -55,7 +37,9 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, Array("Content-Type: application/json"));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, Array(
+            'Content-Type: application/json',
+            'Authorization: Bearer ' . $token));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         
         $res = json_decode(curl_exec($ch),true);
@@ -82,7 +66,9 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, Array("Content-Type: application/json"));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, Array(
+                'Content-Type: application/json',
+                'Authorization: Bearer ' . $token));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             
             $res = json_decode(curl_exec($ch),true);
@@ -108,7 +94,9 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
             curl_setopt($ch, CURLOPT_URL, $url);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, Array("Content-Type: application/json"));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, Array(
+                'Content-Type: application/json',
+                'Authorization: Bearer ' . $token));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             
             $res = json_decode(curl_exec($ch),true);
@@ -118,10 +106,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQ
             
         }
     }
-    /*} else {
-        echo "EXISTE";
-    }
-    */
+
 } else {
     echo "ERROR";
 }

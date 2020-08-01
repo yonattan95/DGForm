@@ -67,10 +67,10 @@
       <li class="nav-item dropdown user-menu">
         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
           <?php 
-            $user_avatar_url = $funciones->direct_sistema() . "/img/avatar/" . $_SESSION['loggedInUser']['PHOTO_URL'];
+            $user_avatar_url = $_SESSION['loggedInUser']['PHOTO_URL'];
           ?>
           <img src="<?php echo $user_avatar_url; ?>" class="user-image img-circle elevation-2 bg-default" alt="User Image">
-          <span class="d-none d-md-inline"><?php echo $_SESSION['loggedInUser']['EMPLOYEE_NAME']; ?></span>
+          <span class="d-none d-md-inline"><?php echo $_SESSION['loggedInUser']['NAME']; ?></span>
         </a>
         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <!-- User image -->
@@ -78,7 +78,7 @@
             <img src="<?php echo $user_avatar_url; ?>" class="img-circle elevation-2" alt="User Image">
             <p>
               <?php
-                $user_name_string = $_SESSION['loggedInUser']['EMPLOYEE_NAME'];
+                $user_name_string = $_SESSION['loggedInUser']['NAME'];
                 echo $user_name_string;
               ?>
               <small>@<?php echo ($_SESSION['loggedInUser']['USERNAME']); ?></small>

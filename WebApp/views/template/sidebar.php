@@ -34,12 +34,14 @@
             </a>
           </li>
 
+          <!-- 
           <li class="nav-item">
             <a href="<?php echo $funciones->direct_paginas()."charts/project-chart" ?>" class="nav-link">
               <i class="nav-icon fas fa-chart-bar"></i>
               <p>Gráficas</p>
             </a>
           </li>
+          -->
 
           <li class="nav-item">
             <a href="<?php echo $funciones->direct_paginas()."forms/list-forms" ?>" class="nav-link">
@@ -62,19 +64,23 @@
             </a>
           </li>
 
+          <!-- 
           <li class="nav-item">
             <a href="<?php echo $funciones->direct_paginas()."assignments/list-assignments" ?>" class="nav-link">
               <i class="nav-icon fas fa-user-plus"></i>
               <p>Asignar Formularios</p>
             </a>
           </li>
+          -->
 
+          <!-- 
           <li class="nav-item">
             <a href="<?php echo $funciones->direct_paginas()."settings/project" ?>" class="nav-link">
               <i class="nav-icon fas fa-cog"></i>
               <p>Ajustes</p>
             </a>
           </li>
+          -->
 
           <li class="nav-item">
             <a href="<?php echo $funciones->direct_paginas()."app/download" ?>" class="nav-link">

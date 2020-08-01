@@ -1,27 +1,24 @@
-$("#col-btn-delete-user").hide();
+var tabla_questions = $('#table-questions');
 
-var tabla_usuarios = $('#table-users');
+$fid = $('input[name="form_id"]').val();
 
-tabla_usuarios.dataTable({
+tabla_questions.dataTable({
     "ajax": {
-        "url": "../../modules/interviewers/get-interviewer.php",
+        "url": "../../modules/questions/get-form-question.php",
         "type": "POST",
-        "data": { "FILTER": "ALL" },
+        "data": { "FILTER": "ALL", "FID" : $fid},
     },
     "columns": [
+        { "data": "NUMBER" },
         { "data": "ID" },
         { "data": "NAME" },
-        { "data": "SURNAME1" },
-        { "data": "SURNAME2" },
-        { "data": "USERNAME" },
-        { "data": "EMAIL" },
-        { "data": "IMG_RENDERED" },
-        { "data": "IMG" }
-        //{ "data": "STATE" }
+        { "data": "DESCRIPTION" },
+        { "data": "TYPE_TEXT" },
+        { "data": "TYPE" }
     ],
     "columnDefs": [
         {
-            "targets": [ 7 ],
+            "targets": [5],
             "visible": false,
             "searchable": false
         }
@@ -32,21 +29,35 @@ tabla_usuarios.dataTable({
         }
 });
 
-$("#frmInsertInterviewer").submit(function (e) {
+$.post("../../modules/questions/request-question-type.php", 
+    { REQUEST_MODE: "ALL" }, function (data) {
+        $('select[name="question_type"]').select2({
+        data: JSON.parse(data)
+    })
+});
+
+$.post("../../modules/questions/request-last-question.php", 
+    { FID: $fid }, function (data) {
+        $('input[name="question_number"]').val(data);
+});
+
+$("#frmInsertFormDetail").submit(function (e) {
     e.preventDefault();
     var form = $(this);
     var idform = form.attr("id");
     var url = form.attr('action');
     var formElement = document.getElementById(idform);
     var formData_rec = new FormData(formElement);
-    var id_usuario = $('input[name="user_id"]').val();
+    var id_usuario = $('input[name="form_id"]').val();
 
+    /*
     if ( $("#user_pass").val() != "" || $("#user_pass_conf").val() != "" ){
         if( $("#user_pass").val() != $("#user_pass_conf").val() ){
             $.Notification.notify("error", "bottom-right", "Contraseña", "Las contraseñas ingresadas no coinciden.");
             return;
         }
     }
+    */
 
     $.ajax({
         type: "POST",
@@ -65,32 +76,50 @@ $("#frmInsertInterviewer").submit(function (e) {
             })
         },
         success: function (data) {
+
             if (data == "ERROR") {
-                $.Notification.notify("error", "bottom-right", "Error de guardado", "No se pudo guardar datos del usuario");
+                $.Notification.notify("error", "bottom-right", "Error de guardado", "No se pudo guardar datos del formulario");
                 Swal.close();
             } else if (data == "EXISTE") {
-                $.Notification.notify("error", "bottom-right", "Error de guardado", "Usuario ya existe en la base de datos");
+                $.Notification.notify("error", "bottom-right", "Error de guardado", "Item ya existe en la base de datos");
                 Swal.close();
             } else if (data == "OK_INSERT") {
+                /*
                 form.find("input, textarea, select").val("");
                 //form.find("select").trigger("change");
-                $("#user_fecreg").val(function(){return this.defaultValue;});
+                $("#form_startDate").val(function(){return this.defaultValue;});
                 $('#table-users').DataTable().ajax.reload();
-                $.Notification.notify("success", "bottom-right", "Usuario creado", "Datos almacenados");
+                */
+
+                $('input[name="question_name"]').val("");
+                $('input[name="question_description"]').val("");
+                $('input[select="question_type"]').val("");
+
+                /*
+                $question_number = $('input[name="question_number"]').val();
+                $question_number++;
+                $('input[name="question_number"]').val($question_number);
+                */
+
+                $.post("../../modules/questions/request-last-question.php", 
+                    { FID: $fid }, function (data) {
+                        $('input[name="question_number"]').val(data);
+                });
+
+                $.Notification.notify("success", "bottom-right", "Item creado", "Datos almacenados");
                 Swal.close();
 
+                $('#table-questions').DataTable().ajax.reload();
+
             } else if (data == "OK_UPDATE") {
+                /*
                 if (id_usuario != "" && id_usuario != null) {
                     $('input[name="user_id"]').val("");
                     $("#btn-save-user font").html("Guardar usuario");
                     $("#col-btn-save-user").attr("class", "col-md-12");
                     $("#col-btn-delete-user").hide();
-
-                    $user_parent_id=$("input[name=user_parent_id]").val();
-                    $token=$("input[name=token]").val();
                     form.find("input, textarea, select").val("");
-                    $("input[name=token]").val($token);
-                    $("input[name=user_parent_id]").val($user_parent_id);
+                    //form.find("select").trigger("change");
 
                     $("#password-card").attr("class", "card card-secondary");
                     $("#password-card-header font").html("Contraseña");
@@ -102,14 +131,18 @@ $("#frmInsertInterviewer").submit(function (e) {
 
                     $("#user_fecreg").val(function(){return this.defaultValue;});
                 }
-                $.Notification.notify("success", "bottom-right", "Usuario actualizado", "Datos actualizados");
+                */
+
+                $.Notification.notify("success", "bottom-right", "Item actualizado", "Datos actualizados");
                 Swal.close();
-                $('#table-users').DataTable().ajax.reload();
+
+                $('#table-questions').DataTable().ajax.reload();
             }
         }
     });
 });
 
+/*
 tabla_usuarios.on('click', 'tr', function () {
     var data = tabla_usuarios.fnGetData(this);
     if (data == null) return;
@@ -120,7 +153,7 @@ tabla_usuarios.on('click', 'tr', function () {
     $('#btn-delete-user').attr("js-id", data["ID"]);
 
     $('input[name="user_id"]').val(data["ID"]);
-    $('input[name="user_code"]').val("INT-" + data["ID"]);
+    $('input[name="user_code"]').val("USR-" + data["ID"]);
 
     $('input[name="user_nombre"]').val(data["NAME"]);
     $('input[name="user_apepat"]').val(data["SURNAME1"]);
@@ -142,7 +175,6 @@ tabla_usuarios.on('click', 'tr', function () {
     $("#col-btn-save-user").attr("class", "col-md-6");
     $("#col-btn-delete-user").show("fast");
 
-    /*
     Swal.fire({
         html: '<h4>Cargando información deL usuario</h4>',
         allowOutsideClick: false,
@@ -181,7 +213,7 @@ tabla_usuarios.on('click', 'tr', function () {
     });
 
     Swal.close();
-    */
+
 });
 
 $("#btn-delete-user").click(function () {
@@ -197,10 +229,10 @@ $("#btn-delete-user").click(function () {
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.value) {
-                $.post("../../modules/interviewers/delete-interviewer.php", { user_id: id_val }, function (data) {
+                $.post("../../modules/users/delete-user.php", { user_id: id_val }, function (data) {
                     if (data == true) {
-                        $("#frmInsertInterviewer").find("input, textarea, select").val("");
-                        $("#frmInsertInterviewer").find("select").trigger("change");
+                        $("#frmInsertUser").find("input, textarea, select").val("");
+                        $("#frmInsertUser").find("select").trigger("change");
 
                         $('#table-users').DataTable().ajax.reload();
                         $('input[name="user_id"]').val("");                    
@@ -224,3 +256,4 @@ $("#btn-delete-user").click(function () {
         })
     }
 });
+*/
