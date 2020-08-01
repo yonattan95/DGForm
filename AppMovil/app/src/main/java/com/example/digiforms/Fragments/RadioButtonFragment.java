@@ -47,7 +47,7 @@ public class RadioButtonFragment extends Fragment {
     private String mParam2;
     Button atras,siguiente;
     static ArrayList<OpcionesPreguntas> lista;
-    private String Token;
+    private String Token,UsuarioID;
     RequestQueue requestQueue;
     String DatoRespuesta,NumeroPregunta,PreguntaFinal,DescripcionPregunta;
     int nPregunta,IdQuiz,IdPregunta,PrsAtras;
@@ -93,6 +93,7 @@ public class RadioButtonFragment extends Fragment {
         IdPregunta = sharedPreferences2.getInt("IdPregunta", 0);
         PrsAtras= sharedPreferences2.getInt("Atras",0);
         Token = sharedPreferences2.getString("Token", "");
+        UsuarioID = sharedPreferences2.getString("UsuarioID","");
         desPregunta.setText(DescripcionPregunta);
         Titulo.setText("Pregunta N°"+ NumeroPregunta);
         atras = view.findViewById(R.id.btnAtrasrb);
@@ -165,6 +166,7 @@ public class RadioButtonFragment extends Fragment {
                         Registro(IdPregunta,IdQuiz);    //cambiar
                         sharedPreferences.putInt("IdQuiz",0);
                         sharedPreferences.commit();
+                        ActualizarQuizBD(IdQuiz);
                         startActivity(new Intent(getActivity(), MainActivity.class));
                         getActivity().onBackPressed();
                     }else{
@@ -421,5 +423,33 @@ public class RadioButtonFragment extends Fragment {
             }
         };
         requestQueue.add(request);
+    }
+    public void ActualizarQuizBD(int xIdQuiz){
+        String xURL ="http://dgform.ga/form/"+UsuarioID+"/quiz/"+xIdQuiz;
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, xURL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if (String.valueOf(response.getInt("status")).equals("1")) {
+                        Toast.makeText(getActivity(), "Quiz completado", Toast.LENGTH_SHORT).show();
+                    }
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        })
+        {
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("Authorization","Bearer " + Token);
+                return headers;
+            }
+        };
     }
 }

@@ -57,7 +57,7 @@ public class EncuestaFragment extends Fragment {
     private RequestQueue mQueue;
     private View.OnFocusChangeListener mListener;
     private Spinner spinner;
-    private String Token;
+    private String Token,UsuarioID;
     private boolean isFirstTime = true;
 
     public EncuestaFragment() {
@@ -97,6 +97,7 @@ public class EncuestaFragment extends Fragment {
         mQueue = Volley.newRequestQueue(getActivity());
         SharedPreferences preferences4 = ((MainActivity)getActivity()).getSharedPreferences("gymapp", Context.MODE_PRIVATE);
         Token = preferences4.getString("Token","");
+        UsuarioID = preferences4.getString("UsuarioID","");
         LlenarCombo();
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -107,7 +108,7 @@ public class EncuestaFragment extends Fragment {
                     fillLista();
                 }
                 else{
-                    String url = "http://dgform.ga/forms/pending";
+                    String url = "http://dgform.ga/forms/interviewer/"+ UsuarioID +"/pending";
                     lista.clear();
                     JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                         @Override
@@ -116,13 +117,13 @@ public class EncuestaFragment extends Fragment {
                                 JSONArray jsonArray = response.getJSONArray("data");
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject obj = jsonArray.getJSONObject(i);
-                                    JSONObject jsonObject = obj.getJSONObject("category");
+                                    JSONObject jsonObject = obj.getJSONObject("form");
                                     if (jsonObject.getString("name").equals(lista2.get(position).getNombreCat())) {
-                                        lista.add(new Encuestas(obj.getString("name"),
-                                                obj.getString("description"), jsonObject.getString("name"),obj.getInt("id")));
+                                        lista.add(new Encuestas(jsonObject.getString("name"),
+                                                jsonObject.getString("description"), jsonObject.getString("name"),jsonObject.getInt("id")));
                                     }else if(lista2.get(position).getNombreCat().equals("Todos")){
-                                        lista.add(new Encuestas(obj.getString("name"),
-                                                obj.getString("description"), jsonObject.getString("name"),obj.getInt("id")));
+                                        lista.add(new Encuestas(jsonObject.getString("name"),
+                                                jsonObject.getString("description"), jsonObject.getString("name"),jsonObject.getInt("id")));
                                     }
                                 }
 
@@ -156,7 +157,7 @@ public class EncuestaFragment extends Fragment {
     }
 
     private void fillLista() {
-        String url = "http://dgform.ga/forms/pending";
+        String url = "http://dgform.ga/forms/interviewer/"+ UsuarioID +"/pending";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -164,9 +165,9 @@ public class EncuestaFragment extends Fragment {
                     JSONArray jsonArray = response.getJSONArray("data");
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject obj = jsonArray.getJSONObject(i);
-                        JSONObject jsonObject = obj.getJSONObject("category");
-                        lista.add(new Encuestas(obj.getString("name"),
-                                obj.getString("description"),jsonObject.getString("name"),obj.getInt("id")));
+                        JSONObject jsonObject = obj.getJSONObject("form");
+                        lista.add(new Encuestas(jsonObject.getString("name"),
+                                jsonObject.getString("description"),jsonObject.getString("name"),jsonObject.getInt("id")));
                     }
 
                     adapter.fillDetalle(lista);

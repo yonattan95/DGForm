@@ -47,7 +47,7 @@ public class Detalle_HistorialFragment extends Fragment {
     private ArrayList<HistorialA> lista;
     private ArrayList<HistorialB> lista2;
     private RequestQueue mQueue;
-    private String Token;
+    private String Token,UsuarioID;
 
     public Detalle_HistorialFragment() {
         // Required empty public constructor
@@ -80,6 +80,7 @@ public class Detalle_HistorialFragment extends Fragment {
         adapter = new DetalleHistorialA(getActivity());
         rvDetalle.setAdapter(adapter);
         SharedPreferences sharedPreferences2 = getActivity().getSharedPreferences("gymapp", Context.MODE_PRIVATE);
+        UsuarioID = sharedPreferences2.getString("UsuarioID","");
         Token = sharedPreferences2.getString("Token", "");
         lista = new ArrayList<>();
         mQueue = Volley.newRequestQueue(getActivity());
@@ -93,7 +94,7 @@ public class Detalle_HistorialFragment extends Fragment {
         return view;
     }
     private void fillLista() {
-        String url = "http://dgform.ga/forms/complete";
+        String url = "http://dgform.ga/forms/interviewer/"+ UsuarioID +"/complete";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -102,8 +103,9 @@ public class Detalle_HistorialFragment extends Fragment {
                             JSONArray jsonArray = response.getJSONArray("data");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject obj = jsonArray.getJSONObject(i);
-                                lista.add(new HistorialA(obj.getString("name"),
-                                        obj.getString("description"),obj.getString("startDate"),obj.getString("endDate"),obj.getInt("allQuizAssigned")));
+                                JSONObject jsonObject = obj.getJSONObject("form");
+                                lista.add(new HistorialA(jsonObject.getString("name"),
+                                        jsonObject.getString("description"),jsonObject.getString("startDate"),jsonObject.getString("endDate"),jsonObject.getInt("allQuizAssigned")));
                             }
                             adapter.fillDetalle(lista);
                         } catch (JSONException ex) {
@@ -127,7 +129,7 @@ public class Detalle_HistorialFragment extends Fragment {
         mQueue.add(request);
     }
     private void fillLista2() {
-        String url2 = "http://dgform.ga/forms/pending";
+        String url2 = "http://dgform.ga/forms/interviewer/"+ UsuarioID +"/pending";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url2, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -136,8 +138,9 @@ public class Detalle_HistorialFragment extends Fragment {
                             JSONArray jsonArray = response.getJSONArray("data");
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject obj = jsonArray.getJSONObject(i);
-                                lista2.add(new HistorialB(obj.getString("name"),
-                                        obj.getString("description"),obj.getString("startDate"),obj.getString("endDate"),obj.getInt("allQuizAssigned")));
+                                JSONObject jsonObject = obj.getJSONObject("form");
+                                lista2.add(new HistorialB(jsonObject.getString("name"),
+                                        jsonObject.getString("description"),jsonObject.getString("startDate"),jsonObject.getString("endDate"),jsonObject.getInt("allQuizAssigned")));
                             }
                             adapter2.fillDetalle(lista2);
                         } catch (JSONException ex) {

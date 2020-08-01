@@ -36,7 +36,7 @@ public class DetalleEncuestaAdapter extends RecyclerView.Adapter<DetalleEncuesta
     Context context;
     ArrayList<Encuestas> lista;
     int idquiz;
-    private String Token;
+    private String Token,UsuarioID;
     RequestQueue requestQueue;
 
     public DetalleEncuestaAdapter(Context context) {
@@ -64,12 +64,13 @@ public class DetalleEncuestaAdapter extends RecyclerView.Adapter<DetalleEncuesta
         idForm = String.valueOf(obj.getIdForm());
         SharedPreferences sharedPreferences2 = context.getSharedPreferences("gymapp", Context.MODE_PRIVATE);
         Token = sharedPreferences2.getString("Token", "");
+        UsuarioID = sharedPreferences2.getString("UsuarioID","");
         viewHolder.cvDetalleEncuesta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
 
-                    validar(sharedPreferences2.getInt("IdQuiz", 0),idForm,sharedPreferences2.getString("IdForm",""),sharedPreferences2.getInt("Atras", 0));
+                    validar(sharedPreferences2.getInt("IdQuiz", 0),idForm,sharedPreferences2.getString("IdForm",""),sharedPreferences2.getInt("Atras", 0),Integer.valueOf(UsuarioID));
 //                SharedPreferences.Editor sharedPreferences = context.getSharedPreferences("gymapp", Context.MODE_PRIVATE).edit();
 //                sharedPreferences.putString("Pregunta", "1");
 //                sharedPreferences.putString("IdForm",idForm);
@@ -105,13 +106,17 @@ public class DetalleEncuestaAdapter extends RecyclerView.Adapter<DetalleEncuesta
         this.lista.addAll(listaDet);
         notifyDataSetChanged();
     }
-    public void validar(int Idq, String idF,String vIdF,int NumeroAtras){
+    public void validar(int Idq, String idF,String vIdF,int NumeroAtras,int IDUSU){
 
         SharedPreferences.Editor sharedPreferences = context.getSharedPreferences("gymapp", Context.MODE_PRIVATE).edit();
         if (Idq == 0 || Integer.valueOf(idF) != Integer.valueOf(vIdF) ){
             int prueba = Integer.valueOf(idF);
-            String url ="http://dgform.ga/form/"+ prueba +"/quiz";
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, null, new Response.Listener<JSONObject>() {
+            Map<String,Object> mapEditText = new HashMap<>();
+            mapEditText.put("form",prueba);
+            mapEditText.put("interviewer",IDUSU);
+            JSONObject jsonObject = new JSONObject(mapEditText);
+            String url ="http://dgform.ga/forms/quiz";
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {

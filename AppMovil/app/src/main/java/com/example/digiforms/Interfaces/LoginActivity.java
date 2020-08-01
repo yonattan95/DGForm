@@ -86,7 +86,10 @@ public class LoginActivity extends AppCompatActivity {
                         // preferences.putString("UsuarioID", String.valueOf(jsonObject.getInt("interviewerId")));
 
                          //preferences.commit();
-
+                        preferences = getSharedPreferences("gymapp", Context.MODE_PRIVATE).edit();
+                        preferences.putString("Token", jsonObject.getString("accessToken"));
+                        preferences.putString("UsuarioID",String.valueOf(jsonObject.getInt("interviewerId")));
+                        preferences.commit();
 
                         Toast.makeText(LoginActivity.this, "¡Bienvenido! :)", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);

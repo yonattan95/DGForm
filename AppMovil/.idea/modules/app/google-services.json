@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "619977487527",
+    "firebase_url": "https://pruebafinal-a571e.firebaseio.com",
+    "project_id": "pruebafinal-a571e",
+    "storage_bucket": "pruebafinal-a571e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619977487527:android:08417131903ea731865782",
+        "android_client_info": {
+          "package_name": "com.example.digiforms"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "619977487527-enafu76falclqqri92a00o7kqi5nb96p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.digiforms",
+            "certificate_hash": "9fbe7e8010bd72ac3c076de64fcb7a57519cf668"
+          }
+        },
+        {
+          "client_id": "619977487527-mavqs4ivpdmsoiu1ikqqr5dnlg890dg3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1wL1fb4CXoucAOs9TPvREwx7M2Nhcu-M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "619977487527-mavqs4ivpdmsoiu1ikqqr5dnlg890dg3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

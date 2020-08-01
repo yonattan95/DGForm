@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DetallePersonaFragment detallePersonaFragment;
     TextView tvDatTotCom,tvDatTotPen ,tvNombBarra,tvCorreo;
     ImageView imgBarra;
-    private String Token;
+    private String Token,UsuarioID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         imgBarra = header.findViewById(R.id.imgBarras);
         SharedPreferences preferences4 = getSharedPreferences("gymapp", Context.MODE_PRIVATE);
         Token = preferences4.getString("Token","");
+        UsuarioID = preferences4.getString("UsuarioID","");
 //        tvNombBarra.setText(preferences3.getString("NombreBarra",""));
 //        tvCorreo.setText(preferences3.getString("CorreoBarra",""));
 //        //Picasso.(this).load(preferences3.getString("ImagenBarra","")).resize(90,90).into(imgBarra);
@@ -218,7 +219,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void fillLista() {
-        String url = "http://dgform.ga/forms/complete";
+        SharedPreferences preferences5 = getSharedPreferences("gymapp", Context.MODE_PRIVATE);
+        UsuarioID = preferences5.getString("UsuarioID","");
+        String url = "http://dgform.ga/forms/interviewer/"+ UsuarioID +"/complete";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -248,7 +251,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void fillLista2() {
-        String url2 = "http://dgform.ga/forms/pending";
+        SharedPreferences preferences6 = getSharedPreferences("gymapp", Context.MODE_PRIVATE);
+        UsuarioID = preferences6.getString("UsuarioID","");
+        String url2 = "http://dgform.ga/forms/interviewer/"+ UsuarioID +"/pending";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url2, null,
                 new Response.Listener<JSONObject>() {
                     @Override
