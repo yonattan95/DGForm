@@ -23,6 +23,7 @@ import {
   UpdateInterviewerI,
 } from './data/interfaces/interviewer.interface';
 import InterviewerService from './interviewer.service';
+import { hashString } from 'src/common/helpers/security.helper';
 
 @Controller('interviewers')
 export default class InterviewerController {
@@ -34,9 +35,12 @@ export default class InterviewerController {
   async newInterviewer(
     @Body() interviewer: NewInterviewerI,
   ): Promise<ResponseAPI<string>> {
-    const res = await this.interviewerService.newInterviewer(
-      interviewer,
-    );
+    const passHash = hashString(interviewer.password);
+
+    const res = await this.interviewerService.newInterviewer({
+      ...interviewer,
+      password: passHash,
+    });
     if (!res)
       throw new ErrorResponseException({
         errorMessage: 'No se pudo crear el encuestador',
@@ -80,7 +84,7 @@ export default class InterviewerController {
     return new SuccessResponse('Se actualizo el perfil con exito');
   }
 
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('profile/:id')
   async getProfile(
     @Param('id') id: number,
@@ -120,6 +124,20 @@ export default class InterviewerController {
   @Get()
   async getAllInterviewer() {
     const list = await this.interviewerService.getAllInterviewer();
+    if (!list)
+      throw new ErrorResponseException({
+        errorMessage: 'No se pudo cargar la lista',
+      });
+    return new SuccessResponse({
+      interviewerList: list,
+      totalInterviewer: list.length,
+    });
+  }
+  @Get('user/:userId')
+  async getInterviewerlistByUser(@Param('userId') userId: number) {
+    const list = await this.interviewerService.getInterviewerListByUser(
+      userId,
+    );
     if (!list)
       throw new ErrorResponseException({
         errorMessage: 'No se pudo cargar la lista',

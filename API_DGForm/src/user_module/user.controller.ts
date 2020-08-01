@@ -5,6 +5,8 @@ import {
   Param,
   Post,
   Put,
+  Delete,
+  UseGuards,
 } from '@nestjs/common';
 import {
   FailResponse,
@@ -18,6 +20,8 @@ import {
   UpdateUserI,
 } from './data/interfaces/user.interface';
 import UserService from './user.service';
+import JwtAuthGuard from 'src/auth_user_module/guards/jwt_auth.guard';
+import { hashString } from 'src/common/helpers/security.helper';
 
 @Controller('users')
 export default class UserController {
@@ -25,7 +29,11 @@ export default class UserController {
 
   @Post()
   async newUser(@Body() user: NewUserI) {
-    const res = this.userService.newUser(user);
+    const passHas = hashString(user.password);
+    const res = this.userService.newUser({
+      ...user,
+      password: passHas,
+    });
     if (!res)
       throw new ErrorResponseException({
         errorMessage: 'No se pudo crear el usuario',
@@ -47,10 +55,12 @@ export default class UserController {
       email: user.email,
       username: user.username,
       image: user.image,
+      rol: user.rol,
     });
     return new SuccessResponse(userResponse);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Put('profile/:id')
   async updateProfile(
     @Param('id') id: number,
@@ -71,5 +81,14 @@ export default class UserController {
       userList: list,
       totalUser: list.length,
     });
+  }
+  @Delete(':userId')
+  async deleteUser(@Param('userId') userId: number) {
+    const res = await this.userService.deleteUser(userId);
+    if (!res)
+      throw new ErrorResponseException({
+        errorMessage: 'no se pudo eliminar el usuario',
+      });
+    return new SuccessResponse('Usuario eliminado con exito');
   }
 }

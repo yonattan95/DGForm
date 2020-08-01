@@ -22,6 +22,8 @@ export default class AuthController {
     return new SuccessResponse({
       userId: user.id,
       username: user.username,
+      fullName:`${user.name} ${user.surname1} ${user.surname2}`,
+      image: user.image,
       accessToken: token,
     });
   }

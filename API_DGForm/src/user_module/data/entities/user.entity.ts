@@ -37,4 +37,7 @@ export class User {
       'https://cdn2.iconfinder.com/data/icons/people-occupation-job/64/Ninja-Warrior-Assassin-Japan-Fighter-Avatar-Martial_arts-512.png',
   })
   image: string;
+
+  @Column({default:'standar'})
+  rol: string;
 }

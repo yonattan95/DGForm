@@ -19,10 +19,14 @@ export class FormService {
       InterviewerToForm
     >,
   ) {}
-  async saveForm(form: NewFormI): Promise<boolean> {
+  async saveForm(form: NewFormI): Promise<Form> {
     const res = await this.formRepository.save(form);
-    return res ? true : false;
+    return res;
   }
+  // async updateForm(form: UpdateFor): Promise<Form> {
+  //   const res = await this.formRepository.save(form);
+  //   return res;
+  // }
   async getPendingFormList(): Promise<Array<Form>> {
     return this.formRepository.find({
       where: {
@@ -65,6 +69,14 @@ export class FormService {
         id,
       },
       relations: ['category', 'user'],
+    });
+  }
+  async getFormListByUser(userId: number) {
+    return this.formRepository.find({
+      where: {
+        user: userId,
+      },
+      relations: ['category'],
     });
   }
 

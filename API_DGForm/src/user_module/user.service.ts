@@ -16,6 +16,12 @@ export default class UserService {
     const res = await this.userRepository.save(user);
     return res ? true : false;
   }
+  async deleteUser(userId: number): Promise<boolean> {
+    const res = await this.userRepository.delete(userId);
+    console.log(res);
+
+    return res ? true : false;
+  }
   getUserById(id: number): Promise<User> {
     return this.userRepository.findOne({ id: id });
   }
