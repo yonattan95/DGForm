@@ -72,9 +72,10 @@ export default class InterviewerController {
     @Param('id') id: number,
     @Body() data: UpdateInterviewerI,
   ): Promise<ResponseAPI<string>> {
+    const passHash = hashString(data.password);
     const res = await this.interviewerService.updateInterviewerData(
       id,
-      data,
+      { ...data, password: passHash },
     );
     if (!res)
       throw new ErrorResponseException({

@@ -1,4 +1,11 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { SuccessResponse } from 'src/common/dto/response.dto';
 import ErrorResponseException from 'src/common/exceptions/error_response.exception';
 import { NewAnswerI } from './data/interfaces/answer.interface';
@@ -70,10 +77,28 @@ export default class QuestionController {
       : new SuccessResponse({ isNew: true });
   }
 
-  @Post('quiz')
-  async newQuiz(@Param('formId') formId: number) {
-    const quiz = await this.quizService.createQuiz(formId);
-    return new SuccessResponse({ quizId: quiz.id });
+  @Get('interviewer/:interviewerId/quiz')
+  async getTotalQuizByForm(
+    @Param('formId') formId: number,
+    @Param('interviewerId') interviewerId: number,
+  ) {
+    const total = await this.quizService.getTotalQuizList(
+      formId,
+      interviewerId,
+    );
+    return new SuccessResponse({ total });
+  }
+
+  @Put('quiz/:quizId')
+  async updateQuizState(
+    @Param('quizId') quizId: number,
+    @Param('formId') formId: number,
+  ) {
+    const quiz = await this.quizService.updateQuizState(
+      quizId,
+      formId,
+    );
+    return new SuccessResponse('Encuesta completada');
   }
 
   // @Get('quiz/:quizId/question/:questionId/next_question')

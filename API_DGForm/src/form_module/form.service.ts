@@ -45,23 +45,29 @@ export class FormService {
   }
   async getPendingFormListByInterviewer(
     interviewerId: number,
-  ): Promise<Array<Form>> {
-    return this.formRepository.find({
-      where: {
-        state: 0,
-      },
-      relations: ['category', 'user'],
-    });
+  ): Promise<any> {
+    const list = await this.interviewerToFormRepository
+      .createQueryBuilder('interviewerToForm')
+      .leftJoinAndSelect('interviewerToForm.form', 'form')
+      .where('interviewerToForm.interviewer = :interviewerId', {
+        interviewerId,
+      })
+      .andWhere('form.state = :state', { state: 0 })
+      .getMany();
+    return list;
   }
   async getCompleteFormListByInterviewer(
     interviewerId: number,
-  ): Promise<Array<Form>> {
-    return this.formRepository.find({
-      where: {
-        state: 1,
-      },
-      relations: ['category', 'user'],
-    });
+  ): Promise<any> {
+    const list = await this.interviewerToFormRepository
+      .createQueryBuilder('interviewerToForm')
+      .leftJoinAndSelect('interviewerToForm.form', 'form')
+      .where('interviewerToForm.interviewer = :interviewerId', {
+        interviewerId,
+      })
+      .andWhere('form.state = :state', { state: 1 })
+      .getMany();
+    return list;
   }
   async getFormById(id: number): Promise<Form> {
     return this.formRepository.findOne({
