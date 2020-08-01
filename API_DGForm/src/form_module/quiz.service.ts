@@ -14,6 +14,8 @@ import { NewQuizI } from './data/interfaces/quiz.interface';
 @Injectable()
 export default class QuizService {
   constructor(
+    @InjectRepository(Form)
+    private formRepository: Repository<Form>,
     @InjectRepository(Question)
     private questionRepository: Repository<Question>,
     @InjectRepository(Answer)
@@ -131,17 +133,48 @@ export default class QuizService {
       lastQuestionNumberCompleted,
     });
   }
-  async updateQuizState(
-    quizId: number
-  ) {
-    return await this.quizRepository.update(quizId, {
-      state:1,
+
+  //actualiza el estado del quiz, y tambien verifica si un formulario ya es completado y le cambia su estado
+  // estado => 0:pendiente - 1:completado
+  async updateQuizState(quizId: number, formId: number) {
+    const res = await this.quizRepository.update(quizId, {
+      state: 1,
     });
+    console.log(res);
+
+    //valido que se haya actualuizado
+    if (res.affected > 0) {
+      const totalQuizByForm = await this.formRepository.findOne({
+        where: { id: formId },
+      });
+      const totalQuizNow = await this.quizRepository.findAndCount({
+        where: {
+          form: formId,
+          state: 1,
+        },
+      });
+      console.log(totalQuizByForm.allQuizAssigned);
+      console.log(totalQuizNow[1]);
+
+      if (totalQuizByForm.allQuizAssigned === totalQuizNow[1]) {
+        //actualizo el estado del formulario a completado
+        const update = await this.formRepository.update(formId, {
+          state: 1,
+        });
+        console.log(update);
+      }
+    }
+
+    return res.affected > 0 ? true : false;
   }
 
-  async getQuizList(formId: number, interviewerId: number) {
-    return this.quizRepository.find();
+  async getTotalQuizList(formId: number, interviewerId: number) {
+    const listAndCount = await this.quizRepository.findAndCount({
+      where: { form: formId, interviewer: interviewerId },
+    });
+    return listAndCount[1];
   }
+
   async getQuestionOption(questionId: number) {
     return this.questionOptionRepository.find({
       where: { question: questionId },

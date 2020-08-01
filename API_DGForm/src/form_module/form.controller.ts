@@ -59,7 +59,9 @@ export class FormController {
   async getCompleteFormListByInterviewer(
     @Param('interviewerId') interviewerId: number,
   ) {
-    const list = await this.formService.getCompleteFormList();
+    const list = await this.formService.getCompleteFormListByInterviewer(
+      interviewerId,
+    );
     return new SuccessResponse(list);
     // return new SuccessResponse({
     //   completeFormList: list,
@@ -203,18 +205,21 @@ export class FormController {
 
   @Post('quiz')
   async newQuiz(
-    @Body('formId') formId: number,
-    @Body('interviewerId') interviewerId: number,
+    @Body('form') formId: number,
+    @Body('interviewer') interviewerId: number,
   ) {
+    // console.log(formId);
+    // console.log(interviewerId);
+
     const quiz = await this.quizService.createQuiz(
       formId,
       interviewerId,
     );
+    // console.log(quiz);
+
     return new SuccessResponse({ quizId: quiz.id });
   }
-  @Put('quiz/:quizId')
-  async updateQuizState(@Param('quizId') quizId: number) {
-    const quiz = await this.quizService.updateQuizState(quizId);
-    return new SuccessResponse('Encuesta completada');
-  }
+  
+  
+  
 }
