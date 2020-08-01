@@ -6,8 +6,11 @@ export interface QuizI {
 
   state: number;
 
+  interviewer: number;
+
   lastQuestionNumberCompleted: number;
 }
 export interface NewQuizI {
   form: number;
+  interviewer: number;
 }

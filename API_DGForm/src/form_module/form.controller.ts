@@ -42,6 +42,32 @@ export class FormController {
     //   totalPendingFormList: list.length,
     // });
   }
+  @Get('interviewer/:interviewerId/pending')
+  async getPendingFormListByInterviewer(
+    @Param('interviewerId') interviewerId: number,
+  ) {
+    const list = await this.formService.getPendingFormListByInterviewer(
+      interviewerId,
+    );
+    return new SuccessResponse(list);
+    // return new SuccessResponse({
+    //   pendingFormList: list,
+    //   totalPendingFormList: list.length,
+    // });
+  }
+  @Get('interviewer/:interviewerId/complete')
+  async getCompleteFormListByInterviewer(
+    @Param('interviewerId') interviewerId: number,
+  ) {
+    const list = await this.formService.getCompleteFormListByInterviewer(
+      interviewerId,
+    );
+    return new SuccessResponse(list);
+    // return new SuccessResponse({
+    //   completeFormList: list,
+    //   totalCompleteFormList: list.length,
+    // });
+  }
   @Get('pending')
   async getPendingFormList() {
     const list = await this.formService.getPendingFormList();
@@ -176,4 +202,24 @@ export class FormController {
       });
     return new SuccessResponse('Se creo correctamente la opcion');
   }
+
+  @Post('quiz')
+  async newQuiz(
+    @Body('form') formId: number,
+    @Body('interviewer') interviewerId: number,
+  ) {
+    // console.log(formId);
+    // console.log(interviewerId);
+
+    const quiz = await this.quizService.createQuiz(
+      formId,
+      interviewerId,
+    );
+    // console.log(quiz);
+
+    return new SuccessResponse({ quizId: quiz.id });
+  }
+  
+  
+  
 }

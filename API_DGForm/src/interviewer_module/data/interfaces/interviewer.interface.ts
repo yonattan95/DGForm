@@ -26,4 +26,5 @@ export interface UpdateInterviewerI {
   surname2: string;
   username: string;
   email: string;
+  password:string;
 }
