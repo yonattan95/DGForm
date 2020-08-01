@@ -30,6 +30,7 @@ import com.example.digiforms.Entidades.Persona;
 import com.example.digiforms.Fragments.DetallePersonaFragment;
 import com.example.digiforms.Fragments.Detalle_HistorialFragment;
 import com.example.digiforms.Fragments.EncuestaFragment;
+import com.example.digiforms.Fragments.Grafico2Fragment;
 import com.example.digiforms.Fragments.GraficoFragment;
 import com.example.digiforms.Fragments.MainFragment;
 import com.example.digiforms.Fragments.PerfilFragment;
@@ -167,7 +168,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             editor.putString("completos",tvDatTotCom.getText().toString());
             editor.putString("pendientes",tvDatTotPen.getText().toString());
             editor.apply();
-            fragmentTransaction.replace(R.id.container_fragment,new GraficoFragment());
+//            fragmentTransaction.replace(R.id.container_fragment,new GraficoFragment());
+            fragmentTransaction.replace(R.id.container_fragment,new Grafico2Fragment());
             fragmentTransaction.commit();
         }
         if(menuItem.getItemId() == R.id.home3){

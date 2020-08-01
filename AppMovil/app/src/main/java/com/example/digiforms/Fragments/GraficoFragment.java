@@ -32,6 +32,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class GraficoFragment extends Fragment {
@@ -58,8 +59,8 @@ public class GraficoFragment extends Fragment {
 
         tvTotalCompl.setText(preferences.getString("completos",""));
         tvTotalPend.setText(preferences.getString("pendientes",""));
-        pendientes = Integer.parseInt(preferences.getString("completos",""));
-        completo = Integer.parseInt(preferences.getString("pendientes",""));
+        pendientes = Integer.parseInt(preferences.getString("pendientes",""));
+        completo = Integer.parseInt(preferences.getString("completos",""));
         sale[0] = pendientes;
         sale[1] = completo;
         //crearGraficoPastel();
@@ -68,7 +69,7 @@ public class GraficoFragment extends Fragment {
     }
     private Chart getSameChart(Chart chart,String description,int textColor, int background,int animateY){
         chart.getDescription().setText(description);
-        chart.getDescription().setTextSize(50);
+        chart.getDescription().setTextSize(150);
         chart.getDescription().setTextColor(textColor);
         chart.setBackgroundColor(background);
         chart.animateY(animateY);
@@ -91,8 +92,9 @@ public class GraficoFragment extends Fragment {
     }
     private ArrayList<PieEntry> getPieEntries(){
         ArrayList<PieEntry> entries=new ArrayList<>();
-        for (int i = 0; i < sale.length;i++)
+        for (int i = 0; i < sale.length;i++){
             entries.add(new PieEntry(sale[i]));
+        }
         return entries;
     }
     private void axisX(XAxis axis){
@@ -121,7 +123,7 @@ public class GraficoFragment extends Fragment {
     private DataSet getData(DataSet dataSet){
         dataSet.setColors(colors);
         dataSet.setValueTextColor(Color.WHITE);
-        dataSet.setValueTextSize(10);
+        dataSet.setValueTextSize(25);
         return dataSet;
     }
 //    private BarData getBarData(){
