@@ -57,4 +57,12 @@ export default class InterviewerService {
     });
     return interviewerList;
   }
+  async getInterviewerListByUser(
+    userId: number,
+  ): Promise<InterviewerI[]> {
+    const interviewerList = this.interviewerRepository.find({
+      where: { user: userId },
+    });
+    return interviewerList;
+  }
 }

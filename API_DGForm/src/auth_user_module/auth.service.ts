@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import UserService from 'src/user_module/user.service';
+import { hashString } from 'src/common/helpers/security.helper';
 
 @Injectable()
 export default class AuthService {
@@ -11,7 +12,8 @@ export default class AuthService {
 
   async validateUser(username: string, password: string) {
     const user = await this.userService.getUserByUsername(username);
-    if (user && user.password === password) {
+    const passHash = hashString(password);
+    if (user && user.password === passHash) {
       const { password, ...result } = user;
       return result;
     }

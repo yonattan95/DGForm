@@ -13,17 +13,13 @@ import UserLocalStrategy from '../auth_user_module/user.local.strategy';
 
 @Module({
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    InterviewerLocalStrategy,
-    JwtStrategy,
-  ],
+  providers: [AuthService, InterviewerLocalStrategy, JwtStrategy],
   imports: [
     PassportModule,
     InterviewerModule,
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '1h' },
     }),
   ],
   // exports: [AuthService],
